@@ -1,99 +1,113 @@
 <template>
     <div id="navbar">
         <div id="logo">
-            <img alt="When2Block Logo" src="../assets/when2block_logo.png"/>
+            <img alt="When2Block Logo" src="../assets/when2block_logo.png" />
         </div>
-        <div id = "navlinks">
+        <div id="navlinks">
             <ul>
                 <li>
-                <p>Check-In</p>
+                    <a href="/">Check-In</a>
                 </li>
                 <li>
-                <p>Statistics</p>
+                    <a href="/">Statistics</a>
                 </li>
                 <li>
-                <p>Search</p>
+                    <a href="/">Search</a>
                 </li>
                 <li>
-                <p>Contact Us</p>
+                    <a href="/">Contact Us</a>
                 </li>
             </ul>
         </div>
 
         <div id="LogOut">
-            <p>
-                Hi, USERNAME
-            </p>
-            <button>
+            <p>Hi, <a href="/">USERNAME</a></p>
+
+            <o-button>
                 Log Out
-            </button>
+            </o-button>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-      name: 'HeaderBar',
-      props: {
+export default {
+    name: 'HeaderBar',
+    props: {
         msg: String
-      }
-    }
+    },
+}
 
 </script>
 
 <style scoped>
 #logo {
-    margin-left: 15px;
+    position: absolute;
+    top: 5px;
+    left: 15px;
 }
 
 #navbar {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    background-color: rgb(40,41,62);
+    justify-content: center;
+    background-color: rgb(40, 41, 62);
     align-items: center;
 }
 
 #navlinks {
     color: white;
-    margin: 0;
     height: 70px;
     display: flex;
     align-items: center;
-    /* justify-content: center; */
+    justify-content: center;
 }
 
 #LogOut {
-    display: flex;
-    flex-direction: column;
     color: white;
     margin-right: 20px;
+    position: absolute;
+    right: 10px;
 }
 
 button {
-    background-color: rgb(241,99,9);
+    background-color: rgb(241, 99, 9);
     color: white;
     border-radius: 5px;
+    height: 25px;
 }
 
 p {
     margin: 0px;
 }
 
-h3 {
-    margin: 40px 0 0;
-}
 ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
+
 li {
     display: inline-block;
     margin: 0 70px;
 }
+
 a {
-    color: #42b983;
+    color: white;
 }
+
+#navlinks a {
+    color: white;
+    text-decoration: none;
+}
+
+#navlinks a:hover,
+a.active {
+    border-bottom: white solid 2px;
+}
+
+/* to underline pages  */
+/* #navlinks a:active {
+    border-bottom: white solid 2px;
+} */
 </style>
     
