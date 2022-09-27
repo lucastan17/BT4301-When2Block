@@ -28,10 +28,19 @@
             </o-button>
         </div>
     </div>
-    <l-map style="height: 350px" :zoom="zoom" :center="center">
-    <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-    <l-marker :lat-lng="markerLatLng" title="Marker 1"></l-marker>
-  </l-map>
+
+    <div id ="map">
+        <l-map style="height:330px" :zoom="zoom" :center="center">
+        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+        <l-marker :lat-lng="markerLatLng" title="Marker 1"></l-marker>
+        </l-map>
+    </div>
+
+    <!--div id="listcoordinates">
+        <li v-for="i in 47":key ="i"> 
+            {{this.info.area_metadata[i]}}
+        </li>
+    </div-->
 </template>
 
 <script>
@@ -48,6 +57,7 @@ import {
   LRectangle,*/
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
+import axios from 'axios';
 
 export default {
     name: 'HeaderBar',
@@ -66,19 +76,48 @@ export default {
     //LPolygon,
     //LRectangle,
   },
-  data () {
-    return {
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      zoom: 10,
-      center: [1.3521, 103.8198],
-      markerLatLng: [1.3521, 103.75]
-    };
+    data () {
+        return {
+            count:0,
+            url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            zoom: 11,
+            center: [1.3521, 103.8198],
+            markerLatLng: [1.3521, 103.75],
+            info: [],
+        };
+    },
+
+    mounted: function(){
+        axios.get('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast')
+             .then(response =>{
+                this.info = response.data
+                console.log(this.info.area_metadata[0]);
+             })
+        //console.log(this.info)
+    },
+  methods:{
+    plus1(){
+        this.count +=1;
+    }
   }
+  
 }
 
 </script>
 
 <style scoped>
+
+#listcoordinates{
+    margin:10px;
+    padding-top: 20px;
+}
+
+#map{
+    height:300px;
+    padding-left: 100px;
+    padding-right: 100px;
+    margin:20px;
+}
 #logo {
     position: absolute;
     top: 5px;
