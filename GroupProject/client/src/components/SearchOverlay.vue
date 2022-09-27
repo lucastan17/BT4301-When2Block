@@ -36,11 +36,11 @@
         </l-map>
     </div>
 
-    <!--div id="listcoordinates">
-        <li v-for="i in 47":key ="i"> 
-            {{this.info.area_metadata[i]}}
+    <div id="listcoordinates">
+        <li v-for="(item, index) in this.infometa" :key="index">
+            {{item.name}} forecast is {{this.infofc.forecasts[index].forecast}}
         </li>
-    </div-->
+    </div>
 </template>
 
 <script>
@@ -83,15 +83,18 @@ export default {
             zoom: 11,
             center: [1.3521, 103.8198],
             markerLatLng: [1.3521, 103.75],
-            info: [],
+            infometa: {},
+            infofc:{},
         };
     },
 
     mounted: function(){
         axios.get('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast')
              .then(response =>{
-                this.info = response.data
-                console.log(this.info.area_metadata[0]);
+                this.infometa = response.data.area_metadata
+                this.infofc = response.data.items[0]
+
+                console.log(this.infofc.forecasts);
              })
         //console.log(this.info)
     },
