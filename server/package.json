@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/app.js --exec  \"npm run lint && node\"",
+    "lint": "eslint src/**/*.js",
     "start:server": "nodemon index.js --ignore '../client/'",
     "start:client": "npm run serve --prefix '../client/'",
     "dev": "concurrently \"npm run start:server\" \"npm run start:client\""
@@ -14,11 +15,21 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.0",
-    "cors": "^2.8.5",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.0",
+    "sequelize": "^6.23.2"
   },
   "devDependencies": {
     "concurrently": "^7.4.0",
+    "eslint": "^8.24.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-promise": "^6.0.1",
+    "eslint-plugin-vue": "^9.5.1",
     "nodemon": "^2.0.20"
   }
 }
