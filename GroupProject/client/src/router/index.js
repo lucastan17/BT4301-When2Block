@@ -20,6 +20,7 @@ const routes = [
     name: 'register',
     component: RegisterView
   },
+  {
     path:'/',
     name:'Search',
     component:Search
