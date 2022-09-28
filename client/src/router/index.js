@@ -21,7 +21,7 @@ const routes = [
     component: RegisterView
   },
   {
-    path:'/',
+    path:'/search',
     name:'Search',
     component:Search
   }
