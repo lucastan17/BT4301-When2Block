@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView'
+import RegisterView from '../views/RegisterView'
 import Search from '../views/SearchPage'
 
 const routes = [
@@ -15,6 +16,10 @@ const routes = [
     component: AboutView
   },
   {
+    path: '/register',
+    name: 'register',
+    component: RegisterView
+  },
     path:'/',
     name:'Search',
     component:Search

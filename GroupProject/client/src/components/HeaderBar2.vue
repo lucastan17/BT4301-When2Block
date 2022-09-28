@@ -8,9 +8,9 @@
         </div>
         <slot>
             <!-- to customise on pages and remove afterwards  -->
-            <o-button class="button">
+            <!-- <o-button class="button">
                 Register
-            </o-button>
+            </o-button> -->
         </slot>
     </div>
 </template>
@@ -18,10 +18,9 @@
 <script>
 export default {
     name: 'HeaderBar2',
-    // props: ["title"]
+    props: ["title"],
     data() {
         return {
-            title: "Sign Up" // to use prop for diff pages
         }
     }
 }
