@@ -1,6 +1,6 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate' //issues w package, try find another state management package
+// import Vue from 'vue'
+// import Vuex from 'vuex'
+// import createPersistedState from 'vuex-persistedstate' //issues w package, try find another state management package
 
 // Vue.use(Vuex)
 

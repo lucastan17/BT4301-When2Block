@@ -6,7 +6,7 @@ import Search from '../views/SearchPage'
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: HomeView
   },
@@ -21,9 +21,9 @@ const routes = [
     component: RegisterView
   },
   {
-    path:'/search',
-    name:'Search',
-    component:Search
+    path: '/search',
+    name: 'Search',
+    component: Search
   }
 ]
 
