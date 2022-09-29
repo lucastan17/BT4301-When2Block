@@ -6,8 +6,8 @@ export default {
       params: params
     })
   },
-  update (params) {
-    return api().update('profile', {
+  post (params) {
+    return api().post('profile', {
       params: params
     })
   }
