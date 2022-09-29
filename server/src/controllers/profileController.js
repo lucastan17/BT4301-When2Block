@@ -7,7 +7,7 @@ module.exports = {
         //error handling
       }
     },
-    async update (req, res) {
+    async post (req, res) {
       try {
         //update profile details
         //need userid and wtv needs to be updated
