@@ -6,6 +6,7 @@ const checkInController = require('./controllers/checkInController')
 const profileController = require('./controllers/profileController')
 const modelDashboardController = require('./controllers/modelDashboardController')
 const userDashboardController = require('./controllers/userDashboardController')
+const modelRegistryController = require('./controllers/modelRegistryController')
 
 const isAuth = require('./policies/isAuth')
 const isAdmin = require('./policies/isAdmin')
@@ -40,10 +41,6 @@ module.exports = (app) => {
     isAuth,
     checkInController.post
   )
-  app.delete('/checkin',
-    isAuth,
-    checkInController.remove
-  )
 
   //endpoints for user profile
   app.get('/profile',
@@ -53,10 +50,6 @@ module.exports = (app) => {
   app.post('/profile',
     isAuth,
     profileController.post
-  )
-  app.update('/profile',
-    isAuth,
-    profileController.update
   )
 
   //endpoint for model dashboard
@@ -71,5 +64,17 @@ module.exports = (app) => {
     isAuth,
     isAdmin,
     userDashboardController.index
+  )
+
+  //endpoints for model registry
+  app.get('/modelRegistry',
+    isAuth,
+    isAdmin,
+    modelRegistryController.index
+  )
+  app.post('/modelRegistry',
+    isAuth,
+    isAdmin,
+    modelRegistryController.post
   )
 }

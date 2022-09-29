@@ -1,17 +1,16 @@
 module.exports = {
     async index (req, res) {
       try {
-        //logic to retrive profile details from db
-        //need user id
+        //logic to retrive model details from db
+        //need model id and time
       } catch (err) {
         //error handling
       }
     },
     async post (req, res) {
       try {
-        //update profile details
-        //need userid and wtv needs to be updated
-        //note!! hash password before storing
+        //send new model details
+        //need model details and time
       } catch (err) {
         //error handling
       }

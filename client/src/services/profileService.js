@@ -10,10 +10,5 @@ export default {
     return api().post('profile', {
       params: params
     })
-  },
-  update (params) {
-    return api().update('profile', {
-      params: params
-    })
   }
 }

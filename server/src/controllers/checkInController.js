@@ -14,13 +14,5 @@ module.exports = {
     } catch (err) {
       //error handling
     }
-  },
-  async remove (req, res) {
-    try {
-      //remove check in from database if user unchecks
-      //need userid and date
-    } catch (err) {
-      //error handling
-    }
   }
 }
