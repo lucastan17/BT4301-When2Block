@@ -10,10 +10,5 @@ export default {
     return api().post('checkin', {
       params: params
     })
-  },
-  remove (params) {
-    return api().delete('checkin', {
-      params: params
-    })
   }
 }
