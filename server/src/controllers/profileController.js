@@ -7,14 +7,6 @@ module.exports = {
         //error handling
       }
     },
-    async post (req, res) {
-      try {
-        //send new profile details that *doesnt alr exist* in db
-        //need userid and new details
-      } catch (err) {
-        //error handling
-      }
-    },
     async update (req, res) {
       try {
         //update profile details
