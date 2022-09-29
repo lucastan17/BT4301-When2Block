@@ -41,19 +41,15 @@ module.exports = (app) => {
     isAuth,
     checkInController.post
   )
-  app.delete('/checkin',
-    isAuth,
-    checkInController.remove
-  )
 
   //endpoints for user profile
   app.get('/profile',
     isAuth,
     profileController.index
   )
-  app.update('/profile',
+  app.post('/profile',
     isAuth,
-    profileController.update
+    profileController.post
   )
 
   //endpoint for model dashboard
