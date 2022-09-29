@@ -11,3 +11,5 @@ npm run serve
 ```
 
 Y'all should be able to see the template created at localhost:8080 
+
+repeat for `server` folder and it should run on localhost:8081 (haven't tried out yet)
