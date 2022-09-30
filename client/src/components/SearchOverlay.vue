@@ -1,5 +1,5 @@
 <template>
-    <HeaderBar></HeaderBar>
+    <HeaderBar/>
     <div id ="map">
         <l-map style="height:330px" :zoom="zoom" :center="center">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
@@ -32,7 +32,7 @@ import axios from 'axios';
 import HeaderBar from "./HeaderBar.vue";
 
 export default {
-    name: 'HeaderBar',
+    name: 'SearchOverlay',
     props: {
         msg: String
     },
