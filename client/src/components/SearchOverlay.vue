@@ -1,34 +1,5 @@
 <template>
-    <div id="navbar">
-        <div id="logo">
-            <img alt="When2Block Logo" src="../assets/when2block_logo.png" />
-        </div>
-        <div id="navlinks">
-            <ul>
-                <li>
-                    <a href="/">Check-In</a>
-                </li>
-                <li>
-                    <a href="/">Statistics</a>
-                </li>
-                <li>
-                    <a href="/">Search</a>
-                </li>
-                <li>
-                    <a href="/">Contact Us</a>
-                </li>
-            </ul>
-        </div>
-
-        <div id="LogOut">
-            <p>Hi, <a href="/">USERNAME</a></p>
-
-            <o-button>
-                Log Out
-            </o-button>
-        </div>
-    </div>
-
+    <HeaderBar></HeaderBar>
     <div id ="map">
         <l-map style="height:330px" :zoom="zoom" :center="center">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
@@ -58,6 +29,7 @@ import {
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from 'axios';
+import HeaderBar from "./HeaderBar.vue";
 
 export default {
     name: 'HeaderBar',
@@ -75,7 +47,8 @@ export default {
     //LPolyline,
     //LPolygon,
     //LRectangle,
-  },
+    HeaderBar
+},
     data () {
         return {
             count:0,
