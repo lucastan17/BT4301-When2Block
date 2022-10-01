@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <HeaderBar2 title="Register">
-      <o-button class="button">Log In</o-button>
+      <o-button class="button" @click="login">Log In</o-button>
     </HeaderBar2>
     <br />
     <Register />
@@ -17,6 +17,11 @@ export default {
   components: {
     HeaderBar2,
     Register
+  },
+  methods: {
+    login() {
+      this.$router.push({ name: "login" })
+    }
   }
 }
 </script>

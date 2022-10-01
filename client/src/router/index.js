@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView'
 import RegisterView from '../views/RegisterView'
 import Search from '../views/SearchPage'
+import SurveyView from '../views/SurveyView'
+import LoginView from '../views/LoginView'
 
 const routes = [
   {
@@ -24,7 +26,17 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: Search
-  }
+  },
+  {
+    path: '/survey',
+    name: 'survey',
+    component: SurveyView
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
 ]
 
 const router = createRouter({
