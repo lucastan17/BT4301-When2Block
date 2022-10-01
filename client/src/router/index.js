@@ -5,6 +5,7 @@ import RegisterView from '../views/RegisterView'
 import Search from '../views/SearchPage'
 import SurveyView from '../views/SurveyView'
 import LoginView from '../views/LoginView'
+import ProfileView from '../views/ProfileView'
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView
   },
 ]
 
