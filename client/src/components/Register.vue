@@ -29,6 +29,8 @@
                 <o-button @click="register" expanded class="button">SIGN UP</o-button>
 
                 <br />
+                <br />
+                <h1 class="error" v-if="error">{{error}}</h1>
 
                 <a href="/login">I already have an account</a>
             </div>
@@ -47,15 +49,16 @@ export default {
             username: "",
             email: "",
             password: "",
-            cfm_password: ""
+            cfm_password: "",
+            error: ""
         }
     },
     methods: {
         async register() {
             if (this.username == "" | this.email == "" | this.password == "" | this.password == "" | this.cfm_password == "") {
-                alert("Fields cannot be empty!")
+                this.error = "Fields cannot be empty!"
             } else if (this.password != this.cfm_password) {
-                alert("Passwords do not match!")
+                this.error = "Passwords do not match!"
             } else {
                 alert("Registered!")
                 this.$router.push("/survey")
@@ -134,6 +137,12 @@ export default {
 .button {
     background-color: #F16308;
     border: 0;
+}
+
+.error {
+    margin: 0 auto;
+    font-size: 15px;
+    color: red;
 }
 </style>
     
