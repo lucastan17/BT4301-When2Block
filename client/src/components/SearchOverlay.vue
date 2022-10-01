@@ -1,5 +1,13 @@
 <template>
     <HeaderBar/>
+    <p style="fontSize:22px; margin:10px;"> Get advice on Sunscreen application up to <b>2 hours</b> before heading to your destination</p>
+
+    <label for="select-place">Select area to check:</label>
+        <input type = "text" v-model="places.name" list="places" placeholder="type here..." />
+        <datalist id="places">
+            <option v-for="(p,index) in places" :key="index">{{p.name}}</option>
+        </datalist>
+
     <div id ="map">
         <l-map style="height:330px" :zoom="zoom" :center="center">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
@@ -58,6 +66,16 @@ export default {
             markerLatLng: [1.3521, 103.75],
             infometa: {},
             infofc:{},
+            places:[{name:'Ang Mo Kio',forecast:'1'},{name:'Bedok',forecast:''},{name:'Bishan',forecast:''},{name:'Boon Lay',forecast:''},{name:'Bukit Batok',forecast:''},
+                    {name:'Bukit Merah',forecast:'2'},{name:'Bukit Panjan',forecast:''},{name:'Bukit Timah',forecast:''},{name:'Central Water Catchment',forecast:''},{name:'Changi',forecast:''},
+                    {name:'Choa Chu Kang',forecast:'3'},{name:'Clementi',forecast:''},{name:'City',forecast:''},{name:'Geylang',forecast:''},{name:'Hougang',forecast:''},
+                    {name:'Jalan Bahar',forecast:'4'},{name:'Jurong East',forecast:''},{name:'Jurong Island',forecast:''},{name:'Jurong West',forecast:''},{name:'Kallang',forecast:''},
+                    {name:'Lim Chu Kang',forecast:''},{name:'Mandai',forecast:''},{name:'Marine Parade',forecast:''},{name:'Novena',forecast:''},{name:'Pasir Ris',forecast:''},
+                    {name:'Paya Lebar',forecast:''},{name:'Pioneer',forecast:''},{name:'Pulau Tekong',forecast:''},{name:'Pulau Ubin',forecast:''},{name:'Punggol',forecast:''},
+                    {name:'Queenstown',forecast:''},{name:'Seletar',forecast:''},{name:'Sembawang',forecast:''},{name:'Sengkang',forecast:''},{name:'Sentosa',forecast:''},
+                    {name:'Serangoon',forecast:''},{name:'Southern Islands',forecast:''},{name:'Sungei Kadut',forecast:''},{name:'Tampines',forecast:''},{name:'Tanglin',forecast:''},
+                    {name:'Tengah',forecast:''},{name:'Toa Payoh',forecast:''},{name:'Tuas',forecast:''},{name:'Western Islands',forecast:''},{name:'Western Water Catchment',forecast:''},
+                    {name:'Woodlands',forecast:''},{name:'Yishun',forecast:''}]
         };
     },
 
