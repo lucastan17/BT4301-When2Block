@@ -66,16 +66,16 @@ export default {
             markerLatLng: [1.3521, 103.75],
             infometa: {},
             infofc:{},
-            places:[{name:'Ang Mo Kio',forecast:'1'},{name:'Bedok',forecast:''},{name:'Bishan',forecast:''},{name:'Boon Lay',forecast:''},{name:'Bukit Batok',forecast:''},
-                    {name:'Bukit Merah',forecast:'2'},{name:'Bukit Panjan',forecast:''},{name:'Bukit Timah',forecast:''},{name:'Central Water Catchment',forecast:''},{name:'Changi',forecast:''},
-                    {name:'Choa Chu Kang',forecast:'3'},{name:'Clementi',forecast:''},{name:'City',forecast:''},{name:'Geylang',forecast:''},{name:'Hougang',forecast:''},
-                    {name:'Jalan Bahar',forecast:'4'},{name:'Jurong East',forecast:''},{name:'Jurong Island',forecast:''},{name:'Jurong West',forecast:''},{name:'Kallang',forecast:''},
-                    {name:'Lim Chu Kang',forecast:''},{name:'Mandai',forecast:''},{name:'Marine Parade',forecast:''},{name:'Novena',forecast:''},{name:'Pasir Ris',forecast:''},
-                    {name:'Paya Lebar',forecast:''},{name:'Pioneer',forecast:''},{name:'Pulau Tekong',forecast:''},{name:'Pulau Ubin',forecast:''},{name:'Punggol',forecast:''},
-                    {name:'Queenstown',forecast:''},{name:'Seletar',forecast:''},{name:'Sembawang',forecast:''},{name:'Sengkang',forecast:''},{name:'Sentosa',forecast:''},
-                    {name:'Serangoon',forecast:''},{name:'Southern Islands',forecast:''},{name:'Sungei Kadut',forecast:''},{name:'Tampines',forecast:''},{name:'Tanglin',forecast:''},
-                    {name:'Tengah',forecast:''},{name:'Toa Payoh',forecast:''},{name:'Tuas',forecast:''},{name:'Western Islands',forecast:''},{name:'Western Water Catchment',forecast:''},
-                    {name:'Woodlands',forecast:''},{name:'Yishun',forecast:''}]
+            places:[{name:'Ang Mo Kio',forecast:'1',lat:'',long:''},{name:'Bedok',forecast:'',lat:'',long:''},{name:'Bishan',forecast:'',lat:'',long:''},{name:'Boon Lay',forecast:'',lat:'',long:''},{name:'Bukit Batok',forecast:'',lat:'',long:''},
+                    {name:'Bukit Merah',forecast:'2',lat:'',long:''},{name:'Bukit Panjan',forecast:'',lat:'',long:''},{name:'Bukit Timah',forecast:'',lat:'',long:''},{name:'Central Water Catchment',forecast:'',lat:'',long:''},{name:'Changi',forecast:'',lat:'',long:''},
+                    {name:'Choa Chu Kang',forecast:'3',lat:'',long:''},{name:'Clementi',forecast:'',lat:'',long:''},{name:'City',forecast:'',lat:'',long:''},{name:'Geylang',forecast:'',lat:'',long:''},{name:'Hougang',forecast:'',lat:'',long:''},
+                    {name:'Jalan Bahar',forecast:'4',lat:'',long:''},{name:'Jurong East',forecast:'',lat:'',long:''},{name:'Jurong Island',forecast:'',lat:'',long:''},{name:'Jurong West',forecast:'',lat:'',long:''},{name:'Kallang',forecast:'',lat:'',long:''},
+                    {name:'Lim Chu Kang',forecast:'',lat:'',long:''},{name:'Mandai',forecast:'',lat:'',long:''},{name:'Marine Parade',forecast:'',lat:'',long:''},{name:'Novena',forecast:'',lat:'',long:''},{name:'Pasir Ris',forecast:'',lat:'',long:''},
+                    {name:'Paya Lebar',forecast:'',lat:'',long:''},{name:'Pioneer',forecast:'',lat:'',long:''},{name:'Pulau Tekong',forecast:'',lat:'',long:''},{name:'Pulau Ubin',forecast:'',lat:'',long:''},{name:'Punggol',forecast:'',lat:'',long:''},
+                    {name:'Queenstown',forecast:'',lat:'',long:''},{name:'Seletar',forecast:'',lat:'',long:''},{name:'Sembawang',forecast:'',lat:'',long:''},{name:'Sengkang',forecast:'',lat:'',long:''},{name:'Sentosa',forecast:'',lat:'',long:''},
+                    {name:'Serangoon',forecast:'',lat:'',long:''},{name:'Southern Islands',forecast:'',lat:'',long:''},{name:'Sungei Kadut',forecast:'',lat:'',long:''},{name:'Tampines',forecast:'',lat:'',long:''},{name:'Tanglin',forecast:'',lat:'',long:''},
+                    {name:'Tengah',forecast:'',lat:'',long:''},{name:'Toa Payoh',forecast:'',lat:'',long:''},{name:'Tuas',forecast:'',lat:'',long:''},{name:'Western Islands',forecast:'',lat:'',long:''},{name:'Western Water Catchment',forecast:'',lat:'',long:''},
+                    {name:'Woodlands',forecast:'',lat:'',long:''},{name:'Yishun',forecast:'',lat:'',long:''}]
         };
     },
 
@@ -84,7 +84,7 @@ export default {
              .then(response =>{
                 this.infometa = response.data.area_metadata
                 this.infofc = response.data.items[0]
-
+                this.fill_data(response)
                 console.log(this.infofc.forecasts);
              })
         //console.log(this.info)
@@ -92,6 +92,14 @@ export default {
   methods:{
     plus1(){
         this.count +=1;
+    },
+    fill_data(d){
+        for ( var i = 0; i<this.places.length;i++){
+            this.places[i].forecast = d.data.items[0].forecasts[i].forecast
+            this.places[i].lat = d.data.area_metadata[i].label_location.latitude
+            this.places[i].long = d.data.area_metadata[i].label_location.longitude
+            //console.log(this.places[i].lat)
+        }
     }
   }
   
