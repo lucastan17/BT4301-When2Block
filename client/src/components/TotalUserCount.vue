@@ -3,7 +3,6 @@
         <div>
             <h3><b>Total Number since <br>APRIL 2022</b></h3>
         </div>
-        <br>
         <div>
             <p><b>{{totalCount}}</b></p>
         </div>
@@ -37,6 +36,6 @@ export default {
 }
 
 p {
-    font-size: 300%;
+    font-size: 400%;
 }
 </style>
