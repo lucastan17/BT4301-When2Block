@@ -36,6 +36,7 @@ export default {
     border-radius: 25px;
     padding: 5px;
     width: 180px;
+    height: 150px;
     background-color: rgb(241, 130, 60);
 }
 

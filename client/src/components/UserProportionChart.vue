@@ -10,12 +10,12 @@ import VueApexCharts from "vue3-apexcharts";
 export default {
     data() {
         return {         
-            series: [44, 55, 13, 33],
+            series: this.seriesValue,
             chartOptions: {
                 chart: {
                 type: 'donut',
                 },
-                labels: ['Never', 'Monthly', 'Weekly', 'Daily'],
+                labels: this.chartLabels,
                 dataLabels: {
                 enabled: true,
                 formatter: function (val) {
@@ -27,12 +27,16 @@ export default {
                     align: 'center'
                 },
             }
-
         }
+    },
+    props : {
+        seriesValue: Array,
+        chartLabels:Array
     },
     components: {
         apexchart: VueApexCharts
-    }
+    },
+
 }
 </script>
 

@@ -12,7 +12,7 @@ export default {
         return {         
           series: [{
               name: "Number of Users",
-              data: [10, 21, 32, 56, 63, 79]
+              data: this.userData, //[10, 21, 32, 56, 63, 79]
           }],
           chartOptions: {
             chart: {
@@ -40,10 +40,14 @@ export default {
               },
             },
             xaxis: {
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+              categories: this.months, //['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
             }
           },
         }
+    },
+    props: {
+      userData: Array,
+      months: Array
     },
     components: {
         apexchart: VueApexCharts
