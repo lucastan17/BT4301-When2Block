@@ -1,14 +1,15 @@
 <template>
     <HeaderBar></HeaderBar>
     <div id="overall-container">
-        <h2>Count and Proportion of Users based on Sun-Block usage rates</h2>
+        <h2>1. Count and Proportion of Users based on Sun-Block usage rates</h2>
         <div id="flex-boxdisplay-container">
+            <UserProportionChart/>
             <BoxDisplay title='Never' :actualNumber="this.never.actualNumber" :percentage='this.never.percentage'/>
             <BoxDisplay title='Monthly' :actualNumber="this.monthly.actualNumber" :percentage='this.monthly.percentage'/>
             <BoxDisplay title='Weekly' :actualNumber="this.weekly.actualNumber" :percentage='this.weekly.percentage'/>
             <BoxDisplay title='Daily' :actualNumber="this.daily.actualNumber" :percentage='this.daily.percentage'/>
         </div>
-        <h2>Statistics of Users who have begun their sunscreen journey</h2>
+        <h2>2. Statistics of Users who have begun their sunscreen journey</h2>
         <div id="flex-chartstats-container">
             <div id="stats-container">
                 <TotalUserCount :totalCount="this.totalCount"/>
@@ -25,6 +26,7 @@ import HeaderBar from '../components/HeaderBar.vue';
 import BoxDisplay from '../components/BoxDisplay.vue';
 import UserBehaviourChart from '../components/UserBehaviourChart.vue';
 import TotalUserCount from '../components/TotalUserCount.vue';
+import UserProportionChart from '../components/UserProportionChart.vue'
 
 export default {
     name: "UserBeavhiourPage",
@@ -53,7 +55,8 @@ export default {
         HeaderBar,
         BoxDisplay,
         UserBehaviourChart,
-        TotalUserCount
+        TotalUserCount,
+        UserProportionChart
     },
 }
 
@@ -69,7 +72,7 @@ export default {
 #flex-boxdisplay-container {
     display: flex;
     justify-content: space-between;
-    width: 80%;
+    width: 100%;
     margin: auto;
     padding: 30px 0px;
 }
@@ -77,6 +80,7 @@ export default {
 #flex-chartstats-container {
     display: flex;
     justify-content: space-between;
+    padding-top: 50px;
     
 }
 
@@ -88,4 +92,7 @@ export default {
     width: 70%;
 }
 
+h2 {
+    text-align: left;
+}
 </style>
