@@ -1,13 +1,13 @@
 <template>
     <div id = 'outerBox'>
         <div>
-            <h2>{{title}}</h2>
+            <h3><u>{{title}}</u></h3>
         </div>
         <div>
             <p>{{actualNumber}}</p>
         </div>
         <div>
-            <h3>{{percentage}}</h3>
+            <p><b>{{percentage}}%</b></p>
         </div>
     </div>
 </template>
@@ -34,8 +34,9 @@ export default {
 
 #outerBox {
     border-radius: 25px;
-    padding: 10px;
-    width: 200px;
+    padding: 5px;
+    width: 180px;
+    height: 150px;
     background-color: rgb(241, 130, 60);
 }
 

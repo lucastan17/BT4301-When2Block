@@ -5,6 +5,7 @@ import RegisterView from '../views/RegisterView'
 import Search from '../views/SearchPage'
 import SurveyView from '../views/SurveyView'
 import LoginView from '../views/LoginView'
+import UserBehaviour from "../views/UserBehaviourView"
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/user-behaviour',
+    name: 'user-behaviour',
+    component: UserBehaviour
   },
 ]
 

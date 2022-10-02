@@ -11,12 +11,13 @@ export default {
     data() {
         return {         
           series: [{
-              name: "Desktops",
-              data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+              name: "Number of Users",
+              data: this.userData, //[10, 21, 32, 56, 63, 79]
           }],
           chartOptions: {
             chart: {
-              height: 350,
+              height: 400,
+              width: 500,
               type: 'line',
               zoom: {
                 enabled: false
@@ -29,20 +30,24 @@ export default {
               curve: 'straight'
             },
             title: {
-              text: 'Product Trends by Month',
-              align: 'left'
+              text: 'Total number of Users who have started using sunscreen',
+              align: 'center'
             },
             grid: {
               row: {
-                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
+                colors: ['#f3f3f3', 'rgb(241, 130, 60)'], // takes an array which will be repeated on columns
+                opacity: 0.2
               },
             },
             xaxis: {
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+              categories: this.months, //['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
             }
           },
         }
+    },
+    props: {
+      userData: Array,
+      months: Array
     },
     components: {
         apexchart: VueApexCharts
