@@ -11,7 +11,7 @@
         <h2>Statistics of Users who have begun their sunscreen journey</h2>
         <div id="flex-chartstats-container">
             <div id="stats-container">
-                <p>hello</p>
+                <TotalUserCount :totalCount="this.totalCount"/>
             </div>
             <div id="chart-container">
                 <UserBehaviourChart/>   
@@ -24,6 +24,7 @@
 import HeaderBar from '../components/HeaderBar.vue';
 import BoxDisplay from '../components/BoxDisplay.vue';
 import UserBehaviourChart from '../components/UserBehaviourChart.vue';
+import TotalUserCount from '../components/TotalUserCount.vue';
 
 export default {
     name: "UserBeavhiourPage",
@@ -44,13 +45,15 @@ export default {
             daily: {
                 actualNumber: 36,
                 percentage: 12
-            }
+            },
+            totalCount: 79,
         }
     },
     components: {
-    HeaderBar,
-    BoxDisplay,
-    UserBehaviourChart,
+        HeaderBar,
+        BoxDisplay,
+        UserBehaviourChart,
+        TotalUserCount
     },
 }
 
