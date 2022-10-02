@@ -37,6 +37,11 @@ const routes = [
     name: 'login',
     component: LoginView
   },
+  // {
+  //   path: '/user-behaviour',
+  //   name: 'user-behaviour',
+  //   component: UserBehaviour
+  // },
 ]
 
 const router = createRouter({
