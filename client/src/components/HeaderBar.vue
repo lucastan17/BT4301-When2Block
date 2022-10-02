@@ -21,7 +21,7 @@
         </div>
 
         <div id="LogOut">
-            <p>Hi, <a href="/">USERNAME</a></p>
+            <p>Hi, <a href="/Profile">USERNAME</a></p>
 
             <o-button>
                 Log Out

@@ -5,7 +5,12 @@ import RegisterView from '../views/RegisterView'
 import Search from '../views/SearchPage'
 import SurveyView from '../views/SurveyView'
 import LoginView from '../views/LoginView'
+<<<<<<< HEAD
 import UserBehaviour from "../views/UserBehaviourView"
+=======
+import ProfileView from '../views/ProfileView'
+import EditProfileView from '../views/EditProfileView'
+>>>>>>> profile-page
 
 const routes = [
   {
@@ -42,6 +47,16 @@ const routes = [
     path: '/user-behaviour',
     name: 'user-behaviour',
     component: UserBehaviour
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView
+  },
+  {
+    path: '/editprofile',
+    name: 'editprofile',
+    component: EditProfileView
   },
 ]
 
