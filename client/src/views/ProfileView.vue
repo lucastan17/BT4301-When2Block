@@ -1,26 +1,28 @@
 <template>
     <div class="home">
-        <HeaderBar2 title="Profile">
-        </HeaderBar2>
+        <HeaderBar title="Profile">
+        </HeaderBar>
         <UserInfo id="info" v-if="mounted" :user="user" />
         <br />
     </div>
 </template>
   
 <script>
-import HeaderBar2 from '@/components/HeaderBar2.vue';
+import HeaderBar from '@/components/HeaderBar.vue';
 import UserInfo from '@/components/UserInfo.vue';
 
 export default {
     name: 'LoginView',
     components: {
-        HeaderBar2,
+        HeaderBar,
         UserInfo
     },
     data() {
         return {
-        user: null,
-        mounted: false,
+        user: {
+            
+        },
+        mounted: true,
         }
     },
     methods: {

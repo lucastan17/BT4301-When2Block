@@ -1,9 +1,8 @@
 <template>
     <section class="hero">
       <div id="profile-div">
-        <h3 class="profile-info">{{ name }}</h3>
-        <h3 class="profile-info">{{ email }}</h3>
-        <h3 class="profile-info">Singapore {{ postalcode }}</h3>
+        <h3 class="profile-info">Joshus Tan{{ name }}</h3>
+        <h3 class="profile-info">test@gmail.com{{ email }}</h3>
         <button @click="goToEdit()">EDIT PROFILE</button>
       </div>
     </section>
@@ -24,13 +23,12 @@
     },
     methods: {
       goToEdit() {
-        this.$router.push("./EditCustomerParticulars");
+        this.$router.push("./EditProfile");
       },
     },
     created() {
       this.name = this.user.name;
       this.email = this.user.email;
-      this.postalcode = this.user.postalcode;
     },
   };
   </script>
