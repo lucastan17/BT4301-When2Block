@@ -40,7 +40,7 @@
 </template>
     
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
+import AuthenticationService from '@/services/authService'
 
 export default {
     name: 'RegisterItem',
