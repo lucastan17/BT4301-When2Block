@@ -6,7 +6,7 @@ module.exports = {
   db: {
      database: process.env.DB_NAME || 'when2block',
      user: process.env.DB_USER || 'when2block',
-     password: process.env.DB_PASS || 'zAHk2seIiR.tW055',
+     password: process.env.DB_PASS || 'bt4301grp2',
      options: {
        dialect: process.env.DIALECT || 'mysql',
        host: process.env.HOST || 'localhost'
