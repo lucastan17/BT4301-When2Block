@@ -1,7 +1,8 @@
 version: '3.3'
 services:
   db:
-    image: mysql:5.7
+    image: mysql:latest
+    restart: always
     container_name: mysql-container
     environment:
       MYSQL_DATABASE: 'when2block'
@@ -16,7 +17,7 @@ services:
       - '3307:3306'
       # Where our data will be persisted
     volumes:
-      - when2block-db:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
 # Names our volume
 volumes: 
   when2block-db: 

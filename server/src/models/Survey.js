@@ -24,5 +24,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     })
+
+    Survey.associate = function (models) {
+    }
+
     return Survey
   }
