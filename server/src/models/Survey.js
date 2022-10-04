@@ -23,4 +23,6 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.NOW,
         allowNull: false
       }
-    })}
+    })
+    return Survey
+  }

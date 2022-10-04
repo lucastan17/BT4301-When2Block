@@ -31,4 +31,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         allowNull: false
       }
-    })}
+    })
+    return Drift
+  }
