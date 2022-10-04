@@ -30,17 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       auc: {
         type: DataTypes.FLOAT,
         allowNull: false
-      },
-      ks_test: {
-        type: DataTypes.FLOAT,
-        allowNull: false
-      },
-      chi_sq: {
-        type: DataTypes.FLOAT,
-        allowNull: false
-      },
-      was_dist: {
-        type: DataTypes.FLOAT,
-        allowNull: false
-      },
-    })}
+      }
+    })
+    return Drift
+  }

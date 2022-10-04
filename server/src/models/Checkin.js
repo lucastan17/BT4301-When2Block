@@ -10,4 +10,6 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.NOW,
         primaryKey: true
       }
-    })}
+    })
+    return Checkin
+  }

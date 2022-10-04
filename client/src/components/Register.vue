@@ -40,7 +40,7 @@
 </template>
     
 <script>
-// import AuthenticationService from '@/services/AuthenticationService'
+import AuthenticationService from '@/services/authService'
 
 export default {
     name: 'RegisterItem',
@@ -62,12 +62,12 @@ export default {
             } else {
                 alert("Registered!")
                 this.$router.push("/survey")
-                // const response = await AuthenticationService.register({
-                //   username: this.username,
-                //   email: this.email,
-                //   password: this.password
-                // })
-                // console.log(response.data)
+                const response = await AuthenticationService.register({
+                   username: this.username,
+                   email: this.email,
+                   password: this.password
+                 })
+                console.log(response.data)
             }
         }
     }

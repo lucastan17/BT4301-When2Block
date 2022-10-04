@@ -23,4 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.NOW,
         allowNull: false
       }
-    })}
+    })
+
+    Survey.associate = function (models) {
+    }
+
+    return Survey
+  }
