@@ -1,5 +1,5 @@
 -- Create tables
-CREATE TABLE IF NOT EXISTS `when2block`.`Drift` (
+CREATE TABLE IF NOT EXISTS `when2block`.`drift` (
   `model_id` INT NOT NULL,
   `time` DATETIME NOT NULL,
   `accuracy` FLOAT NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `when2block`.`Drift` (
   PRIMARY KEY (`model_id`, `time`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `when2block`.`Users` (
+CREATE TABLE IF NOT EXISTS `when2block`.`users` (
   `user_id` INT,
   `username` VARCHAR(45) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `when2block`.`Users` (
   UNIQUE (`email`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `when2block`.`Check_in` (
+CREATE TABLE IF NOT EXISTS `when2block`.`check_in` (
   `user_id` INT NOT NULL,
   `checkin_date` DATETIME NOT NULL,
   PRIMARY KEY (`user_id`, `checkin_date`),
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `when2block`.`Check_in` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `when2block`.`Results` (
+CREATE TABLE IF NOT EXISTS `when2block`.`results` (
   `model_id` INT NOT NULL,
   `location` VARCHAR(45) NOT NULL,
   `time` DATETIME NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `when2block`.`Results` (
   PRIMARY KEY (`model_id`, `location`, `time`))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `when2block`.`Survey` (
+CREATE TABLE IF NOT EXISTS `when2block`.`survey` (
   `survey_id` INT NOT NULL,
   `user_id` INT NOT NULL,
   `sunscreen_freq` VARCHAR(45) NOT NULL,
