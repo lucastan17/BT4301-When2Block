@@ -18,6 +18,7 @@ services:
       # Where our data will be persisted
     volumes:
       - ./init:/docker-entrypoint-initdb.d
+      - when2block-db:/var/lib/mysql
 # Names our volume
 volumes: 
   when2block-db: 
