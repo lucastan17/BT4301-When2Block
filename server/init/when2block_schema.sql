@@ -12,7 +12,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `when2block`.`Users` (
   `user_id` INT,
-  `name` VARCHAR(45) NOT NULL,
+  `username` VARCHAR(45) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `created_date` DATETIME NOT NULL,
