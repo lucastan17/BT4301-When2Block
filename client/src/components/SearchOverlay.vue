@@ -14,7 +14,7 @@
         <input id="time-s" type = "time" min="07:00" max="19:00" value="07:00" step=3600 required placeholder="Key time here..." />
 
     <button style="margin-left:20px" @click="search()">Search</button>
-
+    <button style="margin-left:20px" @click="reset()"> Clear Search</button>
     <!-- Load leaflet map of Singapore, as well as pin markers of all coordinates :options={zoomControl:false,doubleClickZoom:false}-->
     <div id ="maps">
         <l-map ref="datamap" @ready="loadMap()" :zoom="zoom" :center="center" :zoomControl="true" :max-zoom="20">
@@ -107,8 +107,9 @@ export default {
         this.map = this.$refs.datamap.leafletObject
     },
 
-    plus1(){
-        this.count +=1;
+    reset(){
+        this.center = this.ocenter
+        this.map.setView(this.center,this.zoom)
     },
     async fetchData(){
         try{    
