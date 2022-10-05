@@ -16,9 +16,9 @@
     <button style="margin-left:20px" @click="search()">Search</button>
 
     <!-- Load leaflet map of Singapore, as well as pin markers of all coordinates :options={zoomControl:false,doubleClickZoom:false}-->
-    <div id ="map">
-        <l-map ref="myMap" :zoom="zoom" :center="center" :zoomControl="true"  @update:center="centerUpdated">
-            <l-tile-layer :url="url" layer-type="base" :max-zoom="15"> </l-tile-layer>
+    <div id ="maps">
+        <l-map ref="datamap" @ready="loadMap()" :zoom="zoom" :center="center" :zoomControl="true" :max-zoom="20">
+            <l-tile-layer :url="url" layer-type="base" :max-zoom="20"> </l-tile-layer>
             <!--l-marker :lat-lng="markerLatLng" title="Marker 1"></l-marker-->
             <l-marker v-for="(item,index) in this.infometa" :key="index"
                     :lat-lng="[item.label_location.latitude,item.label_location.longitude]">
@@ -73,7 +73,7 @@ export default {
 
     data () {
         return {
-            myMap: null,
+            map: null,
             count:0,
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             zoom: 11,
@@ -85,7 +85,7 @@ export default {
             infofc:{},
             infoUV:[],
             places:{'Ang Mo Kio':{name:'Ang Mo Kio',forecast:'1',lat:'',long:''},'Bedok':{name:'Bedok',forecast:'',lat:'',long:''},'Bishan':{name:'Bishan',forecast:'',lat:'',long:''},'Boon Lay':{name:'Boon Lay',forecast:'',lat:'',long:''},'Bukit Batok':{name:'Bukit Batok',forecast:'',lat:'',long:''},
-                    'Bukit Merah':{name:'Bukit Merah',forecast:'2',lat:'',long:''},'Bukit Panjang':{name:'Bukit Pangjang',forecast:'',lat:'',long:''},'Bukit Timah':{name:'Bukit Timah',forecast:'',lat:'',long:''},'Central Water Catchment':{name:'Central Water Catchment',forecast:'',lat:'',long:''},'Changi':{name:'Changi',forecast:'',lat:'',long:''},
+                    'Bukit Merah':{name:'Bukit Merah',forecast:'2',lat:'',long:''},'Bukit Panjang':{name:'Bukit Panjang',forecast:'',lat:'',long:''},'Bukit Timah':{name:'Bukit Timah',forecast:'',lat:'',long:''},'Central Water Catchment':{name:'Central Water Catchment',forecast:'',lat:'',long:''},'Changi':{name:'Changi',forecast:'',lat:'',long:''},
                     'Choa Chu Kang':{name:'Choa Chu Kang',forecast:'3',lat:'',long:''},'Clementi':{name:'Clementi',forecast:'',lat:'',long:''},'City':{name:'City',forecast:'',lat:'',long:''},'Geylang':{name:'Geylang',forecast:'',lat:'',long:''},'Hougang':{name:'Hougang',forecast:'',lat:'',long:''},
                     'Jalan Bahar': {name:'Jalan Bahar',forecast:'4',lat:'',long:''},'Jurong East':{name:'Jurong East',forecast:'',lat:'',long:''},'Jurong Island':{name:'Jurong Island',forecast:'',lat:'',long:''},'Jurong West':{name:'Jurong West',forecast:'',lat:'',long:''},'Kallang':{name:'Kallang',forecast:'',lat:'',long:''},
                     'Lim Chu Kang':{name:'Lim Chu Kang',forecast:'',lat:'',long:''},'Mandai':{name:'Mandai',forecast:'',lat:'',long:''},'Marine Parade':{name:'Marine Parade',forecast:'',lat:'',long:''},'Novena':{name:'Novena',forecast:'',lat:'',long:''},'Pasir Ris':{name:'Pasir Ris',forecast:'',lat:'',long:''},
@@ -94,33 +94,19 @@ export default {
                     'Serangoon':{name:'Serangoon',forecast:'',lat:'',long:''},'Southern Islands':{name:'Southern Islands',forecast:'',lat:'',long:''},'Sungei Kadut':{name:'Sungei Kadut',forecast:'',lat:'',long:''},'Tampines':{name:'Tampines',forecast:'',lat:'',long:''},'Tanglin':{name:'Tanglin',forecast:'',lat:'',long:''},
                     'Tengah':{name:'Tengah',forecast:'',lat:'',long:''},'Toa Payoh':{name:'Toa Payoh',forecast:'',lat:'',long:''},'Tuas':{name:'Tuas',forecast:'',lat:'',long:''},'Western Islands':{name:'Western Islands',forecast:'',lat:'',long:''},'Western Water Catchment': {name:'Western Water Catchment',forecast:'',lat:'',long:''},
                     'Woodlands':{name:'Woodlands',forecast:'',lat:'',long:''},'Yishun':{name:'Yishun',forecast:'',lat:'',long:''}}
-        };
+        }
     },
 
     mounted: function(){
         this.fetchData()
-        /*axios.get('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast')
-            .then((response) =>{
-                this.infometa = response.data.area_metadata
-                this.infofc = response.data.items
-                this.fillData(response.data)
-                console.log(this.infometa[0].label_location)
-                //return a
-            } )
-            .catch(e =>{
-                console.log(e)
-            })
-        axios.get('https://api.data.gov.sg/v1/environment/uv-index')
-             .then( response => {
-                this.infoUV = response.data['items'][0]['index'][0]
-                //console.log(this.infoUV)
-             }).catch(e =>{
-                console.log(e)
-             })*/
-
     },
 
   methods:{
+    loadMap(){
+        //console.log(this.$refs.datamap.leafletObject)
+        this.map = this.$refs.datamap.leafletObject
+    },
+
     plus1(){
         this.count +=1;
     },
@@ -140,7 +126,6 @@ export default {
     fillData(){
         for ( var i = 0; i<Object.keys(this.places).length;i++){
             var name = this.infometa[i].name
-            console.log("called fill data")
             this.places[name].forecast = this.infofc[0].forecasts[i].forecast
             this.places[name].lat = this.infometa[i].label_location.latitude
             this.places[name].long = this.infometa[i].label_location.longitude
@@ -150,13 +135,9 @@ export default {
         var p = document.getElementById('place-s').value
         //var t = document.getElementById('time-s').value
         this.center = [this.places[p].lat,this.places[p].long]
-        console.log(this.places[p])
-        this.$nextTick(()=>{
-            console.log(this.center)
-        }).catch(e =>{
-                console.log(e)
-        })
-        this.$refs.myMap.panTo(this.center)
+        //console.log(this.infoUV)
+        console.log(this.$refs.datamap.leafletObject)
+        this.map.setView(this.center,13.5)
     },
     centerUpdated(center){
         this.center = center;
@@ -174,7 +155,7 @@ export default {
     padding-top: 20px;
 }
 
-#map{
+#maps{
     height:300px;
     padding-left: 100px;
     padding-right: 100px;
