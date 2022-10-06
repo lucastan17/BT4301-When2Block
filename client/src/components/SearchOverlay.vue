@@ -15,11 +15,20 @@
 
     <button style="margin-left:20px" @click="search()">Search</button>
     <button style="margin-left:20px" @click="reset()"> Clear Search</button>
-    <!-- Load leaflet map of Singapore, as well as pin markers of all coordinates :options={zoomControl:false,doubleClickZoom:false}-->
+
+
+    <div id="outcome" v-show="showResults" >
+        <!--Show outcome if sunny or not-->
+        <h2 v-if="isSunny"> It's going to be SUNNY <br> Wear your Sunscreen! </h2>
+        <h2 v-else> It's NOT SUNNY <br> Wearing Sunscreen is Optional! </h2>
+    </div>
+
+    <!-- Load leaflet map of Singapore, as well as pin markers of all coordinates-->
     <div id ="maps">
         <l-map ref="datamap" @ready="loadMap()" :zoom="zoom" :center="center" :zoomControl="true" :max-zoom="20">
             <l-tile-layer :url="url" layer-type="base" :max-zoom="20"> </l-tile-layer>
-            <!--l-marker :lat-lng="markerLatLng" title="Marker 1"></l-marker-->
+
+            <!-- For each marker we also include a pop up of the location, weather and UVI reading-->
             <l-marker v-for="(item,index) in this.infometa" :key="index"
                     :lat-lng="[item.label_location.latitude,item.label_location.longitude]">
                 <l-popup>
@@ -32,7 +41,7 @@
                         <tr>
                             <td>{{this.infometa[index].name}}</td>
                             <td>{{this.infofc[0].forecasts[index].forecast}}</td>
-                            <td> - </td>
+                            <td> {{this.infoUV}} </td>
                         </tr>
                     </table>
                 </l-popup>
@@ -86,7 +95,8 @@ export default {
 
     data () {
         return {
-            results: false,
+            showResults: false,
+            isSunny:true,
             map: null,
             count:0,
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -97,7 +107,7 @@ export default {
             today: 0,
             infometa: {},
             infofc:{},
-            infoUV:[],
+            infoUV:{},
             places:{'Ang Mo Kio':{name:'Ang Mo Kio',forecast:'1',lat:'',long:''},'Bedok':{name:'Bedok',forecast:'',lat:'',long:''},'Bishan':{name:'Bishan',forecast:'',lat:'',long:''},'Boon Lay':{name:'Boon Lay',forecast:'',lat:'',long:''},'Bukit Batok':{name:'Bukit Batok',forecast:'',lat:'',long:''},
                     'Bukit Merah':{name:'Bukit Merah',forecast:'2',lat:'',long:''},'Bukit Panjang':{name:'Bukit Panjang',forecast:'',lat:'',long:''},'Bukit Timah':{name:'Bukit Timah',forecast:'',lat:'',long:''},'Central Water Catchment':{name:'Central Water Catchment',forecast:'',lat:'',long:''},'Changi':{name:'Changi',forecast:'',lat:'',long:''},
                     'Choa Chu Kang':{name:'Choa Chu Kang',forecast:'3',lat:'',long:''},'Clementi':{name:'Clementi',forecast:'',lat:'',long:''},'City':{name:'City',forecast:'',lat:'',long:''},'Geylang':{name:'Geylang',forecast:'',lat:'',long:''},'Hougang':{name:'Hougang',forecast:'',lat:'',long:''},
@@ -123,16 +133,20 @@ export default {
 
     reset(){
         this.center = this.ocenter
-        this.results = false
+        this.showResults = false
         this.map.setView(this.center,this.zoom)
     },
     async fetchData(){
         try{    
             const response = await axios.get('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast')
+            const response2 = await axios.get('https://api.data.gov.sg/v1/environment/uv-index')
             this.infometa = response.data.area_metadata
             this.infofc = response.data.items
+            //Currently infoUV stores the current UVI reading from the realtime API
+            this.infoUV = response2.data.items[0].index[0].value
             this.fillData(response.data)
             console.log(this.infometa[1].label_location)
+            console.log(this.infoUV.items[0].index[0].value)
             //return a
         } 
         catch(error){
@@ -151,9 +165,10 @@ export default {
         var p = document.getElementById('place-s').value
         //var t = document.getElementById('time-s').value
         this.center = [this.places[p].lat,this.places[p].long]
-        //console.log(this.infoUV)
-        console.log(this.$refs.datamap.leafletObject)
+        //console.log(this.$refs.datamap.leafletObject)
+        this.showResults = true;
         this.map.setView(this.center,13.5)
+
     },
     centerUpdated(center){
         this.center = center;
@@ -165,18 +180,23 @@ export default {
 </script>
 
 <style scoped>
-table, th, td {
-  border:0.5px solid black;
+
+#outcome{
+    font-size: 35px;
 }
+table, th, td {
+  border:1px solid black;
+  align-items: center;
+} 
 #listcoordinates{
     margin:10px;
     padding-top: 20px;
 }
 
 #maps{
-    height:300px;
-    padding-left: 100px;
-    padding-right: 100px;
+    height:400px;
+    padding-left: 5%;
+    padding-right: 5%;
     margin:20px;
 }
 #logo {
