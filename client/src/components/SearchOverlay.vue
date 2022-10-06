@@ -22,7 +22,20 @@
             <!--l-marker :lat-lng="markerLatLng" title="Marker 1"></l-marker-->
             <l-marker v-for="(item,index) in this.infometa" :key="index"
                     :lat-lng="[item.label_location.latitude,item.label_location.longitude]">
-                <l-popup>{{this.infometa[index].name}}-{{this.infofc[0].forecasts[index].forecast}}</l-popup>
+                <l-popup>
+                    <table>
+                        <thead>
+                            <td><b>Location</b></td>
+                            <td><b>Weather</b></td>
+                            <td><b>UVI</b></td>
+                        </thead>
+                        <tr>
+                            <td>{{this.infometa[index].name}}</td>
+                            <td>{{this.infofc[0].forecasts[index].forecast}}</td>
+                            <td> - </td>
+                        </tr>
+                    </table>
+                </l-popup>
             </l-marker>
         </l-map> 
     </div>
@@ -73,6 +86,7 @@ export default {
 
     data () {
         return {
+            results: false,
             map: null,
             count:0,
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -109,6 +123,7 @@ export default {
 
     reset(){
         this.center = this.ocenter
+        this.results = false
         this.map.setView(this.center,this.zoom)
     },
     async fetchData(){
@@ -150,7 +165,9 @@ export default {
 </script>
 
 <style scoped>
-
+table, th, td {
+  border:0.5px solid black;
+}
 #listcoordinates{
     margin:10px;
     padding-top: 20px;
