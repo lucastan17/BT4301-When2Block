@@ -16,11 +16,14 @@
     <button style="margin-left:20px" @click="search()">Search</button>
     <button style="margin-left:20px" @click="reset()"> Clear Search</button>
 
-
+    <!--Show outcome if sunny or not-->
     <div id="outcome" v-show="showResults" >
-        <!--Show outcome if sunny or not-->
-        <h2 v-if="isSunny"> It's going to be SUNNY <br> Wear your Sunscreen! </h2>
-        <h2 v-else> It's NOT SUNNY <br> Wearing Sunscreen is Optional! </h2>
+        <h2 style="background-color:#F16308; color:white; margin:0px; border:2px solid black; border-radius: 15px ">Outcome</h2>
+        <div style="display:flex; justify-content: center;">
+            <img alt="When2Block Logo" src="../assets/when2block_logo.png" style="width:25%; height:20%;"/>
+            <h2 v-if="isSunny"> It's going to be SUNNY <br> Wear your Sunscreen! </h2>
+            <h2 v-else> It's NOT SUNNY <br> Wearing Sunscreen is Optional! </h2>
+        </div>
     </div>
 
     <!-- Load leaflet map of Singapore, as well as pin markers of all coordinates-->
@@ -96,7 +99,7 @@ export default {
     data () {
         return {
             showResults: false,
-            isSunny:true,
+            isSunny:null,
             map: null,
             count:0,
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -104,6 +107,7 @@ export default {
             attribution:'&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             center: [1.3521, 103.8198],
             ocenter:[1.3521, 103.8198],
+            sunnyConditions: ["Cloudy","Fair & Warm","Fair (Day)","Partly Cloudy(Day)","Windy"],
             today: 0,
             infometa: {},
             infofc:{},
@@ -163,12 +167,27 @@ export default {
     },
     search(){
         var p = document.getElementById('place-s').value
-        //var t = document.getElementById('time-s').value
+        var t = document.getElementById('time-s').value
         this.center = [this.places[p].lat,this.places[p].long]
         //console.log(this.$refs.datamap.leafletObject)
         this.showResults = true;
+        this.checkSunny(p,t)
         this.map.setView(this.center,13.5)
 
+    },
+    checkSunny(place,time){
+        var forecast = this.places[place].forecast
+        var curr_time = time
+        var UVI = this.infoUV
+        if(this.sunnyConditions.includes(forecast)){
+            this.isSunny = true
+        } else {
+            this.isSunny = false
+        }
+        console.log(curr_time)
+        console.log(UVI)
+        console.log(forecast)
+        console.log(this.isSunny)
     },
     centerUpdated(center){
         this.center = center;
@@ -180,9 +199,14 @@ export default {
 </script>
 
 <style scoped>
-
 #outcome{
     font-size: 35px;
+    width:70%;
+    text-align: center;
+    margin:15px auto;
+    border: 2px solid;
+    border-radius: 20px;
+    flex-direction: row;
 }
 table, th, td {
   border:1px solid black;
