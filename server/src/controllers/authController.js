@@ -1,4 +1,4 @@
-const {User} = require('../models')
+const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 
@@ -12,12 +12,12 @@ function jwtSignUser (user) {
 module.exports = {
   async register (req, res) {
     try {
-      //logic to send to db
+      // logic to send to db
       const user = await User.create(req.body)
       res.send(user.toJSON())
-      //need email, pw
+      // need email, pw
     } catch (err) {
-      //error handling
+      // error handling
       res.status(400).send({
         error: 'This email account is already in use.'
       })
@@ -25,10 +25,10 @@ module.exports = {
   },
   async login (req, res) {
     try {
-      //logic to authenticate, get jwt and update app state
-      //need email, pw
+      // logic to authenticate, get jwt and update app state
+      // need email, pw
     } catch (err) {
-      //error handling
+      // error handling
     }
   }
 }
