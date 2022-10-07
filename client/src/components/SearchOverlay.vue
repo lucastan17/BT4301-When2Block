@@ -3,8 +3,8 @@
     <p style="fontSize:22px; margin:10px;"> Get advice on Sunscreen application up to <b>2 hours</b> before heading to your destination</p>
 
     <!-- Create Label for inputing area-->
-    <label for="select-place">Select area to check:</label>
-        <input id ="place-s" type = "text" v-model="places.name" list="places" placeholder="type here..." />
+    <label id="place-f" for="select-place">Select area to check:</label>
+        <input  id ="place-s" type = "text" v-model="places.name" list="places" placeholder="type here..." />
         <datalist id="places">
             <option v-for="(p,index) in places" :key="index">{{p.name}}</option>
         </datalist>
@@ -20,8 +20,9 @@
     <div id="outcome" v-show="showResults" >
         <h2 style="background-color:#F16308; color:white; margin:0px; border:2px solid black; border-radius: 15px ">Outcome</h2>
         <div style="display:flex; justify-content: center;">
-            <img alt="When2Block Logo" src="../assets/when2block_logo.png" style="width:25%; height:20%;"/>
-            <h2 v-if="isSunny"> It's going to be SUNNY <br> Wear your Sunscreen! </h2>
+            <img v-show="isSunny" alt="Sunscreen Logo" src="../assets/sunscreen.png" width="150" style="align-items:center; padding: 10px 10px 20px 0px; margin:15px"/>
+            <img v-show="!isSunny" alt="Sunscreen gray Logo" src="../assets/sunscreen-gray.png" width="150" style="align-items:center; padding: 10px 10px 20px 0px; margin:15px"/>
+            <h2 v-if="isSunny" style="padding-left:20px;padding-right:20px"> It's going to be SUNNY <br> Wear your Sunscreen! </h2>
             <h2 v-else> It's NOT SUNNY <br> Wearing Sunscreen is Optional! </h2>
         </div>
     </div>
@@ -98,8 +99,9 @@ export default {
 
     data () {
         return {
+            componentKeyp:0,
             showResults: false,
-            isSunny:null,
+            isSunny:true,
             map: null,
             count:0,
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -139,6 +141,9 @@ export default {
         this.center = this.ocenter
         this.showResults = false
         this.map.setView(this.center,this.zoom)
+        this.document.getElementById('place-f').innerHTML = ''
+        //this.document.getElementById('place-s').value = null
+        
     },
     async fetchData(){
         try{    
@@ -179,7 +184,7 @@ export default {
         var forecast = this.places[place].forecast
         var curr_time = time
         var UVI = this.infoUV
-        if(this.sunnyConditions.includes(forecast)){
+        if(this.sunnyConditions.includes(forecast) && UVI >= 0){
             this.isSunny = true
         } else {
             this.isSunny = false
@@ -210,6 +215,7 @@ export default {
 }
 table, th, td {
   border:1px solid black;
+  justify-content:center;
   align-items: center;
 } 
 #listcoordinates{
