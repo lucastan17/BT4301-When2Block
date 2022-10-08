@@ -1,5 +1,5 @@
-const fs = require('fs')
-const path = require('path')
+// const fs = require('fs')
+// const path = require('path')
 const Sequelize = require('sequelize')
 const config = require('../config/config')
 const db = {}
@@ -9,24 +9,22 @@ const sequelize = new Sequelize(
   config.db.database,
   config.db.user,
   config.db.password,
-  config.db.options
-)
-
-fs
-  .readdirSync(__dirname)
-  .filter((file) =>
-    file !== 'index.js'
-  )
-  .forEach((file) => {
-    const model = sequelize.import(path.join(__dirname, file))
-    db[model.name] = model
+  config.db.options,
+  {
+    operationsAliases: false
   })
 
-Object.keys(db).forEach(function (modelName) {
-  if ('associate' in db[modelName]) {
-    db[modelName].associate(db)
-  }
+sequelize.authenticate().then(() => {
+  console.log('Connection has been established successfully.')
+}).catch((error) => {
+  console.error('Unable to connect to the database: ', error)
 })
+
+db.users = require('./User')(sequelize, Sequelize)
+db.survey = require('./Survey')(sequelize, Sequelize)
+db.checkin = require('./Checkin')(sequelize, Sequelize)
+db.drift = require('./Drift')(sequelize, Sequelize)
+db.results = require('./Results')(sequelize, Sequelize)
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize

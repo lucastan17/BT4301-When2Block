@@ -1,8 +1,8 @@
 
-const path = require('path')
+// const path = require('path')
 
 module.exports = {
-  port: process.env.PORT || 3307,
+  port: process.env.PORT || 8080,
   db: {
     database: process.env.DB_NAME || 'when2block',
     user: process.env.DB_USER || 'when2block',
@@ -11,8 +11,8 @@ module.exports = {
       dialect: process.env.DIALECT || 'mysql',
       host: process.env.HOST || 'localhost'
     }
-  },
-  authentication: {
-    jwtSecret: process.env.JWT_SECRET || 'secret'
   }
+  // authentication: {
+  //  jwtSecret: process.env.JWT_SECRET || 'secret'
+  // }
 }

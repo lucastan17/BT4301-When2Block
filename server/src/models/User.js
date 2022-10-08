@@ -1,3 +1,4 @@
+/*
 const Promise = require('bluebird')
 const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'))
 
@@ -15,14 +16,15 @@ function hashPassword (user, options) {
       user.setDataValue('password', hash)
     })
 }
+*/
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const User = sequelize.define('Users', {
     // attributes and data types etc
     user_id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     username: {
       type: DataTypes.STRING,
@@ -37,30 +39,32 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    created_date: {
-      type: DataTypes.DATETIME,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
-    },
     admin_user: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      type: DataTypes.DATE
     }
-  }, {
+  }
+  /* {
     hooks: {
       beforeCreate: hashPassword,
       beforeUpdate: hashPassword,
       beforeSave: hashPassword
     }
-  })
+  } */)
 
-  User.prototype.comparePassword = function (password) {
-    return bcrypt.compareAsync(password, this.password)
-  }
+  //  User.prototype.comparePassword = function (password) {
+  //  return bcrypt.compareAsync(password, this.password)
+  // }
 
-  User.associate = function (models) {
-  }
+  // User.associate = function (models) {
+  // }
 
   return User
 }

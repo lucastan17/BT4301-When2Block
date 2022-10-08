@@ -1,3 +1,4 @@
+/*
 const passport = require('passport')
 const { User } = require('./models')
 
@@ -28,3 +29,4 @@ passport.use(
 )
 
 module.exports = null
+*/

@@ -18,14 +18,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    created_date: {
-      type: DataTypes.DATETIME,
-      defaultValue: DataTypes.NOW,
-      allowNull: false
+    createdAt: {
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      type: DataTypes.DATE
     }
   })
 
   Survey.associate = function (models) {
+    // can add User.hasMany(Survey)
   }
 
   return Survey

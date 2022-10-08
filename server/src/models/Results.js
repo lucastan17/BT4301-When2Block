@@ -11,8 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     time: {
-      type: DataTypes.DATETIME,
-      defaultValue: DataTypes.NOW,
+      type: DataTypes.DATE,
       primaryKey: true
     },
     weather: {
@@ -31,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     }
-  })
+  },
+  { timestamps: false }
+  )
   return Results
 }
