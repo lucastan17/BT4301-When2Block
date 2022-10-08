@@ -27,6 +27,8 @@
 </template>
     
 <script>
+import AuthenticationService from '@/services/authService'
+
 export default {
     name: 'LogIn',
     data() {
@@ -36,14 +38,15 @@ export default {
         }
     },
     methods: {
-        // async register() {
-        //   const response = await AuthenticationService.register({
-        //     username: this.username,
-        //     email: this.email,
-        //     password: this.password
-        //   })
-        //   console.log(response.data)
-        // }
+        async login() {
+            const response = await AuthenticationService.login({
+                email: this.email,
+                password: this.password
+            })
+            console.log(response.data)
+            alert("Successful log in!")
+            this.$router.push("/")
+        }
     }
 }
 </script>

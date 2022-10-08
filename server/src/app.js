@@ -1,17 +1,21 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
-const {sequelize} = require('./models')
+const { sequelize } = require('./models')
 const config = require('./config/config')
+const cors = require('cors')
+const morgan = require('morgan')
 
 const app = express()
+app.use(morgan('combined'))
 app.use(bodyParser.json())
+app.use(cors())
 
-require('./passport')
+// require('./passport')
 
 require('./routes')(app)
 
-sequelize.sync({force: false})
+sequelize.sync({ force: false })
   .then(() => {
     app.listen(config.port)
     console.log(`Server started on port ${config.port}`)
