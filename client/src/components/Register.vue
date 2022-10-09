@@ -62,7 +62,7 @@ export default {
             } else {
                 alert("Registered!")
                 const response = await AuthenticationService.register({
-                    name: this.username,
+                    username: this.username,
                     email: this.email,
                     password: this.password
                 })

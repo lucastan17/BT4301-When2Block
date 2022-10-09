@@ -13,14 +13,18 @@ const User = db.users
 module.exports = {
   async register (req, res) {
     try {
+      // logic to send to db
       const user = await User.create({
-        name: req.body.name,
+        username: req.body.username,
         email: req.body.email,
         password: req.body.password,
         admin_user: req.body.email === 'admin123@gmail.com' ? 1 : 0
       })
       res.send(user.toJSON())
     } catch (err) {
+      // error handling
+      // prevent registering and sending of info to db cos ID autoincrements
+      // can popup and prevent routing to next page i.e. survey
       res.status(400).send({
         error: err.message || 'An error has ocurred.'
       })
@@ -28,6 +32,8 @@ module.exports = {
   },
   async login (req, res) {
     try {
+      // logic to authenticate, get jwt and update app state
+      // need email, pw
       const { email, password } = req.body
       const user = await User.findOne({
         where: {
@@ -49,6 +55,7 @@ module.exports = {
 
       res.send(user.toJSON())
     } catch (err) {
+      // error handling
       res.status(400).send({
         error: err.message || 'Some error'
       })
