@@ -17,10 +17,17 @@ module.exports = (sequelize, DataTypes) => {
     skin_type: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      type: DataTypes.DATE
     }
   })
 
   Survey.associate = function (models) {
+    // can add User.hasMany(Survey)
   }
 
   return Survey
