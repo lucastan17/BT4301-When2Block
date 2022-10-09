@@ -1,7 +1,8 @@
 <template>
     <div id="chart">
-        <apexchart type="line" height="350" :options="this.chartOptions" :series="this.series"></apexchart>
+        <apexchart ref='beh' type="line" height="350" :options="this.chartOptions" :series="this.series"></apexchart>
     </div>
+    <o-button class="button" @click="populateData()">Refresh Chart</o-button>
 </template>
 
 <script>
@@ -51,10 +52,21 @@ export default {
     },
     components: {
         apexchart: VueApexCharts
+    },
+    methods: {
+      populateData() {
+        this.$refs.beh.updateSeries([{
+          data: this.userData,
+         }], false, true);
+      }
     }
 }
 </script>
 
 <style scoped>
-    
+.button {
+    background-color: #F16308;
+    margin: 15px;
+    border-radius: 5px;
+}
 </style>

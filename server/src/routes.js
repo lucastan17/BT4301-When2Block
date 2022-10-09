@@ -61,8 +61,8 @@ module.exports = (app) => {
 
   // endpoint for user dashboard
   app.get('/userDashboard',
-    isAuth,
-    isAdmin,
+    // isAuth,
+    // isAdmin,
     userDashboardController.index
   )
 
