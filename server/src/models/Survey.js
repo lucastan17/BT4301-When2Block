@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
 
   Survey.associate = function (models) {
     // can add User.hasMany(Survey)
+    const User = models.User
+    User.hasMany(Survey)
   }
 
   return Survey

@@ -1,4 +1,4 @@
-// const Joi = require('joi')
+const Joi = require('joi')
 
 // pattern = '/^[a-zA-Z0-9]{8,32}$/'
 
