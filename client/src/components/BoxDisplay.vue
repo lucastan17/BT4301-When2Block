@@ -7,7 +7,7 @@
             <p>{{actualNumber}}</p>
         </div>
         <div>
-            <p><b>{{percentage}}%</b></p>
+            <p><b>{{Math.round(percentage)}}%</b></p>
         </div>
     </div>
 </template>
