@@ -1,16 +1,14 @@
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const { sequelize } = require('./models')
 const config = require('./config/config')
 const cors = require('cors')
+const morgan = require('morgan')
 
 const corsConfig = {
   credentials: true,
   origin: true
 }
-
-const morgan = require('morgan')
 
 const app = express()
 app.use(cors(corsConfig))

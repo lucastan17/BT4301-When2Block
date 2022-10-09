@@ -15,7 +15,7 @@ module.exports = {
     try {
       // logic to send to db
       const user = await User.create({
-        name: req.body.name,
+        username: req.body.username,
         email: req.body.email,
         password: req.body.password,
         admin_user: req.body.email === 'admin123@gmail.com' ? 1 : 0
