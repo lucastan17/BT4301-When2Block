@@ -61,14 +61,15 @@ export default {
                 this.error = "Passwords do not match!"
             } else {
                 alert("Registered!")
-                this.$router.push("/survey")
                 const response = await AuthenticationService.register({
-                   username: this.username,
-                   email: this.email,
-                   password: this.password
-                 })
+                    name: this.username,
+                    email: this.email,
+                    password: this.password
+                })
                 console.log(response.data)
+                this.$router.push("/survey")
             }
+
         }
     }
 }

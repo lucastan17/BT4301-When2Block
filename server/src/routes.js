@@ -1,5 +1,5 @@
 const authController = require('./controllers/authController')
-const authControllerPolicy = require('./policies/authControllerPolicy')
+// const authControllerPolicy = require('./policies/authControllerPolicy')
 const surveyController = require('./controllers/surveyController')
 const searchController = require('./controllers/searchController')
 const checkInController = require('./controllers/checkInController')
@@ -14,7 +14,7 @@ const isAdmin = require('./policies/isAdmin')
 module.exports = (app) => {
   // endpoints for authentication
   app.post('/register',
-    authControllerPolicy.register,
+    // authControllerPolicy.register,
     authController.register
   )
   app.post('/login',
