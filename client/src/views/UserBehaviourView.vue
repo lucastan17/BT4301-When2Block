@@ -15,7 +15,7 @@
                 <TotalUserCount :totalCount="this.totalCount"/>
             </div>
             <div id="chart-container">
-                <UserBehaviourChart :userData="this.userBehaviour.userData" :months="this.userBehaviour.months"/>   
+                <UserBehaviourChart :userData="this.userBehaviour.userData" :months="this.userBehaviour.months" :key="this.userBehaviour"/>   
             </div>
         </div>
     </div>
@@ -27,9 +27,11 @@ import BoxDisplay from '../components/BoxDisplay.vue';
 import UserBehaviourChart from '../components/UserBehaviourChart.vue';
 import TotalUserCount from '../components/TotalUserCount.vue';
 import UserProportionChart from '../components/UserProportionChart.vue'
+import userDashboardService from '@/services/userDashboardService';
+// import api from '@/services/api'
 
 export default {
-    name: "UserBeavhiourPage",
+    name: "UserBehaviourPage",
     data() {
         return {
             never: {
@@ -51,13 +53,13 @@ export default {
             totalCount: 79,
             
             userProportion: {
-                series: [326, 18, 51, 36],
+                series: [], //[326, 18, 51, 36],
                 labels: ['Never', 'Monthly', 'Weekly', 'Daily']
             },
 
             userBehaviour: {
-                userData: [10, 21, 32, 56, 63, 79],
-                months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                userData: [], //[10, 21, 32, 56, 63, 79],
+                months: this.getMonths( ),
             }
         }
     },
@@ -68,6 +70,71 @@ export default {
         TotalUserCount,
         UserProportionChart
     },
+    methods: {
+        getMonths () {
+            const today = new Date()
+            const month = today.getMonth()
+            const monthsDict = {
+                0: 'January',
+                1: 'February',
+                2: 'March',
+                3: 'April',
+                4: 'May',
+                5: 'June',
+                6: 'July',
+                7: 'August',
+                8: 'September',
+                9: 'October',
+                10: 'November',
+                11: 'December'
+            }
+            const indexOfMonths = []
+            for (let i = 0; i < 6; i++) {
+                let curIndex = (month - (6 - i))
+                if (curIndex < 0) {
+                curIndex += 12
+                }
+                indexOfMonths.push(curIndex)
+            }
+            const listOfMonths = []
+            for (let j = 0; j < indexOfMonths.length; j++) {
+                listOfMonths.push(monthsDict[indexOfMonths[j]])
+            }
+            return listOfMonths
+        },
+        async getdata() {
+            userDashboardService.index().then(res => {
+                this.userBehaviour.userData = res.data.userData
+                this.userProportion.series = res.data.userProportion
+                this.totalCount = res.data.totalCount
+                this.never.actualNumber = res.data.never.actualNumber
+                this.never.percentage = res.data.never.percentage
+                this.monthly.actualNumber = res.data.monthly.actualNumber
+                this.monthly.percentage = res.data.monthly.percentage
+                this.weekly.actualNumber = res.data.weekly.actualNumber
+                this.weekly.percentage = res.data.weekly.percentage
+                this.daily.actualNumber = res.data.daily.actualNumber
+                this.daily.percentage = res.data.daily.percentage
+            })
+            // await api().get('userDashboard').then(res => {
+            //     this.userBehaviour.userData = res.data.userData
+            //     this.userProportion.series = res.data.userProportion
+            //     this.totalCount = res.data.totalCount
+            //     this.never.actualNumber = res.data.never.actualNumber
+            //     this.never.percentage = res.data.never.percentage
+            //     this.monthly.actualNumber = res.data.monthly.actualNumber
+            //     this.monthly.percentage = res.data.monthly.percentage
+            //     this.weekly.actualNumber = res.data.weekly.actualNumber
+            //     this.weekly.percentage = res.data.weekly.percentage
+            //     this.daily.actualNumber = res.data.daily.actualNumber
+            //     this.daily.percentage = res.data.daily.percentage
+            // })
+        }
+    },
+    mounted() {
+        this.getdata();
+    },
+
 }
 
 </script>
@@ -105,4 +172,6 @@ export default {
 h2 {
     text-align: left;
 }
+
+
 </style>
