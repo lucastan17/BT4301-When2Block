@@ -15,6 +15,7 @@
                 <br />
                 <o-button @click="login" expanded class="button">LOG IN</o-button>
                 <a href="/register">I don't have an account</a>
+                <div class="error" v-if="err">{{err}}</div>
             </div>
 
             <div class="float-child-right">
@@ -35,17 +36,24 @@ export default {
         return {
             email: "",
             password: "",
+            err: ""
         }
     },
     methods: {
         async login() {
-            const response = await AuthenticationService.login({
-                email: this.email,
-                password: this.password
-            })
-            console.log(response.data)
-            alert("Successful log in!")
-            this.$router.push("/")
+            try {
+                const response = await AuthenticationService.login({
+                    email: this.email,
+                    password: this.password
+                })
+                console.log(response.data)
+                this.$router.push("/")
+
+            } catch (err) {
+                console.log(err.response.data.error)
+                this.err = err.response.data.error
+                console.log("err: " + this.err)
+            }
         }
     }
 }
@@ -92,6 +100,13 @@ export default {
 .button {
     background-color: #F16308;
     border: 0;
+}
+
+.error {
+    margin: 0 auto;
+    font-size: 15px;
+    color: red;
+    font-weight: bold;
 }
 </style>
     
