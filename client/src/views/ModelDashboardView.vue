@@ -40,19 +40,19 @@ export default {
     data() {
         return {
             accuracy: {
-                val: 0,
-                threshold1: 0,
-                threshold2: 0
+                val: 0.5,
+                threshold1: 0.6,
+                threshold2: 0.7
             },
             auc: {
-                val: 0,
-                threshold1: 0,
-                threshold2: 0
+                val: 0.5,
+                threshold1: 0.4,
+                threshold2: 0.6
             },
             precision: {
-                val: 0,
-                threshold1: 0,
-                threshold2: 0
+                val: 0.5,
+                threshold1: 0.3,
+                threshold2: 0.4
             },
             recall: {
                 val: 0,

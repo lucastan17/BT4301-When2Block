@@ -1,5 +1,5 @@
 <template>
-    <div id="metricCard">
+    <div id="metricCard" :class="classColor">
         <h3>{{metric}}</h3>
         <div>
             <p>Value: {{val}}</p>
@@ -17,6 +17,15 @@ export default {
         val: Number,
         threshold1: Number,
         threshold2: Number
+    },
+    computed: {
+        classColor() {
+            return {
+                below: this.val < this.threshold1,
+                thres1: this.val >= this.threshold1 && this.val < this.threshold2,
+                thres2: this.val >= this.threshold2
+            }
+        }
     }
 
 }
@@ -27,9 +36,8 @@ export default {
 #metricCard {
     width: 160px;
     height: fit-content;
-    background-color: white;
     border-radius: 20px;
-    padding: 25px;
+    padding: 25px 10px;
     margin: 15px;
 }
 
@@ -40,6 +48,19 @@ h3 {
 p {
     margin: 0;
     font-size: 1.1rem
+}
+
+.below {
+    background-color: azure;
+}
+
+.thres1 {
+    background-color: rgb(231, 169, 169);
+}
+
+.thres2 {
+    background-color: indianred;
+    color: white;
 }
 
 </style>

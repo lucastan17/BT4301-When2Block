@@ -9,6 +9,7 @@ import UserBehaviour from "../views/UserBehaviourView"
 import ProfileView from '../views/ProfileView'
 import EditProfileView from '../views/EditProfileView'
 import TrackView from '../views/TrackView'
+import ModelDashboard from '../views/ModelDashboardView'
 
 const routes = [
   {
@@ -60,6 +61,11 @@ const routes = [
     path: '/track',
     name: 'track',
     component: TrackView
+  },
+  {
+    path: '/model-dashboard',
+    name: 'ModelDashboard',
+    component: ModelDashboard
   },
 ]
 
