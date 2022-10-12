@@ -11,20 +11,29 @@
             </div>
             <div class="float-child-right">
                 <div class="top-form">
-                    <h2>How often do you put sunscreen?</h2>
-                    <o-field>
-                        <o-slider :min="0" :max="3" aria-label="frequency" :tooltip="false" v-model="frequency">
-                            <o-slider-tick :value="0">Daily</o-slider-tick>
-                            <o-slider-tick :value="1">Weekly</o-slider-tick>
-                            <o-slider-tick :value="2">Monthly</o-slider-tick>
-                            <o-slider-tick :value="3">Never</o-slider-tick>
-                        </o-slider>
-                    </o-field>
+                    <form>
+                        <h2 class="qn">How often do you apply sunscreen?</h2>
+                        <label for="daily">
+                            <input type="radio" id="daily" value="daily" name="frequency" v-model="frequency">
+                            Daily</label><br />
+
+                        <label for="weekly">
+                            <input type="radio" id="weekly" value="weekly" name="frequency" v-model="frequency">
+                            Weekly</label><br />
+
+                        <label for="monthly">
+                            <input type="radio" id="monthly" value="monthly" name="frequency" v-model="frequency" />
+                            Monthly</label><br />
+
+                        <label for="never">
+                            <input type="radio" id="never" value="never" name="frequency" v-model="frequency" />
+                            Never</label>
+                    </form>
                 </div>
 
                 <div class="bottom-form">
                     <form>
-                        <h2>Tell us your skin type!</h2>
+                        <h2 class="qn">Tell us your skin type!</h2>
                         <label for="normal">
                             <input type="radio" id="normal" value="normal" name="skin_type" v-model="skinType">
                             Normal Skin</label><br />
@@ -33,14 +42,18 @@
                             <input type="radio" id="dry" value="dry" name="skin_type" v-model="skinType">
                             Dry Skin</label><br />
 
-                        <input type="radio" id="oily" value="oily" name="skin_type" v-model="skinType" />
-                        <label for="oily"> Oily Skin</label><br />
+                        <label for="oily">
+                            <input type="radio" id="oily" value="oily" name="skin_type" v-model="skinType" />
+                            Oily Skin</label><br />
 
-                        <input type="radio" id="combination" value="combination" name="skin_type" v-model="skinType" />
-                        <label for="combination"> Combination Skin</label><br />
+                        <label for="combination">
+                            <input type="radio" id="combination" value="combination" name="skin_type"
+                                v-model="skinType" />
+                            Combination Skin</label><br />
 
-                        <input type="radio" id="sensitive" value="sensitive" name="skin_type" v-model="skinType" />
-                        <label for="sensitive"> Sensitive Skin</label><br />
+                        <label for="sensitive">
+                            <input type="radio" id="sensitive" value="sensitive" name="skin_type" v-model="skinType" />
+                            Sensitive Skin</label><br />
                     </form>
                 </div>
 
@@ -55,6 +68,8 @@
 </template>
     
 <script>
+import SurveyService from '@/services/surveyService'
+
 export default {
     name: 'SurveyItem',
     data() {
@@ -65,16 +80,23 @@ export default {
         }
     },
     methods: {
-        submitSurvey() {
-            // console.log(this.frequency, this.skinType)
+        async submitSurvey() {
+            console.log(this.frequency, this.skinType)
 
             if (this.frequency == "" | this.skinType == "") {
                 this.error = "Please select an option for each question!"
             } else {
+                const response = await SurveyService.post({
+                    user_id: 5,
+                    sunscreen_freq: this.frequency,
+                    skin_type: this.skinType
+                })
+                console.log(response.data)
                 alert(`Survey submitted!`)
                 this.$router.push({ name: "home" })
             }
         }
+
     }
 }
 </script>
@@ -157,6 +179,10 @@ export default {
 .bottom-form {
     padding-top: 20px;
     text-align: left;
+}
+
+.qn {
+    margin: 10px;
 }
 
 .button {

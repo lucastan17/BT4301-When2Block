@@ -6,7 +6,7 @@
         <div id="navlinks">
             <ul>
                 <li>
-                    <a href="/">Check-In</a>
+                    <a href="/track">Check-In</a>
                 </li>
                 <li>
                     <a href="/">Statistics</a>
@@ -21,7 +21,7 @@
         </div>
 
         <div id="LogOut">
-            <p>Hi, <a href="/">USERNAME</a></p>
+            <p>Hi, <a href="/profile">USERNAME</a></p>
 
             <o-button>
                 Log Out
