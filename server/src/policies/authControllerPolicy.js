@@ -1,42 +1,45 @@
 const Joi = require('joi')
 
-// pattern = '/^[a-zA-Z0-9]{8,32}$/'
-
 module.exports = {
   register (req, res, next) {
-    // validation schema for registration
     const schema = Joi.object({
       username: Joi.string().required(),
       email: Joi.string().email().required(),
-      password: Joi.string().required()
+      password: Joi.string().regex(/^.{8,}$/).required(),
+      admin_user: Joi.boolean()
     })
 
-    const { error } = schema.validate(req.body)
+    const { error, value } = schema.validate(req.body)
 
     if (error) {
-      console.log(error)
+      console.log(error, value)
+      switch (error.details[0].type) {
+        case 'string.empty':
+          res.status(400).send({
+            error: 'Fields cannot be empty.'
+          })
+          break
+      }
+
       switch (error.details[0].context.key) {
         case 'email':
           res.status(400).send({
-            error: 'You must provide a valid email address'
+            error: 'You must provide a valid email address.'
           })
           break
         case 'password':
           res.status(400).send({
-            error: `The password provided did not match the following rules
-              <br>
-              1. It must contain ONLY the following characters: lower case, upper case, numbers.
-              <br>
-              2. It must be at least 8 characters in length.`
+            error: 'The password must be at least 8 characters in length.'
           })
           break
         default:
           res.status(400).send({
-            error: 'Invalid registration information'
+            error: 'Invalid registration.'
           })
       }
     } else {
       next()
     }
   }
+
 }

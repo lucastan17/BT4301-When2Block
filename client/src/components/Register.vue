@@ -29,10 +29,10 @@
                 <o-button @click="register" expanded class="button">SIGN UP</o-button>
 
                 <br />
-                <br />
-                <h1 class="error" v-if="error">{{error}}</h1>
 
                 <a href="/login">I already have an account</a>
+
+                <div class="error" v-if="err">{{err}}</div>
             </div>
 
         </div>
@@ -50,24 +50,28 @@ export default {
             email: "",
             password: "",
             cfm_password: "",
-            error: ""
+            err: ""
         }
     },
     methods: {
         async register() {
-            if (this.username == "" | this.email == "" | this.password == "" | this.password == "" | this.cfm_password == "") {
-                this.error = "Fields cannot be empty!"
-            } else if (this.password != this.cfm_password) {
-                this.error = "Passwords do not match!"
-            } else {
-                alert("Registered!")
+            if (this.password != this.cfm_password) {
+                return this.err = "Passwords do not match!"
+            }
+            try {
                 const response = await AuthenticationService.register({
                     username: this.username,
                     email: this.email,
                     password: this.password
                 })
+                alert("Registered!")
                 console.log(response.data)
                 this.$router.push("/survey")
+
+            } catch (err) {
+                console.log(err.response.data.error)
+                this.err = err.response.data.error
+                console.log("err: " + this.err)
             }
 
         }
@@ -144,6 +148,7 @@ export default {
     margin: 0 auto;
     font-size: 15px;
     color: red;
+    font-weight: bold;
 }
 </style>
     
