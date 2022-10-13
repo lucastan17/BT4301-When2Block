@@ -70,7 +70,12 @@ export default {
 
             } catch (err) {
                 console.log(err.response.data.error)
-                this.err = err.response.data.error
+
+                if (err.response.data.error == "Validation error") {
+                    this.err = "Account exists!"
+                } else {
+                    this.err = err.response.data.error
+                }
                 console.log("err: " + this.err)
             }
 
