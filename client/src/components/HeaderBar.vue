@@ -1,7 +1,9 @@
 <template>
     <div id="navbar">
-        <div id="logo">
-            <img alt="When2Block Logo" src="../assets/when2block_logo.png" />
+        <div>
+            <router-link to="/">
+                <img class="logo" alt="When2Block Logo" src="../assets/logo.png" />
+            </router-link>
         </div>
         <div id="navlinks">
             <ul>
@@ -41,9 +43,10 @@ export default {
 </script>
 
 <style scoped>
-#logo {
+.logo {
+    width: 13%;
     position: absolute;
-    top: 5px;
+    top: 13px;
     left: 15px;
 }
 
