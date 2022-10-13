@@ -3,7 +3,10 @@ module.exports = (sequelize, DataTypes) => {
     // attributes and data types etc
     model_id: {
       type: DataTypes.INTEGER,
-      // autoIncrement: true,
+      primaryKey: true
+    },
+    time: {
+      type: DataTypes.DATE,
       primaryKey: true
     },
     accuracy: {
@@ -26,6 +29,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false
     }
-  })
+  },
+  {
+    timestamps: false,
+    freezeTableName: true,
+    tableName: 'Drift'
+  }
+  )
   return Drift
 }

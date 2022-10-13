@@ -1,24 +1,30 @@
-// const Promise = require('bluebird')
-// const bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'))
+const Promise = require('bluebird')
+const bcrypt = Promise.promisifyAll(require('bcrypt'))
+const saltRounds = 10
 
-// function hashPassword (user, options) {
-//   const SALT_FACTOR = 8
+async function hashPassword (user, options) {
+  if (!user.changed('password')) {
+    return
+  }
 
-//   if (!user.changed('password')) {
-//     return
-//   }
-
-//   return bcrypt
-//     .genSaltAsync(SALT_FACTOR)
-//     .then(salt => bcrypt.hashAsync(user.password, salt, null))
-//     .then(hash => {
-//       user.setDataValue('password', hash)
-//     })
-// }
+  return await bcrypt
+    .hash(user.password, saltRounds)
+    .then(hash => {
+      console.log(`Hash: ${hash}`)
+      user.setDataValue('password', hash)
+    })
+    .catch(err => console.error(err.message))
+}
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('Users', {
-    name: {
+    // attributes and data types etc
+    user_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    username: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -34,7 +40,29 @@ module.exports = (sequelize, DataTypes) => {
     admin_user: {
       type: DataTypes.BOOLEAN,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      type: DataTypes.DATE
+    }
+  },
+  {
+    hooks: {
+      beforeCreate: hashPassword,
+      beforeUpdate: hashPassword
+      // beforeSave: hashPassword
     }
   })
+
+  User.prototype.comparePassword = async function (password) {
+    const val = await bcrypt.compare(password, this.password)
+    return val
+  }
+
+  User.associate = function (models) {
+  }
+
   return User
 }

@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       primaryKey: true
     },
+    time: {
+      type: DataTypes.DATE,
+      primaryKey: true
+    },
     weather: {
       type: DataTypes.STRING,
       allowNull: false
@@ -26,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     }
-  })
+  },
+  { timestamps: false }
+  )
   return Results
 }

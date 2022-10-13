@@ -1,6 +1,7 @@
 <template>
     <div id="chart">
-        <apexchart type="donut" height="200" width="300" :options="this.chartOptions" :series="this.series"></apexchart>
+        <apexchart ref="proportion" type="donut" height="200" width="300" :options="this.chartOptions" :series="this.series"></apexchart>
+        <o-button class="button" @click="populateData()">Refresh Chart</o-button>
     </div>
 </template>
 
@@ -36,10 +37,18 @@ export default {
     components: {
         apexchart: VueApexCharts
     },
-
+    methods: {
+      populateData() {
+        this.$refs.proportion.updateOptions({series: this.seriesValue}, false, true);
+      }
+    }
 }
 </script>
 
 <style scoped>
-    
+.button {
+    background-color: #F16308;
+    margin: 15px;
+    border-radius: 5px;
+} 
 </style>
