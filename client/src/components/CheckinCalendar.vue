@@ -4,27 +4,33 @@
       <p class="text-lg font-medium text-gray-600 mb-6">
         Check in with us if you use sunblock today!
       </p>
-      <Calendar
-        class="custom-calendar max-w-full"
-        :masks="masks"
-        :attributes="attributes"
-        disable-page-swipe
-        is-expanded
-      >
-        <template v-slot:day-content="{ day, attributes }">
-          <div class="flex flex-col h-full z-10 overflow-hidden">
-            <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
-            <div class="flex-grow overflow-y-auto overflow-x-auto">
-              <p
-                v-for="attr in attributes"
-                :key="attr.key"
-              >
-                <img alt="Checked in" src="../assets/sunblock.png" style="width:20px;height:30px;"/>
-              </p>
+      <o-button @click="checkin" expanded class="button">CHECK IN</o-button>
+      <div class="float-child-left">
+        <Calendar
+          class="custom-calendar max-w-full"
+          :masks="masks"
+          :attributes="attributes"
+          disable-page-swipe
+          is-expanded
+        >
+          <template v-slot:day-content="{ day, attributes }">
+            <div class="flex flex-col h-full z-10 overflow-hidden">
+              <span class="day-label text-sm text-gray-900">{{ day.day }}</span>
+              <div class="flex-grow overflow-y-auto overflow-x-auto">
+                <p
+                  v-for="attr in attributes"
+                  :key="attr.key"
+                >
+                  <img alt="Checked in" src="../assets/sunblock.png" style="width:20px;height:30px;"/>
+                </p>
+              </div>
             </div>
-          </div>
-        </template>
-      </Calendar>
+          </template>
+        </Calendar>
+      </div>
+      <div class="float-child-left">
+        <h2 class="h2">Your Sunblock Journey</h2>
+      </div>
     </div>
   </template>
   
@@ -45,34 +51,18 @@ import { Calendar } from 'v-calendar';
         attributes: [
           {
             key: 1,
-            customData: {
-              title: 'Lunch with mom.',
-              class: 'bg-red-600 text-white',
-            },
             dates: new Date(year, month, 1),
           },
           {
             key: 2,
-            customData: {
-              title: 'Take Noah to basketball practice',
-              class: 'bg-blue-500 text-white',
-            },
             dates: new Date(year, month, 2),
           },
           {
             key: 3,
-            customData: {
-              title: "Noah's basketball game.",
-              class: 'bg-blue-500 text-white',
-            },
             dates: new Date(year, month, 5),
           },
           {
             key: 4,
-            customData: {
-              title: 'Meeting with new client.',
-              class: 'bg-teal-500 text-white',
-            },
             dates: new Date(year, month, 7),
           },
           {
@@ -100,7 +90,10 @@ import { Calendar } from 'v-calendar';
   ::-webkit-scrollbar-track {
     display: none;
   }
-  
+  .button {
+    background-color: #F16308;
+    border: 0;
+}
   /deep/ .custom-calendar.vc-container {
     --day-border: 1px solid #b8c2cc;
     --day-border-highlight: 1px solid #b8c2cc;
@@ -149,4 +142,19 @@ import { Calendar } from 'v-calendar';
       margin-bottom: 5px;
     }
   }
+  .float-child-left {
+    width: 50%;
+    height: 100%;
+    border-radius: 20px;
+    float: left;
+    padding: 30px 90px 0px 90px;
+    background-color: #FCF5E8;
+}
+.float-child-right {
+  width: 50%;
+  height: 100%;
+  border-radius: 20px;
+  float: left;
+  margin: 0px;
+}
   </style>

@@ -2,7 +2,8 @@
     <div class="home">
         <HeaderBar title="Profile">
         </HeaderBar>
-        <UserInfo id="info" v-if="mounted" :user="user" />
+        <UserInfo id="info" v-if="mounted" :user="user" @clicked="onClickEdit"/>
+        <EditProfileForm id="editform" v-if="editting" />
         <br />
     </div>
 </template>
@@ -10,23 +11,29 @@
 <script>
 import HeaderBar from '@/components/HeaderBar.vue';
 import UserInfo from '@/components/UserInfo.vue';
+import EditProfileForm from '@/components/EditProfileForm.vue'
 
 export default {
-    name: 'LoginView',
+    name: 'ProfileView',
     components: {
         HeaderBar,
-        UserInfo
+        UserInfo,
+        EditProfileForm
     },
     data() {
         return {
         user: {
-            
+            user: null,
+            mounted: false,
         },
         mounted: true,
+        editting: false
         }
     },
     methods: {
-
+        onClickEdit (value) {
+            this.editting = value
+        }
     }
 }
 </script>

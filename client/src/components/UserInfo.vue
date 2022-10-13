@@ -1,8 +1,8 @@
 <template>
     <section class="hero">
       <div id="profile-div">
-        <h3 class="profile-info">Joshus Tan{{ name }}</h3>
-        <h3 class="profile-info">test@gmail.com{{ email }}</h3>
+        <h3 class="profile-info">{{ name }}</h3>
+        <h3 class="profile-info">{{ email }}</h3>
         <button @click="goToEdit()">EDIT PROFILE</button>
       </div>
     </section>
@@ -15,7 +15,7 @@
       return {
         name: "",
         email: "",
-        postalcode: "",
+        editting: null,
       };
     },
     props: {
@@ -23,12 +23,13 @@
     },
     methods: {
       goToEdit() {
-        this.$router.push("./EditProfile");
+        this.$emit('clicked', true);
       },
     },
     created() {
-      this.name = this.user.name;
-      this.email = this.user.email;
+      this.name = "Joshua";
+      this.email = "test@gmail.com";
+      this.editting = false;
     },
   };
   </script>
