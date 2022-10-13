@@ -1,3 +1,6 @@
+const db = require('../models')
+const User = db.users
+
 module.exports = {
     async index (req, res) {
       try {
