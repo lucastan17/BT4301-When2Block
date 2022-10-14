@@ -8,8 +8,8 @@ const modelDashboardController = require('./controllers/modelDashboardController
 const userDashboardController = require('./controllers/userDashboardController')
 const modelRegistryController = require('./controllers/modelRegistryController')
 
-const isAuth = require('./policies/isAuth')
-const isAdmin = require('./policies/isAdmin')
+// const isAuth = require('./policies/isAuth')
+// const isAdmin = require('./policies/isAdmin')
 
 module.exports = (app) => {
   app.post('/register',
@@ -22,39 +22,40 @@ module.exports = (app) => {
 
   // endpoint for survey
   app.post('/survey',
+    // isAuth,
     surveyController.post
   )
 
   // endpoint for search page
   app.get('/search',
-    isAuth,
+    // isAuth,
     searchController.index
   )
 
   // endpoints for check in
   app.get('/checkin',
-    isAuth,
+    // isAuth,
     checkInController.index
   )
   app.post('/checkin',
-    isAuth,
+    // isAuth,
     checkInController.post
   )
 
   // endpoints for user profile
   app.get('/profile',
-    isAuth,
+    // isAuth,
     profileController.index
   )
   app.post('/profile',
-    isAuth,
+    // isAuth,
     profileController.post
   )
 
   // endpoint for model dashboard
   app.get('/modelDashboard',
-    isAuth,
-    isAdmin,
+    // isAuth,
+    // isAdmin,
     modelDashboardController.index
   )
 
@@ -67,13 +68,13 @@ module.exports = (app) => {
 
   // endpoints for model registry
   app.get('/modelRegistry',
-    isAuth,
-    isAdmin,
+    // isAuth,
+    // isAdmin,
     modelRegistryController.index
   )
   app.post('/modelRegistry',
-    isAuth,
-    isAdmin,
+    // isAuth,
+    // isAdmin,
     modelRegistryController.post
   )
 }
