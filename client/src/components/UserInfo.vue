@@ -9,12 +9,14 @@
   </template>
   
   <script>
+import profileService from '@/services/profileService'
+
   export default {
     name: "CustInfo",
     data() {
       return {
         name: "",
-        email: "",
+        email: "test@gmail.com",
         editting: null,
       };
     },
@@ -25,10 +27,23 @@
       goToEdit() {
         this.$emit('clicked', true);
       },
+      async getInfo() {
+        try {
+          const response = await profileService.index({
+            email: this.email,
+            username: this.username
+          })
+          console.log(response.data)
+          response.data
+        }
+        catch (err) {
+                console.log(err.response.data.error)
+                this.err = err.response.data.error
+                console.log("err: " + this.err)
+            }
+      }
     },
     created() {
-      this.name = "Joshua";
-      this.email = "test@gmail.com";
       this.editting = false;
     },
   };
