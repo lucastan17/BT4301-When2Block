@@ -1,5 +1,5 @@
 const authController = require('./controllers/authController')
-// const authControllerPolicy = require('./policies/authControllerPolicy')
+const authControllerPolicy = require('./policies/authControllerPolicy')
 const surveyController = require('./controllers/surveyController')
 const searchController = require('./controllers/searchController')
 const checkInController = require('./controllers/checkInController')
@@ -11,14 +11,12 @@ const newModelController = require('./controllers/newModelController')
 const jsonFileController = require('./controllers/jsonFileController')
 const weightsFileController = require('./controllers/weightsFileController')
 
-const isAuth = require('./policies/isAuth')
-const isAdmin = require('./policies/isAdmin')
-// const multer = require('multer')
+// const isAuth = require('./policies/isAuth')
+// const isAdmin = require('./policies/isAdmin')
 
 module.exports = (app) => {
-  // endpoints for authentication
   app.post('/register',
-    // authControllerPolicy.register,
+    authControllerPolicy.register,
     authController.register
   )
   app.post('/login',
@@ -27,39 +25,40 @@ module.exports = (app) => {
 
   // endpoint for survey
   app.post('/survey',
+    // isAuth,
     surveyController.post
   )
 
   // endpoint for search page
   app.get('/search',
-    isAuth,
+    // isAuth,
     searchController.index
   )
 
   // endpoints for check in
   app.get('/checkin',
-    isAuth,
+    // isAuth,
     checkInController.index
   )
   app.post('/checkin',
-    isAuth,
+    // isAuth,
     checkInController.post
   )
 
   // endpoints for user profile
   app.get('/profile',
-    isAuth,
+    // isAuth,
     profileController.index
   )
   app.post('/profile',
-    isAuth,
+    // isAuth,
     profileController.post
   )
 
   // endpoint for model dashboard
   app.get('/modelDashboard',
-    isAuth,
-    isAdmin,
+    // isAuth,
+    // isAdmin,
     modelDashboardController.index
   )
 
@@ -72,13 +71,13 @@ module.exports = (app) => {
 
   // endpoints for model registry
   app.get('/modelRegistry',
-    isAuth,
-    isAdmin,
+    // isAuth,
+    // isAdmin,
     modelRegistryController.index
   )
   app.post('/modelRegistry',
-    isAuth,
-    isAdmin,
+    // isAuth,
+    // isAdmin,
     modelRegistryController.post
   )
 

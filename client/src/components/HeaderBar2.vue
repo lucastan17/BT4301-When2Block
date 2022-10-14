@@ -1,7 +1,7 @@
 <template>
     <div id="navbar">
-        <div id="logo" class="border align-items-">
-            <img src="../assets/when2block_logo.png" />
+        <div class="border align-items-">
+            <img class="logo" src="../assets/logo.png" />
         </div>
         <div id="header">
             <h3>{{title}}</h3>
@@ -28,7 +28,8 @@ export default {
 </script>
 
 <style scoped>
-#logo {
+.logo {
+    width: 15%;
     position: absolute;
     top: 20px;
     left: 20px;

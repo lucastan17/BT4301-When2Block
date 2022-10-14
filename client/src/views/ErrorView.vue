@@ -1,19 +1,17 @@
 <template>
-  <div class="home">
+  <div class="about">
     <HeaderBar />
-    <h1>Home</h1>
+    <h1>ERROR</h1>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import HeaderBar from '@/components/HeaderBar.vue';
 
-
 export default {
-  name: 'HomeView',
+  name: 'AboutView',
   components: {
-    HeaderBar,
+    HeaderBar
   }
 }
 </script>
