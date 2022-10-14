@@ -141,9 +141,9 @@ export default {
         this.center = this.ocenter
         this.showResults = false
         this.map.setView(this.center,this.zoom)
-        this.document.getElementById('place-f').innerHTML = ''
+        // this.document.getElementById('place-f').innerHTML = ''
         //this.document.getElementById('place-s').value = null
-        
+        this.places.name = ""
     },
     async fetchData(){
         try{    

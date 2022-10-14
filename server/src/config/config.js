@@ -4,8 +4,8 @@ module.exports = {
   port: process.env.PORT || 8081,
   db: {
     database: process.env.DB_NAME || 'when2block',
-    user: process.env.DB_USER || 'when2block',
-    password: process.env.DB_PASS || 'bt4301grp2',
+    user: process.env.DB_USER || 'vuetest',
+    password: process.env.DB_PASS || 'vuetest',
     options: {
       dialect: process.env.DIALECT || 'mysql',
       host: process.env.HOST || 'localhost'

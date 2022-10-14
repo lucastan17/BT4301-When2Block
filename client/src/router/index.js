@@ -9,6 +9,7 @@ import UserBehaviour from "../views/UserBehaviourView"
 import ProfileView from '../views/ProfileView'
 import EditProfileView from '../views/EditProfileView'
 import TrackView from '../views/TrackView'
+import RegisterModelView from '../views/RegisterModelView'
 
 const routes = [
   {
@@ -61,6 +62,11 @@ const routes = [
     name: 'track',
     component: TrackView
   },
+  {
+    path: '/register-model',
+    name: 'register-model',
+    component: RegisterModelView
+  }
 ]
 
 const router = createRouter({
