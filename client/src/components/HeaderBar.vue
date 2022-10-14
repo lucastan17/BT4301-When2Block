@@ -8,24 +8,24 @@
         <div id="navlinks">
             <ul>
                 <li>
-                    <a href="/track">Check-In</a>
+                    <a href="/model-performance" v-if="store.user.admin_user">Model Performance</a>
+                    <a href="/track" v-if="!store.user.admin_user">Check-In</a>
                 </li>
                 <li>
-                    <a href="/">Statistics</a>
+                    <a href="/model-registry" v-if="store.user.admin_user">Model Registry</a>
+                    <a href="/search" v-if="!store.user.admin_user">Search</a>
                 </li>
                 <li>
-                    <a href="/">Search</a>
-                </li>
-                <li>
-                    <a href="/">Contact Us</a>
+                    <a href="/user-behaviour" v-if="store.user.admin_user">User Behaviour</a>
+                    <a href="/survey" v-if="!store.user.admin_user">Survey</a>
                 </li>
             </ul>
         </div>
 
         <div id="LogOut">
-            <p>Hi, <a href="/profile">USERNAME</a></p>
+            <p>Hi, <a href="/profile">{{store.user.username}}</a></p>
 
-            <o-button>
+            <o-button @click="logOut">
                 Log Out
             </o-button>
         </div>
@@ -33,11 +33,24 @@
 </template>
 
 <script>
+import { userStore } from '@/store/store'
+
 export default {
     name: 'HeaderBar',
+    setup() {
+        const store = userStore();
+        return { store };
+    },
     props: {
         msg: String
-    },
+    }, methods: {
+        async logOut() {
+            await this.store.setToken(null)
+            await this.store.setUser(null)
+
+            this.$router.push("/login")
+        }
+    }
 }
 
 </script>
@@ -62,7 +75,6 @@ export default {
     height: 70px;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 #LogOut {

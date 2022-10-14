@@ -6,6 +6,7 @@
                 <div class="msg">
                     <h3 id="small-text">Amost done...</h3>
                     <h1 id="large-text">Tell us your routine!</h1>
+                    <a href="/search">Maybe another time...</a>
                 </div>
                 <img class="pic_2" src="../assets/sunblock.png" />
             </div>
@@ -69,9 +70,14 @@
     
 <script>
 import SurveyService from '@/services/surveyService'
+import { userStore } from '@/store/store'
 
 export default {
     name: 'SurveyItem',
+    setup() {
+        const store = userStore();
+        return { store };
+    },
     data() {
         return {
             frequency: "",
@@ -87,7 +93,7 @@ export default {
                 this.error = "Please select an option for each question!"
             } else {
                 const response = await SurveyService.post({
-                    user_id: 5,
+                    user_id: this.store.user.user_id,
                     sunscreen_freq: this.frequency,
                     skin_type: this.skinType
                 })
