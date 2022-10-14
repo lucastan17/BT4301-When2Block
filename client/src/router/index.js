@@ -101,7 +101,7 @@ router.beforeEach(async (to) => {
   } else {
     // non admin users cant access /user-behaviour 
     if (!store.user.admin_user) {
-      if (to.name == 'user-behaviour') {
+      if (to.name == 'user-behaviour' || to.name == 'model-performance' || to.name == 'model-registry') {
         return '/error'
       }
       // logged in users will be redirected to landing page, skip log in/ register pages
