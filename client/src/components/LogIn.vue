@@ -29,9 +29,15 @@
     
 <script>
 import AuthenticationService from '@/services/authService'
+import { userStore } from '@/store/store'
+
 
 export default {
     name: 'LogIn',
+    setup() {
+        const store = userStore();
+        return { store };
+    },
     data() {
         return {
             email: "",
@@ -47,7 +53,19 @@ export default {
                     password: this.password
                 })
                 console.log(response.data)
-                this.$router.push("/")
+
+                await this.store.setToken(response.data.token)
+                await this.store.setUser(response.data.user)
+
+                if (this.store.user.admin_user) {
+                    this.$router.push("/model-performance")
+                } else {
+                    this.$router.push("/search")
+                }
+
+                console.log(this.store.token)
+                console.log(this.store.user)
+
 
             } catch (err) {
                 console.log(err.response.data.error)

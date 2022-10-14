@@ -7,7 +7,6 @@ module.exports = {
       // send survey details to db
       // need user id and survey details
       const survey = await Survey.create({
-        // TO DO: user id from state
         user_id: req.body.user_id,
         sunscreen_freq: req.body.sunscreen_freq,
         skin_type: req.body.skin_type

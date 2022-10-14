@@ -19,6 +19,8 @@
     "dotenv": "^16.0.3",
     "leaflet": "^1.9.1",
     "morgan": "^1.10.0",
+    "pinia": "^2.0.23",
+    "pinia-plugin-persistedstate": "^2.3.0",
     "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.13",
     "vue-apexcharts": "^1.6.2",

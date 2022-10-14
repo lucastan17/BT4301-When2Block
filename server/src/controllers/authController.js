@@ -20,7 +20,11 @@ module.exports = {
         password: req.body.password,
         admin_user: req.body.email === 'admin123@gmail.com' ? 1 : 0
       })
-      res.send(user.toJSON())
+      const userJson = user.toJSON()
+      res.send({
+        user: userJson,
+        token: jwtSignUser(userJson)
+      })
     } catch (err) {
       // error handling
       // prevent registering and sending of info to db cos ID autoincrements
