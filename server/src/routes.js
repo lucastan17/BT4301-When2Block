@@ -7,6 +7,9 @@ const profileController = require('./controllers/profileController')
 const modelDashboardController = require('./controllers/modelDashboardController')
 const userDashboardController = require('./controllers/userDashboardController')
 const modelRegistryController = require('./controllers/modelRegistryController')
+const newModelController = require('./controllers/newModelController')
+const jsonFileController = require('./controllers/jsonFileController')
+const weightsFileController = require('./controllers/weightsFileController')
 
 // const isAuth = require('./policies/isAuth')
 // const isAdmin = require('./policies/isAdmin')
@@ -76,5 +79,19 @@ module.exports = (app) => {
     // isAuth,
     // isAdmin,
     modelRegistryController.post
+  )
+
+  app.post('/model-register',
+  //   // isAuth
+  //   // upload.single('myJsonFile'),
+    newModelController.post
+  )
+
+  app.post('/json-file-upload',
+    jsonFileController.post
+  )
+
+  app.post('/weights-file-upload',
+    weightsFileController.post
   )
 }
