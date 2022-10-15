@@ -41,9 +41,15 @@
     
 <script>
 import AuthenticationService from '@/services/authService'
+import { userStore } from '@/store/store'
+
 
 export default {
     name: 'RegisterItem',
+    setup() {
+        const store = userStore();
+        return { store };
+    },
     data() {
         return {
             username: "",
@@ -66,12 +72,24 @@ export default {
                 })
                 alert("Registered!")
                 console.log(response.data)
-                this.$router.push("/survey")
+
+                await this.store.setToken(response.data.token)
+                await this.store.setUser(response.data.user)
+
+                if (this.store.user.admin_user) {
+                    this.$router.push("/model-performance")
+                } else {
+                    this.$router.push("/survey")
+                }
 
             } catch (err) {
-                console.log(err.response.data.error)
-                this.err = err.response.data.error
-                console.log("err: " + this.err)
+                // console.log(err.response.data.error)
+                if (err.response.data.error == "Validation error") {
+                    this.err = "Account exists!"
+                } else {
+                    this.err = err.response.data.error
+                }
+                // console.log("err: " + this.err)
             }
 
         }

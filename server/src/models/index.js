@@ -24,6 +24,7 @@ db.survey = require('./Survey')(sequelize, Sequelize)
 db.checkin = require('./Checkin')(sequelize, Sequelize)
 db.drift = require('./Drift')(sequelize, Sequelize)
 db.results = require('./Results')(sequelize, Sequelize)
+db.model = require('./Model')(sequelize, Sequelize)
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
