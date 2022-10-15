@@ -99,7 +99,7 @@ export default {
                 })
                 console.log(response.data)
                 alert(`Survey submitted!`)
-                this.$router.push({ name: "home" })
+                this.$router.push({ name: "search" })
             }
         }
 
