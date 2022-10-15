@@ -1,12 +1,20 @@
 <template>
     <div id="navbar">
-        <div class="border align-items-">
+        <slot name="logo">
+            <!-- to customise on pages and remove afterwards  -->
+            <!--<div class="border align-items-">
             <img class="logo" src="../assets/logo.png" />
-        </div>
-        <div id="header">
-            <h3>{{title}}</h3>
-        </div>
-        <slot>
+            </div>-->
+        </slot>
+        
+        <slot name="header">
+            <!-- to customise on pages and remove afterwards  -->
+            <!--<div id="header">
+                <h3>{{title}}</h3>
+            </div>-->
+        </slot>
+            
+        <slot name="button">
             <!-- to customise on pages and remove afterwards  -->
             <!-- <o-button class="button">
                 Register
@@ -17,12 +25,7 @@
 
 <script>
 export default {
-    name: 'HeaderBar2',
-    props: ["title"],
-    data() {
-        return {
-        }
-    }
+    name: 'HeaderBar2'
 }
 
 </script>
@@ -59,4 +62,3 @@ export default {
     right: 5px;
 }
 </style>
-    

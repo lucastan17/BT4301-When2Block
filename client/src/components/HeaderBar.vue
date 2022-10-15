@@ -1,7 +1,7 @@
 <template>
     <div id="navbar">
-        <!-- <div>
-            <router-link to="/">
+        <div>
+            <router-link to="/about">
                 <img class="logo" alt="When2Block Logo" src="../assets/logo.png" />
             </router-link>
         </div>
@@ -19,8 +19,14 @@
                     <a href="/user-behaviour" v-if="store.user.admin_user">User Behaviour</a>
                     <a href="/survey" v-if="!store.user.admin_user">Survey</a>
                 </li>
+                <li> 
+                    <a href="/profile" v-if="!store.user.admin_user">Profile</a>
+                </li>
+                <li> 
+                    <a href="/about" v-if="!store.user.admin_user">About Us</a>
+                </li>
             </ul>
-        </div> -->
+        </div>
 
         <div id="LogOut">
             <!-- <p>Hi, <a href="/profile">{{store.user.username}}</a></p> -->

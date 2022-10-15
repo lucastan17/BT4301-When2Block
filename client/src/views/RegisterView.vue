@@ -1,7 +1,21 @@
 <template>
   <div class="home">
-    <HeaderBar2 title="Register">
-      <o-button class="button" @click="login">Log In</o-button>
+    <HeaderBar2>
+      <template #logo>
+        <div class="border align-items-">
+          <router-link to="/">
+            <img class="logo" src="../assets/logo.png" />
+          </router-link>
+        </div>
+      </template>
+      <template #header>
+        <div id="header">
+          <h3>Register</h3>
+        </div>
+      </template>
+      <template #button>
+        <o-button class="button" @click="login">Login</o-button>
+      </template>
     </HeaderBar2>
     <br />
     <Register />
@@ -14,10 +28,7 @@ import Register from '../components/Register.vue';
 
 export default {
   name: 'HomeView',
-  components: {
-    HeaderBar2,
-    Register
-  },
+  components: { HeaderBar2, Register },
   methods: {
     login() {
       this.$router.push({ name: "login" })
@@ -33,5 +44,20 @@ export default {
   border-radius: 5px;
   position: absolute;
   right: 10px;
+}
+
+.logo {
+    width: 15%;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+#header {
+    color: white;
+    margin: 15px;
+    display: flex;
+    font-size: 40px;
+    padding-top: 50px;
 }
 </style>
