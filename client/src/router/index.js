@@ -12,6 +12,7 @@ import TrackView from '../views/TrackView'
 import RegisterModelView from '../views/RegisterModelView'
 import ErrorView from '../views/ErrorView'
 // import { userStore } from '../store/store'
+import ModelRegistryView from "../views/ModelRegistryView"
 
 const routes = [
   {
@@ -77,7 +78,7 @@ const routes = [
   {
     path: '/model-registry',
     name: 'model-registry',
-    component: UserBehaviour
+    component: ModelRegistryView
   },
   {
     path: '/model-performance',
