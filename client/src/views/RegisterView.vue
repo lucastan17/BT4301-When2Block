@@ -10,11 +10,11 @@
       </template>
       <template #header>
         <div id="header">
-          <h3>Register</h3>
+          <h3>{{header}}</h3>
         </div>
       </template>
       <template #button>
-        <o-button class="button" @click="login">Login</o-button>
+        <o-button class="button" @click="login">{{button}}</o-button>
       </template>
     </HeaderBar2>
     <br />
@@ -32,6 +32,12 @@ export default {
   methods: {
     login() {
       this.$router.push({ name: "login" })
+    }
+  },
+  data() {
+    return {
+      header: 'Register',
+      button: 'Login'
     }
   }
 }

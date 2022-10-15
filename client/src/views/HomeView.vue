@@ -10,7 +10,7 @@
         </template>
         <template #button>  
           <o-button class="button" @click="register">
-                Register / Login
+            {{button}}
           </o-button>
         </template> 
       </HeaderBar2>
@@ -30,6 +30,11 @@ export default {
   methods: {
     register() {
       this.$router.push({ name: "register" })
+    }
+  },
+  data() {
+    return {
+      button: 'Register/ Login'
     }
   }
 }
