@@ -7,9 +7,11 @@
           </o-button>
         </template>
   
+        <o-tooltip label="Tooltip top" size="large" position="right" multiline> 
         <o-dropdown-item value="option1" aria-role="listitem">
           <span>Option 1</span>
         </o-dropdown-item>
+        </o-tooltip>
   
         <o-dropdown-item value="option2" aria-role="listitem">
           <span>Option 2</span>
@@ -19,6 +21,7 @@
           <span>Option 3</span>
         </o-dropdown-item>
       </o-dropdown>
+
     </section>
   </template>
   
@@ -35,3 +38,9 @@
     },
   };
   </script>
+
+<style>
+.oruga-tooltip-background-color {
+  background-color: white;
+}
+</style>
