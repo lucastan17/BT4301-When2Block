@@ -1,13 +1,14 @@
 <template>
     <div class="text-center section">
       <h2 class="h2">Your Sunblock Journey</h2>
-      <p class="text-lg font-medium text-gray-600 mb-6">
+      <p v-if="loaded">
         Check in with us if you use sunblock today!
       </p>
       <o-button @click="checkin" expanded class="button">CHECK IN</o-button>
       <div class="float-child-left">
         <Calendar
           class="custom-calendar max-w-full"
+          :columns="$screens({ lg: 2 }, 1)"
           :masks="masks"
           :attributes="attributes"
           disable-page-swipe
@@ -36,60 +37,60 @@
   
   <script>
 import { Calendar } from 'v-calendar';
-//import checkInService from '@/services/checkInService';
-
-  // async function getDates(user) {
-  //   var dates = []
-  //   try {
-  //     var { data } = await checkInService.index(email);
-  //     dates.push()
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  //   return dates
-  // };
+import { userStore } from '@/store/store'
+import CheckInService from '@/services/checkInService'
 
   export default {
     name: 'CheckinCalendar',
     components: {Calendar},
+    setup() {
+        const store = userStore();
+        return { store };
+    },
     data() {
-      const month = new Date().getMonth();
-      const year = new Date().getFullYear();
       //const attributes = [];
       return {
+        loaded: false,
+        user_id: this.store.user.user_id,
         masks: {
           weekdays: 'WWW',
         },
-        attributes: [
-          {
-            dates: new Date(year, month, 1),
-          },
-          {
-            dates: new Date(year, month, 2),
-          },
-          {
-            dates: new Date(year, month, 5),
-          },
-          {
-            dates: new Date(year, month, 7),
-          },
-          {
-            key: 'today',
-            highlight: "orange",
-            dates: new Date(),
-          }
-        ],
+        attributes: [],
       };
     },
-    // created() {
-    //   getDates(this.user.email).then((x) => {
-    //     for (var i = 0; i < x.length; i++) {
-    //       this.attributes.push({
-    //         dates: new Date(year, month, x[i]),
-    //       });
-    //     }
-    //   }) 
-    // }
+    methods: {
+      async checkin() {
+        const today = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        try {
+          const r = await CheckInService.checkin({
+            id: this.user_id,
+            date: today
+          })
+          console.log(r)
+          this.attributes.push({
+            dates: new Date(),
+          })
+          alert("Checked in for today")
+        } catch (err) {
+          console.log(err)
+        }
+
+      }
+    },
+    async created() {
+        try {
+            const r = await CheckInService.getdates({
+              id: this.user_id
+            })
+            for (var i = 0; i < r.data.dates.length; i++) {
+              this.attributes.push({
+                dates: r.data.dates[0].checkin_date})
+            }
+            this.loaded = true
+        } catch (err) {
+          console.log(err)
+      }
+    }
     
 
   };

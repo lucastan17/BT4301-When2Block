@@ -4,7 +4,6 @@
     HeaderBar/>
     <CheckinCalendar
         v-if="mounted"
-        :user="user"
     CheckinCalendar/>
 </div>
 </template>
@@ -16,15 +15,13 @@ import CheckinCalendar from '@/components/CheckinCalendar.vue';
 export default {
     name: 'TrackView',
     components: { HeaderBar, CheckinCalendar },
+    
     data() {
         return {
-            //user: sessionStorage.getItem("user"),
+            dates: [],
             mounted: true,
         }
     },
-    created() {
-
-    }
 };
 </script>
 

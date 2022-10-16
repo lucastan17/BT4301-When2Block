@@ -20,7 +20,6 @@ module.exports = {
     }
   },
   async answer (req, res) {
-    console.log(req.body)
     try {
       const answer = await Survey.findOne({
         where: {

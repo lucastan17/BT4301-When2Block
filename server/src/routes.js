@@ -38,13 +38,13 @@ module.exports = (app) => {
   )
 
   // endpoints for check in
-  app.get('/checkin',
+  app.post('/getdates',
     // isAuth,
-    checkInController.index
+    checkInController.getdates
   )
   app.post('/checkin',
     // isAuth,
-    checkInController.post
+    checkInController.checkin
   )
 
   // endpoints for user profile

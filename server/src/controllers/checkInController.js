@@ -2,36 +2,39 @@ const db = require('../models')
 const Dates = db.checkin
 
 module.exports = {
-  async index (req, res) {
+  async getdates (req, res) {
     try {
-      // logic to retrive check in details from db
-      // need userid
-      const { id } = req.body
       const dates = await Dates.findAll({
         attributes: ['checkin_date'],
         where: {
-          id
+          user_id: req.body.params.id
         }
       })
       console.log(dates)
       res.send({
-        dates: dates.toJSON()
+        dates
       })
     } catch (err) {
-      // error handling
+      res.status(400).send({
+        error: err.message || 'An error has occurred trying to get dates.'
+      })
     }
   },
-  async post (req, res) {
+  async checkin (req, res) {
+    console.log(req.body)
     try {
       // send check in details to db
       // need user id and date
       const checkedin = await Dates.create({
-        id: req.body.id,
-        date: req.body.date
+        user_id: req.body.params.id,
+        checkin_date: req.body.params.date
       })
-      res.send(checkedin.toJSON())
+      console.log(checkedin)
     } catch (err) {
       // error handling
+      res.status(400).send({
+        error: err.message || 'An error has occurred trying to check in.'
+      })
     }
   }
 }

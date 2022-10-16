@@ -84,19 +84,21 @@ export default {
 
     },
     async changepw() {
-      try {
-          const r = await ProfileService.changepw({
-            email: this.store.user.email,
-            password: this.newpassword
-          })
-          console.log(r.data)
-          alert("Password updated")
-          this.$router.push("/search")
-                
-        } catch (err) {
-          console.log(err.response.data.error)
-          this.err = err.response.data.error
-          console.log("err: " + this.err)
+      if (!this.err) {
+        try {
+            const r = await ProfileService.changepw({
+              email: this.store.user.email,
+              password: this.newpassword
+            })
+            await this.store.setUser(r.data.user)
+            alert("Password changed")
+            this.$router.push("/search")
+                  
+          } catch (err) {
+            console.log(err.response.data.error)
+            this.err = err.response.data.error
+            console.log("err: " + this.err)
+          }
         }
     },
     goToProfile() {

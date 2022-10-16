@@ -23,7 +23,7 @@
         </o-input>
       </o-field>
       <div id="centre">
-        <button type="submit" @click="profile()">SAVE CHANGE</button>
+        <button @click="profile">SAVE CHANGE</button>
       </div>
       <h4 id="back" @click="goToProfile()">BACK TO MY PROFILE</h4>
       <div class="error" v-if="err">{{err}}</div>
@@ -55,14 +55,12 @@ export default {
             id: this.store.user.user_id,
             email: this.email
           })
-          console.log(r.data)
+          await this.store.setUser(r.data.user)
           alert("Profile updated")
           this.$router.push("/search")
                 
         } catch (err) {
-          console.log(err.response.data.error)
-          this.err = err.response.data.error
-          console.log("err: " + this.err)
+          console.log(err)
         }
     },
     goToProfile() {
