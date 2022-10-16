@@ -1,21 +1,25 @@
 <template>
-    <HeaderBar/>
     <p style="fontSize:22px; margin:10px;"> Get advice on Sunscreen application up to <b>2 hours</b> before heading to your destination</p>
 
     <!-- Create Label for inputing area-->
+    
     <label id="place-f" for="select-place">Select area to check:</label>
-        <input  id ="place-s" type = "text" v-model="places.name" list="places" placeholder="type here..." />
+        <input  id ="select-place" type = "text" v-model="places.name" list="places" placeholder="type here..." />
         <datalist id="places">
             <option v-for="(p,index) in places" :key="index">{{p.name}}</option>
         </datalist>
 
     <!-- Likewise,create Label for inputing time-->
     <label for="select-time" style="margin:15px">Select Timing to check:</label>
-        <input id="time-s" type = "time" min="07:00" max="19:00" value="07:00" step=3600 required placeholder="Key time here..." />
+        <!--input id="time-s" type = "time" min="07:00:00" max="19:00:00" value="07:00:00" step="1800" required placeholder="Key time here..." /-->
+        <input id="select-time" type="text" v-model="timing.time" list="timing" placeholder="Up till next 2 hours"/>
+        <datalist id="timing">
+            <option v-for="(time,index) in timing" :key="index">{{time.time}}</option>
+        </datalist>
 
     <button style="margin-left:20px" @click="search()">Search</button>
     <button style="margin-left:20px" @click="reset()"> Clear Search</button>
-
+    
     <!--Show outcome if sunny or not-->
     <div id="outcome" v-show="showResults" >
         <h2 style="background-color:#F16308; color:white; margin:0px; border:2px solid black; border-radius: 15px ">Outcome</h2>
@@ -61,6 +65,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import searchService from '@/services/searchService'
 import {
   LMap,
   //LIcon,
@@ -74,32 +80,29 @@ import {
   LRectangle,*/
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
-import axios from 'axios';
-import HeaderBar from "./HeaderBar.vue";
+
+//import 'vue3-timepicker/dist/VueTimepicker.css'
+
 //import Vue from "vue";
 
 export default {
-    name: 'SearchOverlay',
-    props: {
-        msg: String
-    },
+    name: 'SearchOverlay', 
     components: {
     LMap,
     //LIcon,
+    LPopup,
     LTileLayer,
     LMarker,
-    LPopup,
     //LControlLayers,
     //LTooltip,
     //LPolyline,
     //LPolygon,
     //LRectangle,
-    HeaderBar
     },
-
+ 
     data () {
         return {
-            componentKeyp:0,
+            dummyModel:{model_id:1,location:'testmodel', time:new Date(new Date().getMilliseconds() + 8 * (3600 * 1000)), weather:'Sunny',uv_index:3,prediction:1,actual:1,predict_proba:0.01},
             showResults: false,
             isSunny:true,
             map: null,
@@ -113,7 +116,8 @@ export default {
             today: 0,
             infometa: {},
             infofc:{},
-            infoUV:{},
+            infoUV:null,
+            db_info:{},
             places:{'Ang Mo Kio':{name:'Ang Mo Kio',forecast:'1',lat:'',long:''},'Bedok':{name:'Bedok',forecast:'',lat:'',long:''},'Bishan':{name:'Bishan',forecast:'',lat:'',long:''},'Boon Lay':{name:'Boon Lay',forecast:'',lat:'',long:''},'Bukit Batok':{name:'Bukit Batok',forecast:'',lat:'',long:''},
                     'Bukit Merah':{name:'Bukit Merah',forecast:'2',lat:'',long:''},'Bukit Panjang':{name:'Bukit Panjang',forecast:'',lat:'',long:''},'Bukit Timah':{name:'Bukit Timah',forecast:'',lat:'',long:''},'Central Water Catchment':{name:'Central Water Catchment',forecast:'',lat:'',long:''},'Changi':{name:'Changi',forecast:'',lat:'',long:''},
                     'Choa Chu Kang':{name:'Choa Chu Kang',forecast:'3',lat:'',long:''},'Clementi':{name:'Clementi',forecast:'',lat:'',long:''},'City':{name:'City',forecast:'',lat:'',long:''},'Geylang':{name:'Geylang',forecast:'',lat:'',long:''},'Hougang':{name:'Hougang',forecast:'',lat:'',long:''},
@@ -123,16 +127,28 @@ export default {
                     'Queenstown':{name:'Queenstown',forecast:'',lat:'',long:''},'Seletar':{name:'Seletar',forecast:'',lat:'',long:''},'Sembawang':{name:'Sembawang',forecast:'',lat:'',long:''},'Sengkang':{name:'Sengkang',forecast:'',lat:'',long:''},'Sentosa':{name:'Sentosa',forecast:'',lat:'',long:''},
                     'Serangoon':{name:'Serangoon',forecast:'',lat:'',long:''},'Southern Islands':{name:'Southern Islands',forecast:'',lat:'',long:''},'Sungei Kadut':{name:'Sungei Kadut',forecast:'',lat:'',long:''},'Tampines':{name:'Tampines',forecast:'',lat:'',long:''},'Tanglin':{name:'Tanglin',forecast:'',lat:'',long:''},
                     'Tengah':{name:'Tengah',forecast:'',lat:'',long:''},'Toa Payoh':{name:'Toa Payoh',forecast:'',lat:'',long:''},'Tuas':{name:'Tuas',forecast:'',lat:'',long:''},'Western Islands':{name:'Western Islands',forecast:'',lat:'',long:''},'Western Water Catchment': {name:'Western Water Catchment',forecast:'',lat:'',long:''},
-                    'Woodlands':{name:'Woodlands',forecast:'',lat:'',long:''},'Yishun':{name:'Yishun',forecast:'',lat:'',long:''}}
+                    'Woodlands':{name:'Woodlands',forecast:'',lat:'',long:''},'Yishun':{name:'Yishun',forecast:'',lat:'',long:''}},
+            timing:{0:{time:''},1:{time:''},2:{time:''}},
         }
+
+ 
     },
 
-    mounted: function(){
+    mounted: function(){ 
         this.fetchData()
-    },
+        this.load_db()  
+    }, 
 
-  methods:{
-    loadMap(){
+    methods:{ 
+    async load_db(){ 
+        searchService.index().then( res =>{
+            this.db_info = res.data
+            console.log(this.db_info) 
+        }).catch(err => {
+            console.log(err)  
+        })
+    }, 
+    async loadMap(){
         //console.log(this.$refs.datamap.leafletObject)
         this.map = this.$refs.datamap.leafletObject
     },
@@ -141,9 +157,8 @@ export default {
         this.center = this.ocenter
         this.showResults = false
         this.map.setView(this.center,this.zoom)
-        // this.document.getElementById('place-f').innerHTML = ''
-        //this.document.getElementById('place-s').value = null
-        this.places.name = ""
+        this.places.name = ''
+        
     },
     async fetchData(){
         try{    
@@ -154,48 +169,84 @@ export default {
             //Currently infoUV stores the current UVI reading from the realtime API
             this.infoUV = response2.data.items[0].index[0].value
             this.fillData(response.data)
-            console.log(this.infometa[1].label_location)
-            console.log(this.infoUV.items[0].index[0].value)
-            //return a
+            //console.log(this.infometa[0].label_location)
         } 
         catch(error){
             console.log(error)
         }
     },
+    async SGCurrDate(hours,date=new Date()){
+        date.setTime(date.getTime() + hours * 60 * 60 *1000)
+        return date
+    },
     fillData(){
         for ( var i = 0; i<Object.keys(this.places).length;i++){
-            var name = this.infometa[i].name
+            var name = this.infometa[i].name 
             this.places[name].forecast = this.infofc[0].forecasts[i].forecast
             this.places[name].lat = this.infometa[i].label_location.latitude
             this.places[name].long = this.infometa[i].label_location.longitude
         }
-    },
-    search(){
-        var p = document.getElementById('place-s').value
-        var t = document.getElementById('time-s').value
-        this.center = [this.places[p].lat,this.places[p].long]
-        //console.log(this.$refs.datamap.leafletObject)
-        this.showResults = true;
-        this.checkSunny(p,t)
-        this.map.setView(this.center,13.5)
-
+        //for timing inputs
+        for (var j = 0; j < 3; j++){
+            var cT = new Date()
+            var display = new Date(cT.getTime() + (j+ 8) * 3600*1000).toISOString().substring(11,16)
+            this.timing[j].time=display  
+        }
+        console.log(this.timing)
+    }, 
+    async search(){
+        if (this.db_info.UVI.length != 0 ){
+            console.log("UVI_called")
+        } else {
+            console.log("Call model and display")
+            //model call function here, store in const result and reload db
+            //UVI_model.run() etc
+            
+            const response = await searchService.post({
+                    model_id: this.dummyModel.model_id,
+                    location: this.dummyModel.location,
+                    time: this.dummyModel.time,
+                    weather: this.dummyModel.weather,
+                    uv_index: this.dummyModel.uv_index,
+                    prediction: this.dummyModel.prediction,
+                    actual: this.dummyModel.actual,
+                    predict_proba:this.dummyModel.predict_proba,
+            })
+            console.log(response.data)
+            this.load_db()
+        }
+        this.centerUpdated();
     },
     checkSunny(place,time){
         var forecast = this.places[place].forecast
         var curr_time = time
         var UVI = this.infoUV
-        if(this.sunnyConditions.includes(forecast) && UVI >= 0){
+        if(this.sunnyConditions.includes(forecast) && UVI >= 3){
             this.isSunny = true
         } else {
             this.isSunny = false
         }
         console.log(curr_time)
-        console.log(UVI)
-        console.log(forecast)
-        console.log(this.isSunny)
+        //console.log(UVI)
+
     },
-    centerUpdated(center){
-        this.center = center;
+    checkTime(time){
+        let now = this.SGCurrDate(8).getHours()
+        if (now-time.getHours()  > 2 ){
+            alert("Please Select a timing of up to 2 hours from now")
+        } else {
+            alert("Timing is good")
+        }
+    },
+    centerUpdated(){
+        var p = document.getElementById('place-s').value
+        var t = document.getElementById('time-s').value
+        this.center = [this.places[p].lat,this.places[p].long]
+        this.showResults = true;
+        //console.log(t)
+        this.checkSunny(p,t)
+        //this.checkTime(new Date(t))
+        this.map.setView(this.center,13.5)    
     }
   }
   
@@ -298,9 +349,3 @@ a.active {
     border-bottom: white solid 2px;
 } */
 </style>
-
-
-
-
-
-

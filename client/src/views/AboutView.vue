@@ -1,16 +1,18 @@
 <template>
-  <div class="about">
-    <HeaderBar />
+  <div class="home">
+    <About />
   </div>
+  
 </template>
 
 <script>
-import HeaderBar from '@/components/HeaderBar.vue';
+// @ is an alias to /src
+import About from '@/components/About.vue';
 
 export default {
   name: 'AboutView',
   components: {
-    HeaderBar
+    About,
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div id="navbar">
-        <!-- <div>
-            <router-link to="/">
+        <div>
+            <router-link to="/about">
                 <img class="logo" alt="When2Block Logo" src="../assets/logo.png" />
             </router-link>
         </div>
@@ -20,11 +20,10 @@
                     <a href="/survey" v-if="!store.user.admin_user">Survey</a>
                 </li>
             </ul>
-        </div> -->
+        </div>
 
         <div id="LogOut">
-            <!-- <p>Hi, <a href="/profile">{{store.user.username}}</a></p> -->
-
+            <p>Hi, <a href="/profile">{{store.user.username}}</a></p>
             <o-button @click="logOut">
                 Log Out
             </o-button>

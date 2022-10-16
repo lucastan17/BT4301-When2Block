@@ -7,7 +7,6 @@ import SurveyView from '../views/SurveyView'
 import LoginView from '../views/LoginView'
 import UserBehaviour from "../views/UserBehaviourView"
 import ProfileView from '../views/ProfileView'
-import EditProfileView from '../views/EditProfileView'
 import TrackView from '../views/TrackView'
 import ModelDashboard from '../views/ModelDashboardView'
 import RegisterModelView from '../views/RegisterModelView'
@@ -33,7 +32,7 @@ const routes = [
   },
   {
     path: '/search',
-    name: 'Search',
+    name: 'search',
     component: Search
   },
   {
@@ -55,11 +54,6 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfileView
-  },
-  {
-    path: '/editprofile',
-    name: 'editprofile',
-    component: EditProfileView
   },
   {
     path: '/track',

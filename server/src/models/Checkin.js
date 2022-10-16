@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     checkin_date: {
       type: DataTypes.DATE,
-      allowNull: false,
+      primaryKey: true,
       defaultValue: DataTypes.NOW
     }
   },
