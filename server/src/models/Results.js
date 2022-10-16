@@ -29,8 +29,13 @@ module.exports = (sequelize, DataTypes) => {
     actual: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    predict_proba: {
+      type: DataTypes.FLOAT,
+      allowNull: false
     }
   },
+
   { timestamps: false }
   )
   return Results
