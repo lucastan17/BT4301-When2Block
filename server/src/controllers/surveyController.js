@@ -18,5 +18,26 @@ module.exports = {
         error: err.message || 'An error has ocurred.'
       })
     }
+  },
+  async answer (req, res) {
+    console.log(req.body)
+    try {
+      const answer = await Survey.findOne({
+        where: {
+          user_id: req.body.user_id
+        },
+        order: [['createdAt', 'DESC']]
+      })
+      console.log(answer)
+      const answerJSON = answer.toJSON()
+      res.send({
+        answer: answerJSON
+      })
+    } catch (err) {
+      // error handling
+      res.status(400).send({
+        error: err.message || 'An error has occurred trying to get survey result.'
+      })
+    }
   }
 }

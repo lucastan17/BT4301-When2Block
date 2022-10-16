@@ -26,6 +26,11 @@ module.exports = (app) => {
     surveyController.post
   )
 
+  // endpoint for survey
+  app.post('/answer',
+    surveyController.answer
+  )
+
   // endpoint for search page
   app.get('/search',
     // isAuth,
@@ -43,10 +48,6 @@ module.exports = (app) => {
   )
 
   // endpoints for user profile
-  app.get('/profile',
-    // isAuth,
-    profileController.index
-  )
   app.post('/profile',
     // isAuth,
     profileController.post

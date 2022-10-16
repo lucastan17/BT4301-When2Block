@@ -1,23 +1,43 @@
 <template>
     <section class="hero">
       <div id="profile-div">
-        <h3 class="profile-info">{{ name }}</h3>
+        <h1 class="msg">Your Profile</h1>
+            <o-field label="Username">
+        <h3 class="profile-info">{{ username }}</h3>
+            </o-field>
+            <o-field label="Email">
         <h3 class="profile-info">{{ email }}</h3>
+            </o-field>
+            <o-field label="Latest Survey Response">
+        <h3 class="profile-info" v-if="loaded">Sunscreen frequency: {{ sunscreen_freq }}, Skin type: {{ skin_type }}</h3>
+            </o-field>
         <button @click="goToEdit()">EDIT PROFILE</button>
+        <button @click="redoSurvey()">REDO SURVEY</button>
+        <button @click="changePw()">CHANGE PASSWORD</button>
       </div>
     </section>
   </template>
   
   <script>
-import profileService from '@/services/profileService'
+import { userStore } from '@/store/store'
+import SurveyService from '@/services/surveyService'
 
   export default {
     name: "CustInfo",
+    setup() {
+        const store = userStore();
+        return { store };
+      },
     data() {
       return {
-        name: "",
-        email: "test@gmail.com",
+        username: "",
+        email: "",
+        loaded: false,
+        sunscreen_freq:"",
+        skin_type: "",
         editting: null,
+        user_id: null,
+        //user_id: this.store.user.user_id
       };
     },
     props: {
@@ -27,32 +47,29 @@ import profileService from '@/services/profileService'
       goToEdit() {
         this.$emit('clicked', true);
       },
-      async getInfo() {
+      async survey() {
         try {
-          const response = await profileService.index({
-            email: this.email,
-            username: this.username
-          })
-          console.log(response.data)
-          response.data
+          const response = await SurveyService.answer(this.store.user)
+          console.log(response.data.answer)
+          this.loaded = true
+          this.sunscreen_freq = response.data.answer.sunscreen_freq
+          this.skin_type = response.data.answer.skin_type
+        } catch (err) {
+          console.log(err.response.data.error)
         }
-        catch (err) {
-                console.log(err.response.data.error)
-                this.err = err.response.data.error
-                console.log("err: " + this.err)
-            }
       }
     },
     created() {
+      this.username = this.store.user.username;
+      this.email = this.store.user.email;
       this.editting = false;
-    },
-  };
+      this.survey()
+      } 
+    };
+
   </script>
   <style scoped>
-  @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600&display=swap");
-  * {
-    font-family: "Nunito Sans", sans-serif;
-  }
+
   .hero {
     margin-top: 100px;
   }
@@ -68,6 +85,7 @@ import profileService from '@/services/profileService'
   .profile-info {
     margin-top: 15px;
     margin-bottom: 15px;
+    font-weight: 1;
   }
   button {
     margin: auto;
@@ -80,7 +98,7 @@ import profileService from '@/services/profileService'
     font-weight: bold;
   }
   button:hover {
-    background: #ffc400;
+    background: #F16308;
     color: black;
     cursor: pointer;
   }
