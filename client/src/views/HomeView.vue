@@ -9,8 +9,11 @@
           </div>
         </template>
         <template #button>  
-          <o-button class="button" @click="register">
-            {{button}}
+          <o-button class="button" @click="register" size="medium">
+            {{button1}}
+          </o-button>
+          <o-button class="button2" @click="login" size="medium">
+            {{button2}}
           </o-button>
         </template> 
       </HeaderBar2>
@@ -30,11 +33,15 @@ export default {
   methods: {
     register() {
       this.$router.push({ name: "register" })
+    },
+    login () {
+      this.$router.push({ name: "login" })
     }
   },
   data() {
     return {
-      button: 'Register/ Login'
+      button1: 'Register',
+      button2: 'Login'
     }
   }
 }
@@ -42,14 +49,27 @@ export default {
 
 <style scoped>
 .button {
-    background-color: #F16308;
     margin: 15px;
-    border-radius: 25px;
-    width: 330px;
-    height: 72px;
-    font-size: 32px;
+    border-radius: 5px;
     position: absolute;
-    right: 20px;
+    right: 5px;
+    background-color: rgb(241, 99, 9);
+    color: white;
+    border-radius: 5px;
+    border-color: rgb(241, 99, 9);
+    top: 10px;
+}
+
+.button2 {
+    margin: 15px;
+    border-radius: 5px;
+    position: absolute;
+    background-color: rgb(241, 99, 9);
+    color: white;
+    border-radius: 5px;
+    border-color: rgb(241, 99, 9);
+    right: 140px;
+    top: 10px;
 }
 
 .logo {

@@ -14,7 +14,7 @@
                 </div>
             </template>
             <template #button>
-                <o-button class="button" @click="logOut">{{button}}</o-button>
+                <o-button class="button" @click="logOut" size="medium">{{button}}</o-button>
             </template>
         </HeaderBar2>
         <br />
@@ -53,12 +53,17 @@ export default {
     
 <style scoped>
 .button {
-    background-color: #F16308;
     margin: 15px;
     border-radius: 5px;
     position: absolute;
-    right: 10px;
+    right: 5px;
+    background-color: rgb(241, 99, 9);
+    color: white;
+    border-radius: 5px;
+    border-color: rgb(241, 99, 9);
+    top: 10px;
 }
+
 .logo {
     width: 15%;
     position: absolute;
