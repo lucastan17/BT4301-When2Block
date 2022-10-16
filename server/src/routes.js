@@ -4,7 +4,8 @@ const surveyController = require('./controllers/surveyController')
 const searchController = require('./controllers/searchController')
 const checkInController = require('./controllers/checkInController')
 const profileController = require('./controllers/profileController')
-const modelDashboardController = require('./controllers/modelDashboardController')
+const modelPerformanceController = require('./controllers/modelPerformanceController')
+const modelDriftController = require('./controllers/modelDriftController')
 const userDashboardController = require('./controllers/userDashboardController')
 const modelRegistryController = require('./controllers/modelRegistryController')
 const newModelController = require('./controllers/newModelController')
@@ -56,10 +57,16 @@ module.exports = (app) => {
   )
 
   // endpoint for model dashboard
-  app.get('/modelDashboard',
+  app.get('/model-performance',
     // isAuth,
     // isAdmin,
-    modelDashboardController.index
+    modelPerformanceController.index
+  )
+
+  app.get('/model-drift',
+    // isAuth,
+    // isAdmin,
+    modelDriftController.index
   )
 
   // endpoint for user dashboard

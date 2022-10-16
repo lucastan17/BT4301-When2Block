@@ -21,9 +21,9 @@ export default {
     computed: {
         classColor() {
             return {
-                below: this.val < this.threshold1,
-                thres1: this.val >= this.threshold1 && this.val < this.threshold2,
-                thres2: this.val >= this.threshold2
+                below: this.val > this.threshold1,
+                thres1: this.val <= this.threshold1 && this.val > this.threshold2,
+                thres2: this.val <= this.threshold2
             }
         }
     }

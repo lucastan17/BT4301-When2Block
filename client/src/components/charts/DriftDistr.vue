@@ -5,12 +5,7 @@
                 <span>{{selected}}</span>
                 <o-icon icon="caret-down"></o-icon>
             </o-button>
-            <o-tooltip 
-                label="Tooltip top"
-                size="large"
-                position="right"
-                multiline
-            >
+            <o-tooltip label="Tooltip top" size="large" position="right" multiline>
                 <o-dropdown-item aria-role="listitem">Chi-Square</o-dropdown-item>
             </o-tooltip> <!--add tooltips to explain-->
             <o-tooltip 

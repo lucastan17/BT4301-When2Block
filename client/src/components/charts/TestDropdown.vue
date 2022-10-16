@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <div>
       <o-dropdown :triggers="['hover']" :value="selectedOptions" aria-role="list">
         <template #trigger>
           <o-button variant="primary" type="button">
@@ -22,7 +22,7 @@
         </o-dropdown-item>
       </o-dropdown>
 
-    </section>
+    </div>
   </template>
   
   <script>

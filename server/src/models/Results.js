@@ -1,3 +1,5 @@
+const { FLOAT } = require("sequelize")
+
 module.exports = (sequelize, DataTypes) => {
   const Results = sequelize.define('Results', {
     // attributes and data types etc
@@ -28,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     actual: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    proba: {
+      type: FLOAT(50),
       allowNull: false
     }
   },
