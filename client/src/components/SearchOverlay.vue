@@ -102,7 +102,7 @@ export default {
  
     data () {
         return {
-            dummyModel:{model_id:1,location:'testmodel', time:new Date(new Date().getMilliseconds() + 8 * (3600 * 1000)), weather:'Sunny',uv_index:3,prediction:1,actual:1,predict_proba:0.01},
+            dummyModel:{model_id:1,location:'testmodel', time:new Date(new Date().getTime() + 8 * (3600 * 1000)), weather:'Sunny',uv_index:3,prediction:1,actual:1,predict_proba:0.01},
             showResults: false,
             isSunny:true,
             map: null,
@@ -158,6 +158,7 @@ export default {
         this.showResults = false
         this.map.setView(this.center,this.zoom)
         this.places.name = ''
+        this.timing.time =''
         
     },
     async fetchData(){
@@ -239,8 +240,8 @@ export default {
         }
     },
     centerUpdated(){
-        var p = document.getElementById('place-s').value
-        var t = document.getElementById('time-s').value
+        var p = document.getElementById('select-place').value
+        var t = this.timing.time
         this.center = [this.places[p].lat,this.places[p].long]
         this.showResults = true;
         //console.log(t)
