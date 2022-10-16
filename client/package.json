@@ -17,7 +17,7 @@
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "dotenv": "^16.0.3",
-    "leaflet": "^1.9.1",
+    "leaflet": "1.8",
     "morgan": "^1.10.0",
     "pinia": "^2.0.23",
     "pinia-plugin-persistedstate": "^2.3.0",
@@ -26,7 +26,8 @@
     "vue-apexcharts": "^1.6.2",
     "vue-router": "^4.0.3",
     "vue3-apexcharts": "^1.4.1",
-    "vue3-google-map": "^0.15.0"
+    "vue3-google-map": "^0.15.0",
+    "vue3-timepicker": "^1.0.0-beta.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
