@@ -75,7 +75,14 @@ import SurveyService from '@/services/surveyService'
     margin-top: 100px;
   }
   #profile-div {
-    text-align: center;
+    margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  text-align: center;
+  width: 30%;
+  border-radius: 20px;
+  padding: 30px 90px 0px 90px;
+  background-color: #FCF5E8;
   }
   #logo {
     display: block;
