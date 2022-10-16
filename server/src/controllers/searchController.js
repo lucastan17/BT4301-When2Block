@@ -42,7 +42,7 @@ module.exports = {
       const posRes = await Results.create({
         model_id: req.body.model_id,
         location: req.body.location,
-        time: new Date(Date.now() + 8 * (3600 * 1000)),
+        time: req.body.time,
         weather: req.body.weather,
         uv_index: req.body.uv_index,
         prediction: req.body.prediction,

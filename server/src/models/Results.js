@@ -23,11 +23,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     prediction: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     actual: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     predict_proba: {
