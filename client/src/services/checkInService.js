@@ -1,12 +1,12 @@
 import api from '@/services/api'
 
 export default {
-  index (params) {
-    return api().get('checkin', {
+  getdates (params) {
+    return api().post('getdates', {
       params: params
     })
   },
-  post (params) {
+  checkin (params) {
     return api().post('checkin', {
       params: params
     })

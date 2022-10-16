@@ -7,7 +7,6 @@ import SurveyView from '../views/SurveyView'
 import LoginView from '../views/LoginView'
 import UserBehaviour from "../views/UserBehaviourView"
 import ProfileView from '../views/ProfileView'
-import EditProfileView from '../views/EditProfileView'
 import TrackView from '../views/TrackView'
 import RegisterModelView from '../views/RegisterModelView'
 import ErrorView from '../views/ErrorView'
@@ -54,11 +53,6 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfileView
-  },
-  {
-    path: '/editprofile',
-    name: 'editprofile',
-    component: EditProfileView
   },
   {
     path: '/track',
