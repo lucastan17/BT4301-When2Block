@@ -4,15 +4,18 @@
     <!-- Create Label for inputing area-->
     
     <label id="place-f" for="select-place">Select area to check:</label>
-        <input  id ="place-s" type = "text" v-model="places.name" list="places" placeholder="type here..." />
+        <input  id ="select-place" type = "text" v-model="places.name" list="places" placeholder="type here..." />
         <datalist id="places">
             <option v-for="(p,index) in places" :key="index">{{p.name}}</option>
         </datalist>
 
     <!-- Likewise,create Label for inputing time-->
     <label for="select-time" style="margin:15px">Select Timing to check:</label>
-        <input id="time-s" type = "time" min="07:00:00" max="19:00:00" value="07:00:00" step="1800" required placeholder="Key time here..." />
-
+        <!--input id="time-s" type = "time" min="07:00:00" max="19:00:00" value="07:00:00" step="1800" required placeholder="Key time here..." /-->
+        <input id="select-time" type="text" v-model="timing.time" list="timing" placeholder="Up till next 2 hours"/>
+        <datalist id="timing">
+            <option v-for="(time,index) in timing" :key="index">{{time.time}}</option>
+        </datalist>
 
     <button style="margin-left:20px" @click="search()">Search</button>
     <button style="margin-left:20px" @click="reset()"> Clear Search</button>
@@ -112,7 +115,7 @@ export default {
  
     data () {
         return {
-            dummyModel:{model_id:1,location:'testmodel', weather:'Sunny',uv_index:3,prediction:'Wear',actual:'Wear',predict_proba:0.01},
+            dummyModel:{model_id:1,location:'testmodel', time:new Date(new Date().getMilliseconds() + 8 * (3600 * 1000)), weather:'Sunny',uv_index:3,prediction:1,actual:1,predict_proba:0.01},
             showResults: false,
             isSunny:true,
             map: null,
@@ -138,6 +141,7 @@ export default {
                     'Serangoon':{name:'Serangoon',forecast:'',lat:'',long:''},'Southern Islands':{name:'Southern Islands',forecast:'',lat:'',long:''},'Sungei Kadut':{name:'Sungei Kadut',forecast:'',lat:'',long:''},'Tampines':{name:'Tampines',forecast:'',lat:'',long:''},'Tanglin':{name:'Tanglin',forecast:'',lat:'',long:''},
                     'Tengah':{name:'Tengah',forecast:'',lat:'',long:''},'Toa Payoh':{name:'Toa Payoh',forecast:'',lat:'',long:''},'Tuas':{name:'Tuas',forecast:'',lat:'',long:''},'Western Islands':{name:'Western Islands',forecast:'',lat:'',long:''},'Western Water Catchment': {name:'Western Water Catchment',forecast:'',lat:'',long:''},
                     'Woodlands':{name:'Woodlands',forecast:'',lat:'',long:''},'Yishun':{name:'Yishun',forecast:'',lat:'',long:''}},
+            timing:{0:{time:''},1:{time:''},2:{time:''}},
         }
 
  
@@ -165,8 +169,6 @@ export default {
         this.center = this.ocenter
         this.showResults = false
         this.map.setView(this.center,this.zoom)
-        //document.getElementById('place-s').value = ''
-        //this.document.getElementById('place-s').value = null
         this.places.name = ''
         
     },
@@ -196,6 +198,14 @@ export default {
             this.places[name].lat = this.infometa[i].label_location.latitude
             this.places[name].long = this.infometa[i].label_location.longitude
         }
+        //for timing inputs
+        for (var j = 0; j < 3; j++){
+            var cT = new Date()
+            var display = new Date(cT.getTime() + (j+ 8) * 3600*1000).toISOString().substring(11,16)
+            this.timing[j].time=display  
+        }
+        console.log(this.timing)
+    }, 
     },
     formatDate(dt) {
         let day = dt.getDate();
@@ -245,6 +255,7 @@ export default {
             const response = await searchService.post({
                     model_id: this.dummyModel.model_id,
                     location: this.dummyModel.location,
+                    time: this.dummyModel.time,
                     weather: this.dummyModel.weather,
                     uv_index: this.dummyModel.uv_index,
                     prediction: this.dummyModel.prediction,

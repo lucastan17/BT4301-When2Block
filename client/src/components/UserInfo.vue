@@ -1,47 +1,88 @@
 <template>
     <section class="hero">
       <div id="profile-div">
-        <h3 class="profile-info">Joshus Tan{{ name }}</h3>
-        <h3 class="profile-info">test@gmail.com{{ email }}</h3>
+        <h1 class="msg">Your Profile</h1>
+            <o-field label="Username">
+        <h3 class="profile-info">{{ username }}</h3>
+            </o-field>
+            <o-field label="Email">
+        <h3 class="profile-info">{{ email }}</h3>
+            </o-field>
+            <o-field label="Latest Survey Response">
+        <h3 class="profile-info" v-if="loaded">Sunscreen frequency: {{ sunscreen_freq }}, Skin type: {{ skin_type }}</h3>
+            </o-field>
         <button @click="goToEdit()">EDIT PROFILE</button>
+        <button @click="redoSurvey()">REDO SURVEY</button>
+        <button @click="changePw()">CHANGE PASSWORD</button>
       </div>
     </section>
   </template>
   
   <script>
+import { userStore } from '@/store/store'
+import SurveyService from '@/services/surveyService'
+
   export default {
     name: "CustInfo",
+    setup() {
+        const store = userStore();
+        return { store };
+      },
     data() {
       return {
-        name: "",
+        username: "",
         email: "",
-        postalcode: "",
+        loaded: false,
+        sunscreen_freq:"",
+        skin_type: "",
       };
-    },
-    props: {
-      user: Object,
     },
     methods: {
       goToEdit() {
-        this.$router.push("./EditProfile");
+        console.log("go to edit")
+        this.$emit('clicked', true, false);
       },
+      changePw() {
+        this.$emit('clicked', false, true);
+      },
+      redoSurvey() {
+        this.$router.push("/survey")
+      },
+      async survey() {
+        try {
+          const response = await SurveyService.answer(this.store.user)
+          console.log(response.data.answer)
+          this.loaded = true
+          this.sunscreen_freq = response.data.answer.sunscreen_freq
+          this.skin_type = response.data.answer.skin_type
+        } catch (err) {
+          console.log(err.response.data.error)
+        }
+      }
     },
     created() {
-      this.name = this.user.name;
-      this.email = this.user.email;
-    },
-  };
+      this.username = this.store.user.username;
+      this.email = this.store.user.email;
+      this.editting = false;
+      this.survey()
+      } 
+    };
+
   </script>
   <style scoped>
-  @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600&display=swap");
-  * {
-    font-family: "Nunito Sans", sans-serif;
-  }
+
   .hero {
     margin-top: 100px;
   }
   #profile-div {
-    text-align: center;
+    margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  text-align: center;
+  width: 30%;
+  border-radius: 20px;
+  padding: 30px 90px 0px 90px;
+  background-color: #FCF5E8;
   }
   #logo {
     display: block;
@@ -52,9 +93,10 @@
   .profile-info {
     margin-top: 15px;
     margin-bottom: 15px;
+    font-weight: 1;
   }
   button {
-    margin: auto;
+    margin: 10px;
     margin-top: 10px;
     background-color: #ffcc00;
     border: none;
@@ -64,7 +106,7 @@
     font-weight: bold;
   }
   button:hover {
-    background: #ffc400;
+    background: #F16308;
     color: black;
     cursor: pointer;
   }

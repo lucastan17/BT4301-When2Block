@@ -29,6 +29,11 @@ module.exports = (app) => {
     surveyController.post
   )
 
+  // endpoint for survey
+  app.post('/answer',
+    surveyController.answer
+  )
+
   // endpoint for search page
   app.get('/search',
     // isAuth,
@@ -39,23 +44,25 @@ module.exports = (app) => {
     searchController.post
   )
   // endpoints for check in
-  app.get('/checkin',
+  app.post('/getdates',
     // isAuth,
-    checkInController.index
+    checkInController.getdates
   )
   app.post('/checkin',
     // isAuth,
-    checkInController.post
+    checkInController.checkin
   )
 
   // endpoints for user profile
-  app.get('/profile',
+  app.post('/changepw',
     // isAuth,
-    profileController.index
+    profileController.changepw
   )
+
+  // endpoints for user profile
   app.post('/profile',
     // isAuth,
-    profileController.post
+    profileController.profile
   )
 
   // endpoint for model dashboard
