@@ -32,7 +32,7 @@ module.exports = {
       // result.curr = CURDATE()
       result.UVI = UVI
 
-      const timeModel = await results.findAll({
+      const timeModel = await Results.findAll({
         where: {
           time: {
             [Op.gte]: new Date(Date.now() + 8 * (3600 * 1000)) // 8hours ahead is SG timezone
@@ -52,19 +52,18 @@ module.exports = {
   },
   async post (req, res) {
     try {
-      // send survey details to db
-      // need user id and survey details
-      const result = await db.results.create({
-        // TO DO: user id from state
+      // send search details to db
+      const posRes = await Results.create({
         model_id: req.body.model_id,
         location: req.body.location,
-        time: req.body.time,
+        time: new Date(Date.now() + 8 * (3600 * 1000)),
         weather: req.body.weather,
         uv_index: req.body.uv_index,
         prediction: req.body.prediction,
-        actual: req.body.actual
+        actual: req.body.actual,
+        predict_proba: req.body.predict_proba
       })
-      res.send(result.toJSON())
+      res.send(posRes.toJSON())
     } catch (err) {
       // error handling
       res.status(400).send({

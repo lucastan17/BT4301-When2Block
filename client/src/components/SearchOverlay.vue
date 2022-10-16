@@ -1,5 +1,4 @@
 <template>
-    <HeaderBar/>
     <p style="fontSize:22px; margin:10px;"> Get advice on Sunscreen application up to <b>2 hours</b> before heading to your destination</p>
 
     <!-- Create Label for inputing area-->
@@ -99,7 +98,6 @@ import "leaflet/dist/leaflet.css";
 export default {
     name: 'SearchOverlay', 
     components: {
-    HeaderBar,
     LMap,
     //LIcon,
     LPopup,
@@ -111,10 +109,10 @@ export default {
     //LPolygon,
     //LRectangle,
     },
-
+ 
     data () {
         return {
-            dummyModel:{model_id:1,location:'result',time: this.SGCurrDate(8), weather:'Sunny',uv_index:3,prediction:'Wear',actual:'Wear'},
+            dummyModel:{model_id:1,location:'testmodel', weather:'Sunny',uv_index:3,prediction:'Wear',actual:'Wear',predict_proba:0.01},
             showResults: false,
             isSunny:true,
             map: null,
@@ -156,7 +154,7 @@ export default {
             this.db_info = res.data
             console.log(this.db_info) 
         }).catch(err => {
-            console.log(err) 
+            console.log(err)  
         })
     }, 
     async loadMap(){
@@ -167,7 +165,7 @@ export default {
         this.center = this.ocenter
         this.showResults = false
         this.map.setView(this.center,this.zoom)
-        document.getElementById('place-s').value = ''
+        //document.getElementById('place-s').value = ''
         //this.document.getElementById('place-s').value = null
         this.places.name = ''
         
@@ -187,7 +185,7 @@ export default {
             console.log(error)
         }
     },
-    SGCurrDate(hours,date=new Date()){
+    async SGCurrDate(hours,date=new Date()){
         date.setTime(date.getTime() + hours * 60 * 60 *1000)
         return date
     },
@@ -239,26 +237,24 @@ export default {
             const UVIrun = await this.runUVI()
             console.log(UVIrun)
             console.log("running UVI model")
-            // alert("running UVI model")
         } else {
             console.log("Call model and display")
             //model call function here, store in const result and reload db
             //UVI_model.run() etc
-            const result = await searchService.post({
+            
+            const response = await searchService.post({
                     model_id: this.dummyModel.model_id,
                     location: this.dummyModel.location,
-                    time: this.dummyModel.time,
                     weather: this.dummyModel.weather,
                     uv_index: this.dummyModel.uv_index,
                     prediction: this.dummyModel.prediction,
                     actual: this.dummyModel.actual,
+                    predict_proba:this.dummyModel.predict_proba,
             })
-            console.log(result.data)
-            alert("Model ran")
+            console.log(response.data)
             this.load_db()
         }
         this.centerUpdated();
-
     },
     checkSunny(place,time){
         var forecast = this.places[place].forecast
@@ -271,8 +267,7 @@ export default {
         }
         console.log(curr_time)
         //console.log(UVI)
-        //console.log(forecast)
-        //console.log(this.isSunny)
+
     },
     checkTime(time){
         let now = this.SGCurrDate(8).getHours()
@@ -286,11 +281,10 @@ export default {
         var p = document.getElementById('place-s').value
         var t = document.getElementById('time-s').value
         this.center = [this.places[p].lat,this.places[p].long]
-        //console.log(this.$refs.datamap.leafletObject)
         this.showResults = true;
         //console.log(t)
         this.checkSunny(p,t)
-        this.checkTime(new Date(t))
+        //this.checkTime(new Date(t))
         this.map.setView(this.center,13.5)    
     }
   }

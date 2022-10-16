@@ -36,7 +36,7 @@ module.exports = (app) => {
   )
   app.post('/search',
     // isAuth,
-    searchController.index
+    searchController.post
   )
   // endpoints for check in
   app.get('/checkin',
