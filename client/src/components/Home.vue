@@ -6,10 +6,9 @@
           <div class="container">
             <div class="header1 epilogue-extra-bold-ebony-clay-40px">
               Don't know when <br /> to
-              wear&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              wear <h1 class="header2">Sunscreen</h1> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               ?
             </div>
-            <h1 class="header2">Sunscreen</h1>
           </div>
           <div class="content-block">
             Regular daily use of SPF 15 sunscreen can reduce your risk of skin cancer cells by 50%<br />
@@ -50,7 +49,8 @@
               journey &amp; win prizes</span> 
             </h1>
             <div class="button-div">
-              <o-button class="button" @click="register">Register / Login </o-button>
+              <o-button class="button" @click="login"> Login </o-button>
+              <o-button class="button2" @click="register"> Register </o-button>
             </div>  
           </div>
         </div>
@@ -77,6 +77,9 @@
     methods: {
       register() {
         this.$router.push({ name: "register" })
+      },
+      login() {
+        this.$router.push({ name: "login" })
       }
     }
   }
@@ -144,6 +147,7 @@
     top: 17px;
     white-space: nowrap;
     width: 307px;
+    text-align: center;
   }
   
   .content-block {
@@ -252,10 +256,18 @@
   .button {
       background-color: #F16308;
       margin: 15px;
-      right: 5px;
       border-radius: 25px;
-      width: 330px;
-      height: 72px;
+      width: 200px;
+      height: 60px;
+      font-size: 32px;
+  }
+
+  .button2 {
+      background-color: #F16308;
+      margin: 15px;
+      border-radius: 25px;
+      width: 200px;
+      height: 60px;
       font-size: 32px;
   }
   

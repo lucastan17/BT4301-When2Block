@@ -146,6 +146,7 @@
     top: 17px;
     white-space: nowrap;
     width: 307px;
+    text-align: start;
   }
   
   .content-block {

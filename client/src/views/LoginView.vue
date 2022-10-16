@@ -14,7 +14,7 @@
                 </div>
             </template>
             <template #button>
-                <o-button class="button" @click="register">{{button}}</o-button>
+                <o-button class="button" @click="register" size="medium">{{button}}</o-button>
             </template>
         </HeaderBar2>
         <br />
@@ -44,11 +44,15 @@ export default {
     
 <style scoped>
 .button {
-    background-color: #F16308;
     margin: 15px;
     border-radius: 5px;
     position: absolute;
     right: 5px;
+    background-color: rgb(241, 99, 9);
+    color: white;
+    border-radius: 5px;
+    border-color: rgb(241, 99, 9);
+    top: 10px;
 }
 
 .logo {
