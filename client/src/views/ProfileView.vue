@@ -2,8 +2,9 @@
     <div class="home">
         <HeaderBar title="Profile">
         </HeaderBar>
-        <UserInfo id="info" v-if="mounted" :user="user" @clicked="onClickEdit"/>
-        <EditProfileForm id="editform" v-if="editting" />
+        <UserInfo id="info" v-if="!editting && !changingpw" @clicked="onClick"/>
+        <EditProfileForm id="editform" v-if="editting" @backed="onBack"/>
+        <ChangePassword id="changepw" v-if="changingpw" @backed="onBack"/>
         <br />
     </div>
 </template>
@@ -12,27 +13,34 @@
 import HeaderBar from '@/components/HeaderBar.vue';
 import UserInfo from '@/components/UserInfo.vue';
 import EditProfileForm from '@/components/EditProfileForm.vue'
+import ChangePassword from '@/components/ChangePassword.vue'
 
 export default {
     name: 'ProfileView',
     components: {
         HeaderBar,
         UserInfo,
-        EditProfileForm
+        EditProfileForm,
+        ChangePassword
     },
     data() {
         return {
-        user: {
-            user: null,
-            mounted: false,
-        },
-        mounted: true,
-        editting: false
-        }
+            editting: false,
+            changingpw: false
+            }
     },
     methods: {
-        onClickEdit (value) {
-            this.editting = value
+        onClick (value1, value2) {
+            console.log(value1, value2)
+            this.editting = value1
+            this.changingpw = value2
+        },
+        onBack(value) {
+            console.log(value)
+            if (value) {
+                this.editting = false
+                this.changingpw = false
+            }
         }
     }
 }

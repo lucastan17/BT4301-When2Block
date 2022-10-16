@@ -1,42 +1,29 @@
 <template>
   <div class="form">
     <form @submit.prevent="update">
-      <h2 class="msg">Welcome Back!</h2>
-      <o-row>
+      <h2 class="msg">Edit Profile!</h2>
+      <o-field>
         <o-input
           id="name"
           v-model="name"
           type="text"
           placeholder="Full Name"
           required="true"
-          ><template #prefix>
-            <o-icon pack="fas" icon="user" size="small"></o-icon> </template
-        ></o-input>
-      </o-row>
-      <o-row>
+          >
+        </o-input>
+      </o-field>
+      <o-field>
         <o-input
           id="email"
           v-model="email"
           type="text"
           placeholder="Email Address"
           required="true"
-          ><template #prefix>
-            <o-icon pack="fas" icon="user" size="small"></o-icon> </template
-        ></o-input>
-      </o-row>
-      <o-row>
-        <o-input
-          id="password"
-          v-model="password"
-          type="text"
-          placeholder="Password"
-          required="false"
-          ><template #prefix>
-            <o-icon pack="fas" icon="user" size="small"></o-icon> </template
-        ></o-input>
-      </o-row>
+          >
+        </o-input>
+      </o-field>
       <div id="centre">
-        <button type="submit">SAVE CHANGE</button>
+        <button type="submit" @click="profile()">SAVE CHANGE</button>
       </div>
       <h4 id="back" @click="goToProfile()">BACK TO MY PROFILE</h4>
       <div class="error" v-if="err">{{err}}</div>
@@ -45,41 +32,43 @@
 </template>
 
 <script>
-
+import ProfileService from '@/services/profileService'
+import { userStore } from '@/store/store'
 export default {
   name: "EditProfileForm",
   components: { },
+  setup() {
+        const store = userStore();
+        return { store };
+  },
   data() {
     return {
       name: "",
       email: "",
-      password: "",
     };
   },
   methods: {
-    async update() {
-      // await setDoc(doc(db, "Customers", this.email), {
-        // name: this.name,
-        // email: this.email,
-        // postalcode: this.postalcode,
-      // });
-      alert("Profile successfully updated");
-      this.$router.push("./Profile");
+    async profile() {
+      try {
+          const r = await ProfileService.profile({
+            username: this.name,
+            id: this.store.user.user_id,
+            email: this.email
+          })
+          console.log(r.data)
+          alert("Profile updated")
+          this.$router.push("/search")
+                
+        } catch (err) {
+          console.log(err.response.data.error)
+          this.err = err.response.data.error
+          console.log("err: " + this.err)
+        }
     },
     goToProfile() {
-      this.$router.push("./Profile");
+      this.$emit('backed', true);
     },
   },
-  // async created() {
-  //   this.email = sessionStorage.getItem("useremail");
-  //   const docRef = doc(db, "Customers", this.email);
-  //   const docSnap = await getDoc(docRef);
-  //   if (docSnap.exists) {
-  //     const data = docSnap.data();
-  //     this.name = data.name;
-  //     this.postalcode = data.postalcode;
-  //   }
-  // },
 };
 </script>
 

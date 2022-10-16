@@ -35,17 +35,18 @@ import SurveyService from '@/services/surveyService'
         loaded: false,
         sunscreen_freq:"",
         skin_type: "",
-        editting: null,
-        user_id: null,
-        //user_id: this.store.user.user_id
       };
-    },
-    props: {
-      user: Object,
     },
     methods: {
       goToEdit() {
-        this.$emit('clicked', true);
+        console.log("go to edit")
+        this.$emit('clicked', true, false);
+      },
+      changePw() {
+        this.$emit('clicked', false, true);
+      },
+      redoSurvey() {
+        this.$router.push("/survey")
       },
       async survey() {
         try {
@@ -88,7 +89,7 @@ import SurveyService from '@/services/surveyService'
     font-weight: 1;
   }
   button {
-    margin: auto;
+    margin: 10px;
     margin-top: 10px;
     background-color: #ffcc00;
     border: none;

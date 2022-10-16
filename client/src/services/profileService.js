@@ -1,10 +1,10 @@
 import api from '@/services/api'
 
 export default {
-  index (params) {
-    return api().post('index', params)
+  profile (params) {
+    return api().post('profile', params)
   },
-  post (params) {
-    return api().post('post', params)
+  changepw (params) {
+    return api().post('changepw', params)
   }
 }

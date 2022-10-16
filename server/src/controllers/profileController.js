@@ -2,24 +2,19 @@ const db = require('../models')
 const User = db.users
 
 module.exports = {
-  async index (req, res) {
+  async changepw (req, res) {
     try {
       // logic to retrive profile details from db
-      const { email } = req.body
-      const user = await User.findOne({
-        where: {
-          email
-        }
-      })
+      const { email, password } = req.body
+      const user = await User.update(
+        { password },
+        { where: { email } }
+      )
       if (!user) {
         return res.status(403).send({
           error: 'User does not exist.'
         })
       }
-      const userJson = user.toJSON()
-      res.send({
-        user: userJson
-      })
 
       // need user id
     } catch (err) {
@@ -29,19 +24,18 @@ module.exports = {
       })
     }
   },
-  async post (req, res) {
+  async profile (req, res) {
     try {
-      // update profile details
-      // need userid and wtv needs to be updated
-      // note!! hash password before storing
-      const user = await User.create({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-      })
-      res.send(user.toJSON())
+      // logic to retrive profile details from db
+      const { username, id, email } = req.body
+      await User.upsert(
+        { user_id: id, username, email }
+      )
     } catch (err) {
       // error handling
+      res.status(400).send({
+        error: err.message || 'An error has occurred trying to update user.'
+      })
     }
   }
 }

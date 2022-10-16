@@ -48,9 +48,15 @@ module.exports = (app) => {
   )
 
   // endpoints for user profile
+  app.post('/changepw',
+    // isAuth,
+    profileController.changepw
+  )
+
+  // endpoints for user profile
   app.post('/profile',
     // isAuth,
-    profileController.post
+    profileController.profile
   )
 
   // endpoint for model dashboard
