@@ -6,7 +6,7 @@ export default {
       params: params
     })
   },
-  post(params) {
-    return api().post('search', params)
+  post (params) {
+    return api().post('search',params)
   }
 }
