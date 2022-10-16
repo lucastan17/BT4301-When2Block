@@ -2,7 +2,7 @@
     <div class="home">
       <HeaderBar title="About Us"/>
     <div class="group-container">
-      <div class="group-1">
+      <div class="group-1"> 
         <div class="flex-col">
           <div class="container">
             <div class="header1 epilogue-extra-bold-ebony-clay-40px">
