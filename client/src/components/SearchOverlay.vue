@@ -66,7 +66,20 @@
 
 <script>
 import axios from 'axios';
-import searchService from '@/services/searchService'
+import HeaderBar from "./HeaderBar.vue";
+import searchService from '@/services/searchService';
+// import tf from '@tensorflow/tfjs';
+// import tfn from '@tensorflow/tfjs-node';
+// import fetch from 'node-fetch';
+// const tfn = require("@tensorflow/tfjs-node");
+const tf = require('@tensorflow/tfjs')
+
+// const weatherUrl = 'https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date='
+const uviUrl = 'https://api.data.gov.sg/v1/environment/uv-index?date='
+const today = new Date();
+const previous = new Date(today.getTime());
+previous.setDate(today.getDate() - 1);
+
 import {
   LMap,
   //LIcon,
@@ -136,7 +149,7 @@ export default {
 
     mounted: function(){ 
         this.fetchData()
-        this.load_db()  
+        this.load_db()
     }, 
 
     methods:{ 
@@ -152,7 +165,6 @@ export default {
         //console.log(this.$refs.datamap.leafletObject)
         this.map = this.$refs.datamap.leafletObject
     },
-
     reset(){
         this.center = this.ocenter
         this.showResults = false
@@ -194,9 +206,47 @@ export default {
         }
         console.log(this.timing)
     }, 
+    },
+    formatDate(dt) {
+        let day = dt.getDate();
+        let month = dt.getMonth() + 1;
+        let year = dt.getFullYear();
+        return `${year}-${month}-${(day > 9 ? '' : '0') + day}`;
+    },
+    uviTransform(data) {
+        const input = [];
+        for (let i = 0; i < data.length; i++) {
+            var value = [data[i].value]
+            input.push(value)
+        }
+        const inputTensor = tf.tensor3d([input]);
+        return inputTensor
+    },  
+    async runUVI() {
+        console.log('run UVI triggered')
+        // load model
+        const UVImodel = await tf.loadLayersModel("http://localhost:8080/uvi-model/UVImodel.json")
+        console.log('model loaded', UVImodel)
+
+        // load yesterday UVI
+        const uviDataObj = await axios.get(uviUrl + this.formatDate(previous))
+        const uviDataList = uviDataObj.data.items[12].index
+        console.log('uvi data loaded' ,uviDataList)
+        
+        // transform uvi data into a tensor
+        const uviTensor = this.uviTransform(uviDataList)
+        const uviResult = await UVImodel.predict(uviTensor)
+        const uviResultout = uviResult.dataSync()
+        console.log(uviResultout)
+        alert('done running model', uviResultout)
+        // store UVI into database
+    },
     async search(){
-        if (this.db_info.UVI.length != 0 ){
-            console.log("UVI_called")
+        // check if there has been any runs done today
+        if (this.db_info.today.length != 0 ){
+            const UVIrun = await this.runUVI()
+            console.log(UVIrun)
+            console.log("running UVI model")
         } else {
             console.log("Call model and display")
             //model call function here, store in const result and reload db

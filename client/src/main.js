@@ -10,7 +10,7 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 
-
+const cors = require('cors')
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 const app = createApp(App).use(router)
@@ -18,6 +18,6 @@ const app = createApp(App).use(router)
 app.use(pinia)
 app.use(Oruga)
 app.use(SetupCalendar, {})
+app.use(cors)
 
 app.mount('#app')
-
