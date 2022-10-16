@@ -19,18 +19,11 @@
                     <a href="/user-behaviour" v-if="store.user.admin_user">User Behaviour</a>
                     <a href="/survey" v-if="!store.user.admin_user">Survey</a>
                 </li>
-                <li> 
-                    <a href="/profile" v-if="!store.user.admin_user">Profile</a>
-                </li>
-                <li> 
-                    <a href="/about" v-if="!store.user.admin_user">About Us</a>
-                </li>
             </ul>
         </div>
 
         <div id="LogOut">
-            <!-- <p>Hi, <a href="/profile">{{store.user.username}}</a></p> -->
-
+            <p>Hi, <a href="/profile">{{store.user.username}}</a></p>
             <o-button @click="logOut">
                 Log Out
             </o-button>
