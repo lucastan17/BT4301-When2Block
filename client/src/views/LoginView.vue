@@ -1,7 +1,21 @@
 <template>
     <div>
-        <HeaderBar2 title="Log In">
-            <o-button class="button" @click="register">Register</o-button>
+        <HeaderBar2>
+            <template #logo>
+                <div class="border align-items-">
+                <router-link to="/">
+                    <img class="logo" src="../assets/logo.png" />
+                </router-link>
+            </div>
+            </template>
+            <template #header>
+                <div id="header">
+                    <h3>{{header}}</h3>
+                </div>
+            </template>
+            <template #button>
+                <o-button class="button" @click="register">{{button}}</o-button>
+            </template>
         </HeaderBar2>
         <br />
         <LogIn />
@@ -18,6 +32,12 @@ export default {
         register() {
             this.$router.push({ name: "register" })
         }
+    },
+    data() {
+        return {
+        header: 'Log In',
+        button: 'Register'
+        }
     }
 }
 </script>
@@ -30,5 +50,21 @@ export default {
     position: absolute;
     right: 5px;
 }
+
+.logo {
+    width: 15%;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+#header {
+    color: white;
+    margin: 15px;
+    display: flex;
+    font-size: 40px;
+    padding-top: 50px;
+}
+
 </style>
     
