@@ -11,9 +11,8 @@ module.exports = {
         { where: { email } }
       )
       const user = await User.findOne({
-        where: {
-          email
-        }
+        where: { email },
+        individualHooks: true
       })
       if (!user) {
         return res.status(403).send({
