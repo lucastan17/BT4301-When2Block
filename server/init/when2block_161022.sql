@@ -76,12 +76,7 @@ CREATE TABLE `Users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 
-
-
-
-
-
-
+-- INSERT DATA
 
 INSERT INTO `Surveys` (`survey_id`, `user_id`, `sunscreen_freq`, `skin_type`, `createdAt`, `updatedAt`) VALUES
 (1, 5, 'monthly', 'dry', '2022-10-09 09:06:55', '2022-10-09 09:06:55');
@@ -117,6 +112,23 @@ INSERT INTO `Users` (`user_id`, `username`, `email`, `password`, `createdAt`, `u
 (19, 'test6', 'test6@gmail.com', '$2b$10$KsaimtkRLIlmBGqt5Gys6eCJd40X6dtgdMWWCfNzjnpuuIVMumtRW', '2022-10-15 16:01:20', '2022-10-15 16:01:20', 0),
 (20, 'test7', 'test7@gmail.com', '$2b$10$K6RDLLwbdmJovrM.qKuHJu/PQeBaUctGfwnKJ.g9yAkpxYdkBlLzq', '2022-10-15 16:17:47', '2022-10-15 16:17:47', 0);
 
+INSERT INTO Check_in (`user_id`, `checkin_date`)
+VALUES (1, SUBDATE(NOW(), 5)),
+	   (4, SUBDATE(NOW(), 3)),
+	   (4, SUBDATE(NOW(), 2)),
+       (2, SUBDATE(NOW(), 2)),
+	   (4, SUBDATE(NOW(), 1)),
+       (4, NOW()),
+       (1, NOW());
+       
+INSERT INTO Drift (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`, `auc`)
+VALUES (1, SUBDATE(NOW(), 3), 0.85, 0.7, 0.8, 0.6, 0.75),
+	   (2, SUBDATE(NOW(), 1), 0.88, 0.6, 0.8, 0.7, 0.8);
+       
+INSERT INTO Results (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`)
+VALUES (1, 'Woodlands', NOW(), 'Sunny', 3, 'Wear', 'Wear'),
+	   (1, 'Ang Mo Kio', NOW(), 'Cloudy', 2, 'Optional', 'Optional'),
+       (1, 'Bedok', NOW(), 'Light Rain', 2, 'Optional', 'Optional');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
