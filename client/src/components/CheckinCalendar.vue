@@ -63,22 +63,21 @@ import CheckInService from '@/services/checkInService'
     },
     methods: {
       async checkin() {
-        const today = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        alert("Checked in for today")
+        const today = new Date().toISOString().slice(0, 10).replace('T', ' ');
+        window.location.reload()
+        await this.store.setCheckedin()
         try {
           const r = await CheckInService.checkin({
             id: this.user_id,
             date: today
           })
-          console.log(r)
+          console.log(r.data)
           this.attributes.push({
             key: 'today',
             bar: 'orange',
             dates: new Date()
           })
-          await this.store.setUser(this.store.user)
-          this.checkedin = true
-          alert("Checked in for today")
-          this.$router.push("/track")
         } catch (err) {
           console.log(err)
         }
@@ -86,6 +85,8 @@ import CheckInService from '@/services/checkInService'
       }
     },
     async created() {
+      this.attributes = []
+      this.checkedin = this.store.checkedin
         try {
             const r = await CheckInService.getdates({
               id: this.user_id
@@ -100,7 +101,7 @@ import CheckInService from '@/services/checkInService'
             this.loaded = true
             for (var x = 0; x < this.attributes.length; x++) {
               console.log(this.attributes[x].dates)
-              console.log(new Date().toISOString().slice(0, 19).replace('T', ' '))
+              console.log(new Date().toISOString().slice(0, 10).replace('T', ' '))
             }
         } catch (err) {
           console.log(err)
