@@ -21,7 +21,6 @@ CREATE TABLE `Drift` (
   `precision` float NOT NULL,
   `recall` float NOT NULL,
   `f1_score` float NOT NULL,
-  `auc` float NOT NULL,
   PRIMARY KEY (`model_id`,`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -40,8 +39,8 @@ CREATE TABLE `Results` (
   `time` datetime NOT NULL,
   `weather` varchar(255) NOT NULL,
   `uv_index` int NOT NULL,
-  `prediction` varchar(255) NOT NULL,
-  `actual` varchar(255) NOT NULL,
+  `prediction` int NOT NULL,
+  `actual` int NOT NULL,
   PRIMARY KEY (`model_id`,`location`,`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -121,14 +120,17 @@ VALUES (1, SUBDATE(NOW(), 5)),
        (4, NOW()),
        (1, NOW());
        
-INSERT INTO Drift (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`, `auc`)
-VALUES (1, SUBDATE(NOW(), 3), 0.85, 0.7, 0.8, 0.6, 0.75),
-	   (2, SUBDATE(NOW(), 1), 0.88, 0.6, 0.8, 0.7, 0.8);
+INSERT INTO Drift (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`)
+VALUES (1, SUBDATE(NOW(), 3), 0.85, 0.7, 0.8, 0.6),
+	   (2, SUBDATE(NOW(), 1), 0.88, 0.6, 0.8, 0.7);
        
 INSERT INTO Results (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`)
-VALUES (1, 'Woodlands', NOW(), 'Sunny', 3, 'Wear', 'Wear'),
-	   (1, 'Ang Mo Kio', NOW(), 'Cloudy', 2, 'Optional', 'Optional'),
-       (1, 'Bedok', NOW(), 'Light Rain', 2, 'Optional', 'Optional');
+VALUES (1, 'Woodlands', NOW() + INTERVAL 1 DAY, 'Sunny', 3, 1, 1),
+	   (1, 'Ang Mo Kio', NOW() + INTERVAL 1 DAY, 'Cloudy', 2, 0, 0),
+       (1, 'Bedok', NOW() + INTERVAL 1 DAY, 'Light Rain', 2, 0, 0),
+       (1, 'Woodlands', NOW(), 'Sunny', 3, 1, 1),
+	   (1, 'Ang Mo Kio', NOW(), 'Cloudy', 2, 0, 0),
+       (1, 'Bedok', NOW(), 'Light Rain', 2, 0, 0);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

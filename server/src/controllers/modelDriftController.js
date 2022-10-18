@@ -1,68 +1,83 @@
 const db = require('../models')
 const sequelize = db.sequelize
 const { QueryTypes } = require('sequelize')
+// const Drift = require('../models/Drift')
 
 module.exports = {
   async index (req, res) {
-    var result = {}
+    let result = {}
     try {
-      const first_pred_date = await sequelize.query('SELECT MIN(time) FROM Results', { type: QueryTypes.SELECT })
-      if (first_pred_date[0] == null) {
-        result = {'msg':'No predictions to show.'}
+      const firstPredDate = await sequelize.query('SELECT MIN(time) as min_time FROM Results', { type: QueryTypes.SELECT })
+
+      if (firstPredDate[0].min_time === undefined) {
+        result = { msg: 'No predictions to show.' }
       } else {
-        var records = []
-        var max_date = await sequelize.query('SELECT MAX(time) FROM Drift', { type: QueryTypes.SELECT })
-        if (max_date[0] == null) {
-          records = await sequelize.query('SELECT DAY(time), prediction, actual FROM Results ORDER BY timee', { type: QueryTypes.SELECT })
-        } else {
-          thirty_ago = new Date()
-          thirty_ago.setDate(thirty_ago.getDate() - 30)
-          var max_date = new Date(max_date[0])
-          const last_date = new Date(Math.max(max_date, thirty_ago)).toISOString().slice(0, 19).replace('T', ' ')
-          const query = 'SELECT DAY(time), prediction, actual'+
-                        'FROM Results WHERE time >= ' + last_date
-          records = await sequelize.query(query, { type: QueryTypes.SELECT })
-        }
-        console.log(records)
-        /*
-        for each row in records:
-          var date = row[time]
-          if !(date in result) {
-            result[date] = {
-              tp: 0,
-              tn: 0,
-              fn: 0,
-              fp: 0
+        let records = []
+        let lastPred = await sequelize.query('SELECT time, model_id FROM Results ' +
+          'WHERE time = (SELECT MAX(time) FROM Results) LIMIT 1;', { type: QueryTypes.SELECT })
+        const modelId = lastPred[0].model_id
+        lastPred = lastPred[0].time
+        let maxDate = await sequelize.query('SELECT MAX(time) as time FROM Drift WHERE model_id = ' + modelId,
+          { type: QueryTypes.SELECT })
+        maxDate = maxDate[0].time
+        const thirtyDaysAgo = new Date()
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+        const maxDateStr = maxDate.toISOString().slice(0, 10)
+        const lastPredStr = lastPred.toISOString().slice(0, 10)
+
+        if (maxDateStr !== lastPredStr) {
+          if (maxDate === undefined) {
+            records = await sequelize.query('SELECT CAST(time AS DATE) as date, prediction, actual FROM Results WHERE model_id = ' +
+              modelId + ' ORDER BY time', { type: QueryTypes.SELECT })
+          } else {
+            maxDate = new Date(maxDate)
+            console.log(maxDate)
+            const lastDate = new Date(Math.max(maxDate, thirtyDaysAgo)).toISOString().slice(0, 19)
+            const query = "SELECT CAST(time AS DATE) as date, prediction, actual FROM Results WHERE time >= str_to_date('" +
+            lastDate + "', '%Y-%m-%dT%H:%i:%s') AND model_id = " + modelId
+            records = await sequelize.query(query, { type: QueryTypes.SELECT })
+          }
+
+          const confMat = {}
+          records.forEach(confusion)
+
+          function confusion (item) {
+            const date = item.date
+            if (!(date in confMat)) {
+              confMat[date] = { tp: 0, tn: 0, fn: 0, fp: 0 }
+            }
+            if (item.prediction === item.actual && item.actual) {
+              confMat[date].tp += 1
+            } else if (item.prediction === item.actual && !item.actual) {
+              confMat[date].tn += 1
+            } else if (item.prediction !== item.actual && item.actual) {
+              confMat[date].fn += 1
+            } else {
+              confMat[date].fp += 1
             }
           }
-          if prediction == actual and actual:
-            tp += 1
-          else if prediction == actual and !actual:
-            tn += 1
-          else if prediction != actual and actual:
-            fn += 1
-          else:
-            fp +=1
-          
-        
-        for each key, val in result:
-          var acc, pre, rec, f1, auc
-          acc = (val.tp + val.tn) / (val.tp + val.tn + val.fp + val.fn)
-          pre = val.tp / (val.tp + val.fp)
-          rec = val.tp / (val.tp + val.fn)
-          f1 = 2 * pre * rec / (pre + rec)
-          result.key = {
-            'acc' : acc,
-            'pre' : pre,
-            'rec' : rec,
-            'f1' : f1
+
+          const newValues = []
+          Object.entries(confMat).forEach(metric)
+
+          function metric (item) {
+            const [date, val] = item
+            const acc = (val.tp + val.tn) / (val.tp + val.tn + val.fp + val.fn)
+            const pre = val.tp / (val.tp + val.fp)
+            const rec = val.tp / (val.tp + val.fn)
+            const f1 = 2 * pre * rec / (pre + rec)
+            newValues.push({
+              model_id: modelId, time: date, accuracy: acc, precision: pre, recall: rec, f1_score: f1
+            })
           }
-        
-          //push to db
-          
-        */
+          await db.drift.bulkCreate(newValues)
+        }
+        thirtyDaysAgo.setHours(0, 0, 0, 0)
+        result = await sequelize.query("SELECT * FROM Drift WHERE time >= str_to_date('" +
+          thirtyDaysAgo.toISOString().slice(0, 19) + "', '%Y-%m-%dT%H:%i:%s') AND model_id = " + modelId,
+        { type: QueryTypes.SELECT })
       }
-      res.send(records)
+      res.send(result)
     } catch (err) {
       result.err = err.error
       res.send(result)
@@ -70,13 +85,10 @@ module.exports = {
   }
 }
 
-
-
 /*
 steps:
-1. check drift table for latest date.
-2. if now - smallest date < 30, use all data,
-   else take diff = max(now - 30 days, now - latest date in drift table) ie. find min number of days we need to calc for.
+1. check drift table for latest date and model id.
+2. take diff = max(now - 30 days, now - latest date in drift table) ie. find min number of days we need to calc for.
 3. for each day within this period, retrieve and count true positive true negative etc, then calc accuracy etc
 4. push each day into drift model
 */
