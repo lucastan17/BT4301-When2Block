@@ -253,7 +253,6 @@ export default {
         for ( var i = 0; i < weatherPred.length; i++){
             var condition = weatherPred.forecast
 
-
             if(this.sunnyConditions.includes(condition)){
                 condition = 1
             } else {
@@ -288,8 +287,10 @@ export default {
         }
         const loc = document.getElementById('select-place').value
         const hour = parseInt(document.getElementById('select-time').value.substring(0,2))
-        const off_hours = [0,1,2,3,4,5,6,20,21,22,23]
-
+        const c_hour = parseInt(this.timing[0].time.substring(0,2))
+        const diff = hour-c_hour
+        const off_hours = []//[0,1,2,3,4,5,6,20,21,22,23]
+        
         // check if hour of search is out of 7am-7pm
         if (off_hours.includes(hour)) {
             this.isSunny = 0
@@ -306,14 +307,14 @@ export default {
             // post into database
             for (var i = 0; i<47;i++){
                 const name = this.infometa[i].name 
-                const ts = new Date(new Date().getTime() + 8 * (3600 * 1000)) // TO DO: ts should be the searched hour ts
+                const ts = new Date(new Date().getTime() + (8 + diff) * (3600 * 1000)) // TO DO: ts should be the searched hour- Solved by getting diff and adding it
                 console.log('storing pred for this place: ', name)
                 const response = await searchService.post({
                     model_id: 0,
                     location: name,
                     weather: weatherPred[i].forecast,
                     time: ts,
-                    uv_index: uviPred,
+                    uv_index: Math.ceil(uviPred),
                     prediction: ((predResults[i] < 0.5) ? 0 : 1),
                     actual: (((predResults[i] < 0.5) & (uviPred < 3)) ? 0 : 1), 
                     predict_proba: predResults[i]
