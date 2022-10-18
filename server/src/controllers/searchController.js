@@ -13,11 +13,29 @@ module.exports = {
       const pred = await sequelize.query('SELECT * FROM when2block.Results WHERE cast(results.time as date) >= cast(Date(Now()) as date) and hour(results.time) > hour(Date(Now()))', { type: QueryTypes.SELECT })
       result.pred = pred
 
-      const tf = require('@tensorflow/tfjs')
-      const tfn = require('@tensorflow/tfjs-node')
-      const handler = tfn.io.fileSystem('./public/uvi-model/UVImodel.json')
-      const UVImodel = await tf.loadLayersModel(handler)
-      console.log('backend loaded', UVImodel)
+      const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/model_1/UVImodel.json')
+      result.handler1 = handler1
+
+      const UVImodel = await tf.loadLayersModel(handler1)
+      // const locStor = await UVImodel.save('http://localhost:8081/search#UVImodel')
+      result.UVImodel = UVImodel
+
+      const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/model_2/model.json')
+      result.handler2 = handler2
+
+      const model = await tf.loadLayersModel(handler2)
+      result.model = model
+
+      const inputTensor = tf.tensor2d([[1, 2], [0, 3], [1, 1], [0, 4]])
+      result.inputTensor = inputTensor
+
+      const predResult = await model.predict(inputTensor)
+      result.predResult = predResult
+
+      const predResultout = predResult.dataSync()
+      result.pred = predResultout
+
+      form.append('UV_model', UVImodel)
 
       res.send(result)
     } catch (err) {

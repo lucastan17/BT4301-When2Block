@@ -69,8 +69,8 @@ import axios from 'axios';
 // import HeaderBar from "./HeaderBar.vue";
 import searchService from '@/services/searchService';
 const tf = require('@tensorflow/tfjs')
-// const tf = require("@tensorflow/tfjs-node")
-// console.log(tfn)
+//const tfn = require("@tensorflow/tfjs-node")
+
 
 // const weatherUrl = 'https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date='
 const uviUrl = 'https://api.data.gov.sg/v1/environment/uv-index?date='
@@ -84,11 +84,6 @@ import {
   LTileLayer,
   LMarker,
   LPopup,
-  //LControlLayers,
-  /*LTooltip,
-  LPolyline,
-  LPolygon,
-  LRectangle,*/
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -104,11 +99,6 @@ export default {
     LPopup,
     LTileLayer,
     LMarker,
-    //LControlLayers,
-    //LTooltip,
-    //LPolyline,
-    //LPolygon,
-    //LRectangle,
     },
  
     data () {
@@ -129,6 +119,7 @@ export default {
             infofc:{},
             infoUV:null,
             db_info:{},
+            uviModel:null,
             places:{'Ang Mo Kio':{name:'Ang Mo Kio',forecast:'1',lat:'',long:''},'Bedok':{name:'Bedok',forecast:'',lat:'',long:''},'Bishan':{name:'Bishan',forecast:'',lat:'',long:''},'Boon Lay':{name:'Boon Lay',forecast:'',lat:'',long:''},'Bukit Batok':{name:'Bukit Batok',forecast:'',lat:'',long:''},
                     'Bukit Merah':{name:'Bukit Merah',forecast:'2',lat:'',long:''},'Bukit Panjang':{name:'Bukit Panjang',forecast:'',lat:'',long:''},'Bukit Timah':{name:'Bukit Timah',forecast:'',lat:'',long:''},'Central Water Catchment':{name:'Central Water Catchment',forecast:'',lat:'',long:''},'Changi':{name:'Changi',forecast:'',lat:'',long:''},
                     'Choa Chu Kang':{name:'Choa Chu Kang',forecast:'3',lat:'',long:''},'Clementi':{name:'Clementi',forecast:'',lat:'',long:''},'City':{name:'City',forecast:'',lat:'',long:''},'Geylang':{name:'Geylang',forecast:'',lat:'',long:''},'Hougang':{name:'Hougang',forecast:'',lat:'',long:''},
@@ -154,7 +145,10 @@ export default {
     async load_db(){ 
         searchService.index().then( res =>{
             this.db_info = res.data
-            console.log(this.db_info)
+            this.uviModel = res.data.UVImodel
+            console.log(res.data)
+            //console.log(res.data)
+
         }).catch(err => {
             console.log(err)  
         })
@@ -204,7 +198,7 @@ export default {
             var display = new Date(cT.getTime() + (j+ 8) * 3600*1000).toISOString().substring(11,16)
             this.timing[j].time=display  
         }
-        console.log(this.timing)
+        // console.log(this.timing)
     }, 
 
     formatDate(dt) {
@@ -225,10 +219,12 @@ export default {
     async runUVI() {
         console.log('run UVI triggered')
         // load model
+        
         const UVImodel = await tf.loadLayersModel("http://localhost:8080/uvi-model/UVImodel.json")
         // const handler = tfn.io.fileSystem("./public/uvi-model/UVImodel.json");
         // const UVImodel = await tf.loadLayersModel(handler);
         console.log('uvi model loaded', UVImodel)
+
 
         // load yesterday UVI
         const uviDataObj = await axios.get(uviUrl + this.formatDate(previous))
@@ -239,6 +235,7 @@ export default {
         const uviTensor = this.uviTransform(uviDataList)
         const uviResult = await UVImodel.predict(uviTensor)
         const uviResultout = uviResult.dataSync()
+
         console.log('uvi model result:', uviResultout)
         console.log('uvi value from model result:', uviResultout[0])
 
@@ -255,6 +252,8 @@ export default {
         const weatherItems = [];
         for ( var i = 0; i < weatherPred.length; i++){
             var condition = weatherPred.forecast
+
+
             if(this.sunnyConditions.includes(condition)){
                 condition = 1
             } else {
@@ -331,7 +330,6 @@ export default {
         console.log("Call model and display")
         }
         this.centerUpdated()
-
     },
     checkSunny(place,time){
         var forecast = this.places[place].forecast
