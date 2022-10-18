@@ -1,54 +1,29 @@
 const db = require('../models')
 const sequelize = db.sequelize
 const { QueryTypes, Op } = require('sequelize')
-// const { results } = require('../models')
-const Results = db.Results
-const FormData = require('form-data')
-const tf = require('@tensorflow/tfjs')
-const tfn = require('@tensorflow/tfjs-node')
+const Results = db.results
 
 module.exports = {
   async index (req, res) {
     const result = {}
-    const form = new FormData()
     try {
-      const all = await sequelize.query('SELECT * FROM Results', { type: QueryTypes.SELECT })
+      const all = await sequelize.query('SELECT * FROM results', { type: QueryTypes.SELECT })
       result.all = all
-
       // logic to retrieve from db
       // need location and time
-      const currDate = await sequelize.query('SELECT cast(Results.time as date) date FROM Results WHERE Results.location ="test"', { type: QueryTypes.SELECT })
+      const currDate = await sequelize.query('SELECT cast(results.time as date) date FROM results WHERE results.location ="test"', { type: QueryTypes.SELECT })
       result.currDate = currDate
 
-      const UVI = await sequelize.query('SELECT * FROM Results WHERE cast(Results.time as date) >= cast(Date(Now()) as date)', { type: QueryTypes.SELECT })
+      const UVI = await sequelize.query('SELECT * FROM results WHERE cast(results.time as date) >= cast(Date(Now()) as date)', { type: QueryTypes.SELECT })
+      // result.curr = CURDATE()
       result.UVI = UVI
 
-      const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/model_1/UVImodel.json')
-      result.handler1 = handler1
+      const tf = require('@tensorflow/tfjs')
+      const tfn = require('@tensorflow/tfjs-node')
+      const handler = tfn.io.fileSystem('./public/uvi-model/UVImodel.json')
+      const UVImodel = await tf.loadLayersModel(handler)
+      console.log('backend loaded', UVImodel)
 
-      const UVImodel = await tf.loadLayersModel(handler1)
-      // const locStor = await UVImodel.save('http://localhost:8081/search#UVImodel')
-
-      result.UVImodel = UVImodel
-      // result.locStor = locStor
-      // form.append('UV_model', UVImodel)
-      // result.form = form
-      const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/model_2/model.json')
-      result.handler2 = handler2
-
-      const model = await tf.loadLayersModel(handler2)
-      result.model = model
-
-      const inputTensor = tf.tensor2d([[1, 2], [0, 3], [1, 1], [0, 4]])
-      result.inputTensor = inputTensor
-
-      const predResult = await model.predict(inputTensor)
-      result.predResult = predResult
-
-      const predResultout = predResult.dataSync()
-      result.pred = predResultout
-
-      form.append('UV_model', UVImodel)
       const timeModel = await Results.findAll({
         where: {
           time: {
