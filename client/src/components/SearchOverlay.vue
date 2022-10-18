@@ -154,7 +154,7 @@ export default {
     async load_db(){ 
         searchService.index().then( res =>{
             this.db_info = res.data
-            console.log(this.db_info) 
+            console.log(this.db_info)
         }).catch(err => {
             console.log(err)  
         })
@@ -251,10 +251,6 @@ export default {
         const predModel = await tf.loadLayersModel("http://localhost:8080/tfjs-model/model.json")
         console.log('pred model loaded', predModel)
 
-        // // load weather forecast
-        // const weatherDataObj = await axios.get('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast')
-        // const weatherList = weatherDataObj.data.items[0].forecasts
-
         // transform into numerical input
         const weatherItems = [];
         for ( var i = 0; i < weatherPred.length; i++){
@@ -273,7 +269,7 @@ export default {
         const predResult = await predModel.predict(inputTensor)
         const predResultout = predResult.dataSync()
 
-        alert('done running predictionn model')
+        alert('done running prediction model')
         return predResultout
     },
     async weatherPredData(hour) {
@@ -285,22 +281,33 @@ export default {
         return weatherList
     },
     async search(){
-        const hour = 12
-        const hours = [13, 14]
 
+        // get hours already in database
+        const hours = []
+        for (var j = 0; j<this.db_info.hours[0].length;j++){ 
+            hours.push(this.db_info.hours[0][j].hr)
+        }
+        const loc = document.getElementById('select-place').value
+        const hour = parseInt(document.getElementById('select-time').value.substring(0,2))
+        const off_hours = [0,1,2,3,4,5,6,20,21,22,23]
+
+        // check if hour of search is out of 7am-7pm
+        if (off_hours.includes(hour)) {
+            this.isSunny = 0
         // check if hour of search is not in data base
-        if (!hours.includes(hour)) {
+        } else if (!hours.includes(hour)) {
             const uviResults = await this.runUVI()
             const uviPred = uviResults[0]
             const weatherPred = await this.weatherPredData(hour)
             const predResults = await this.runPred(uviPred, weatherPred)
             console.log("finish running prediction model") 
             console.log(predResults)
+            console.log(Object.keys(this.places))
 
             // post into database
-            for ( var i = 0; i<Object.keys(this.places).length;i++){
-                var name = this.infometa[i].name 
-                const ts = new Date(new Date().getTime() + 8 * (3600 * 1000)) // TO DO
+            for (var i = 0; i<47;i++){
+                const name = this.infometa[i].name 
+                const ts = new Date(new Date().getTime() + 8 * (3600 * 1000)) // TO DO: ts should be the searched hour ts
                 console.log('storing pred for this place: ', name)
                 const response = await searchService.post({
                     model_id: 0,
@@ -309,19 +316,22 @@ export default {
                     time: ts,
                     uv_index: uviPred,
                     prediction: ((predResults[i] < 0.5) ? 0 : 1),
-                    actual: 0, // TODO
+                    actual: (((predResults[i] < 0.5) & (uviPred < 3)) ? 0 : 1), 
                     predict_proba: predResults[i]
                 })
+                if(name == loc) {
+                    this.isSunny = ((predResults[i] < 0.5) ? 0 : 1)
+                    console.log('updating sunnny', this.isSunny)
+                }
                 console.log(response.data)
             }
-        }
+        } else {
         // call straight from database
-
         this.load_db()
         console.log("Call model and display")
-            
+        }
+        this.centerUpdated()
 
-        this.centerUpdated();
     },
     checkSunny(place,time){
         var forecast = this.places[place].forecast
@@ -346,11 +356,11 @@ export default {
     },
     centerUpdated(){
         var p = document.getElementById('select-place').value
-        var t = this.timing.time
+        // var t = this.timing.time
         this.center = [this.places[p].lat,this.places[p].long]
         this.showResults = true;
         //console.log(t)
-        this.checkSunny(p,t)
+        // this.checkSunny(p,t)
         //this.checkTime(new Date(t))
         this.map.setView(this.center,13.5)    
     }
