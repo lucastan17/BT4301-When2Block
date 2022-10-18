@@ -66,7 +66,6 @@
 
 <script>
 import axios from 'axios';
-
 // import HeaderBar from "./HeaderBar.vue";
 import searchService from '@/services/searchService';
 const tf = require('@tensorflow/tfjs')
@@ -207,27 +206,121 @@ export default {
         }
         console.log(this.timing)
     }, 
-    async search(){
-        if (this.db_info.UVI.length != 0 ){
-            console.log("UVI_called")
-        } else {
-            console.log("Call model and display")
-            //model call function here, store in const result and reload db
-            //UVI_model.run() etc
-            
-            const response = await searchService.post({
-                    model_id: this.dummyModel.model_id,
-                    location: this.dummyModel.location,
-                    time: this.dummyModel.time,
-                    weather: this.dummyModel.weather,
-                    uv_index: this.dummyModel.uv_index,
-                    prediction: this.dummyModel.prediction,
-                    actual: this.dummyModel.actual,
-                    predict_proba:this.dummyModel.predict_proba,
-            })
-            console.log(response.data)
-            this.load_db()
+
+    formatDate(dt) {
+        let day = dt.getDate();
+        let month = dt.getMonth() + 1;
+        let year = dt.getFullYear();
+        return `${year}-${month}-${(day > 9 ? '' : '0') + day}`;
+    },
+    uviTransform(data) {
+        const input = [];
+        for (let i = 0; i < data.length; i++) {
+            var value = [data[i].value]
+            input.push(value)
         }
+        const inputTensor = tf.tensor3d([input]);
+        return inputTensor
+    },  
+    async runUVI() {
+        console.log('run UVI triggered')
+        // load model
+        const UVImodel = await tf.loadLayersModel("http://localhost:8080/uvi-model/UVImodel.json")
+        // const handler = tfn.io.fileSystem("./public/uvi-model/UVImodel.json");
+        // const UVImodel = await tf.loadLayersModel(handler);
+        console.log('uvi model loaded', UVImodel)
+
+        // load yesterday UVI
+        const uviDataObj = await axios.get(uviUrl + this.formatDate(previous))
+        const uviDataList = uviDataObj.data.items[12].index
+        console.log('uvi data loaded' ,uviDataList)
+        
+        // transform uvi data into a tensor
+        const uviTensor = this.uviTransform(uviDataList)
+        const uviResult = await UVImodel.predict(uviTensor)
+        const uviResultout = uviResult.dataSync()
+        console.log('uvi model result:', uviResultout)
+        console.log('uvi value from model result:', uviResultout[0])
+
+        alert('done running UVI model')
+        return uviResultout
+    },
+    async runPred(uviPred, weatherPred) {
+        console.log('run prediction triggered')
+        // load model
+        const predModel = await tf.loadLayersModel("http://localhost:8080/tfjs-model/model.json")
+        console.log('pred model loaded', predModel)
+
+        // // load weather forecast
+        // const weatherDataObj = await axios.get('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast')
+        // const weatherList = weatherDataObj.data.items[0].forecasts
+
+        // transform into numerical input
+        const weatherItems = [];
+        for ( var i = 0; i < weatherPred.length; i++){
+            var condition = weatherPred.forecast
+            if(this.sunnyConditions.includes(condition)){
+                condition = 1
+            } else {
+                condition = 0
+            }
+            weatherItems.push([condition, uviPred])
+        }
+        console.log('weather data loaded', weatherItems)
+
+        // transform weather and uvi data into a tensor
+        const inputTensor = tf.tensor2d(weatherItems)
+        const predResult = await predModel.predict(inputTensor)
+        const predResultout = predResult.dataSync()
+
+        alert('done running predictionn model')
+        return predResultout
+    },
+    async weatherPredData(hour) {
+        // load weather forecast
+        console.log(hour)
+        const weatherDataObj = await axios.get('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast')
+        const weatherList = weatherDataObj.data.items[0].forecasts
+        console.log('2 hour pred data: ', weatherList)
+        return weatherList
+    },
+    async search(){
+        const hour = 12
+        const hours = [13, 14]
+
+        // check if hour of search is not in data base
+        if (!hours.includes(hour)) {
+            const uviResults = await this.runUVI()
+            const uviPred = uviResults[0]
+            const weatherPred = await this.weatherPredData(hour)
+            const predResults = await this.runPred(uviPred, weatherPred)
+            console.log("finish running prediction model") 
+            console.log(predResults)
+
+            // post into database
+            for ( var i = 0; i<Object.keys(this.places).length;i++){
+                var name = this.infometa[i].name 
+                const ts = new Date(new Date().getTime() + 8 * (3600 * 1000)) // TO DO
+                console.log('storing pred for this place: ', name)
+                const response = await searchService.post({
+                    model_id: 0,
+                    location: name,
+                    weather: weatherPred[i].forecast,
+                    time: ts,
+                    uv_index: uviPred,
+                    prediction: ((predResults[i] < 0.5) ? 0 : 1),
+                    actual: 0, // TODO
+                    predict_proba: predResults[i]
+                })
+                console.log(response.data)
+            }
+        }
+        // call straight from database
+
+        this.load_db()
+        console.log("Call model and display")
+            
+
         this.centerUpdated();
     },
     checkSunny(place,time){
