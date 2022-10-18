@@ -69,7 +69,8 @@ import axios from 'axios';
 // import HeaderBar from "./HeaderBar.vue";
 import searchService from '@/services/searchService';
 const tf = require('@tensorflow/tfjs')
-// const tfn = require("@tensorflow/tfjs-node")
+// const tf = require("@tensorflow/tfjs-node")
+// console.log(tfn)
 
 // const weatherUrl = 'https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date='
 const uviUrl = 'https://api.data.gov.sg/v1/environment/uv-index?date='

@@ -18,6 +18,12 @@ module.exports = {
       // result.curr = CURDATE()
       result.UVI = UVI
 
+      const tf = require('@tensorflow/tfjs')
+      const tfn = require('@tensorflow/tfjs-node')
+      const handler = tfn.io.fileSystem('./public/uvi-model/UVImodel.json')
+      const UVImodel = await tf.loadLayersModel(handler)
+      console.log('backend loaded', UVImodel)
+
       const timeModel = await Results.findAll({
         where: {
           time: {
