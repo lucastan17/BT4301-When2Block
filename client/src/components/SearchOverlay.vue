@@ -66,7 +66,19 @@
 
 <script>
 import axios from 'axios';
-import searchService from '@/services/searchService'
+
+// import HeaderBar from "./HeaderBar.vue";
+import searchService from '@/services/searchService';
+const tf = require('@tensorflow/tfjs')
+// const tf = require("@tensorflow/tfjs-node")
+// console.log(tfn)
+
+// const weatherUrl = 'https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date='
+const uviUrl = 'https://api.data.gov.sg/v1/environment/uv-index?date='
+const today = new Date();
+const previous = new Date(today.getTime());
+previous.setDate(today.getDate() - 1);
+
 import {
   LMap,
   //LIcon,
