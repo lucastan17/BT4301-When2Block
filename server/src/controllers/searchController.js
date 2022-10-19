@@ -1,7 +1,8 @@
 const db = require('../models')
 const sequelize = db.sequelize
-const { QueryTypes } = require('sequelize')
+const { QueryTypes, Op } = require('sequelize')
 const Results = db.results
+const Model = db.model
 const tf = require('@tensorflow/tfjs')
 const tfn = require('@tensorflow/tfjs-node')
 const fetch = require('node-fetch')
@@ -19,11 +20,33 @@ module.exports = {
       const pred = await sequelize.query('SELECT * FROM when2block.Results WHERE cast(Results.time as date) >= cast(Date(Now()) as date) and hour(Results.time) > hour(Date(Now()))', { type: QueryTypes.SELECT })
       result.pred = pred
 
+      // Query Model row for deployed models
+      const UVId = await Model.findOne({
+        where: {
+          deployed: 1,
+          modelDescription: {
+            [Op.startsWith]: 'UVI'
+          }
+        }
+      })
+      const modeld = await Model.findOne({
+        where: {
+          deployed: 1,
+          modelDescription: {
+            [Op.startsWith]: 'LogPred'
+          }
+        }
+      })
+      result.UVId = UVId
+      result.modeld = modeld
+
       const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/uvi_model_1/model.json')
       const UVImodel = await tf.loadLayersModel(handler1)
 
       const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/pred_model_1/model.json')
       const predModel = await tf.loadLayersModel(handler2)
+
+      // Get model_id of deployed
 
       // predict from backend
 

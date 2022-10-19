@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     modelDescription: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    deployed: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   },
   {
