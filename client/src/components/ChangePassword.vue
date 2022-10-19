@@ -61,7 +61,8 @@ export default {
       password: "",
       newpassword: "",
       repassword: "",
-      err: ""
+      err: "",
+      can: false
     };
   },
   methods: {
@@ -74,6 +75,10 @@ export default {
         console.log(response.data)
         if (this.newpassword != this.repassword) {
           this.err = "New password do not match"
+        } else if (this.newpassword.length < 8) {
+          this.err = "New password must be at least 8 characters"
+        } else {
+          this.can = true
         }
 
       } catch (err) {
@@ -84,7 +89,7 @@ export default {
 
     },
     async changepw() {
-      if (!this.err) {
+      if (this.can) {
         try {
             const r = await ProfileService.changepw({
               email: this.store.user.email,

@@ -1,7 +1,7 @@
 // const path = require('path')
 
 module.exports = {
-  port: 8081,
+  port: process.env.PORT || 8081,
   db: {
     /* database: process.env.DB_NAME || 'when2block',
         user: process.env.DB_USER || 'when2block',
@@ -11,8 +11,8 @@ module.exports = {
           host: process.env.HOST || 'localhost' */
     // }
     host: 'localhost',
-    user: 'patchasql',
-    password: 'filter',
+    user: 'root',
+    password: 'password',
     database: 'when2block',
     dialect: 'mysql',
     options: {
