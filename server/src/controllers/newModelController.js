@@ -14,7 +14,7 @@ module.exports = {
         }
       })
 
-      const index = await sequelize.query('SELECT MAX(model_id) as id FROM model', { type: QueryTypes.SELECT })
+      const index = await sequelize.query('SELECT MAX(model_id) as id FROM Model', { type: QueryTypes.SELECT })
       const newId = index[0].id + 1
 
       await Model.create({
