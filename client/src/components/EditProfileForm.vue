@@ -91,25 +91,7 @@ export default {
     font-size: 30pt;
     margin: 0px;
 }
-button {
-  margin: auto;
-  margin-top: 10px;
-  background-color: #ffcc00;
-  border: none;
-  color: black;
-  padding: 10px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-family: "Nunito Sans", sans-serif;
-}
-button:hover {
-  background: #ffc400;
-  color: black;
-  cursor: pointer;
-}
-button:focus {
-  outline: none;
-}
+
 #centre {
   display: flex;
   justify-content: center;
