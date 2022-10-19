@@ -1,22 +1,35 @@
 <template>
-    <section class="hero">
-      <div id="profile-div">
-        <h1 class="msg">Your Profile</h1>
-            <o-field label="Username">
-        <h3 class="profile-info">{{ username }}</h3>
-            </o-field>
-            <o-field label="Email">
-        <h3 class="profile-info">{{ email }}</h3>
-            </o-field>
-            <o-field label="Latest Survey Response">
-        <h3 class="profile-info" v-if="loaded">Sunscreen frequency: {{ sunscreen_freq }}, Skin type: {{ skin_type }}</h3>
-            </o-field>
-        <button @click="goToEdit()">EDIT PROFILE</button>
+    <div class="profile">
+        <div class="container">
+          <h1 class="msg">Your Profile</h1>
+        </div>
+      <div class="grid">
+        <div class="content">
+          <h2 class="username">Username</h2>
+        </div>
+        <div class="content">
+          <b>{{ username }}</b>
+        </div>
+        <div class="content">
+          <h2 class="email">Email Address</h2>
+        </div>
+        <div class="content">
+          <b>{{ email }}</b>
+        </div>
+        <div class="content">
+          <h2 class="survey">Latest Survey Response</h2>
+        </div>
+        <div class="content">
+          <p> Sunscreen frequency: <b v-if="loaded">{{ sunscreen_freq }} </b></p>
+          <p> Skin type: <b v-if="loaded">{{ skin_type }} </b></p>
+        </div>
+
+        </div>
+        <button @click="goToEdit()">EDIT PROFILE</button> 
+        <button @click="changePw()">CHANGE PASSWORD</button> 
         <button @click="redoSurvey()">REDO SURVEY</button>
-        <button @click="changePw()">CHANGE PASSWORD</button>
       </div>
-    </section>
-  </template>
+</template>
   
   <script>
 import { userStore } from '@/store/store'
@@ -71,47 +84,72 @@ import SurveyService from '@/services/surveyService'
   </script>
   <style scoped>
 
-  .hero {
-    margin-top: 100px;
-  }
-  #profile-div {
-    margin-left: auto;
-  margin-right: auto;
-  margin-top: 20px;
+  .profile {
   text-align: center;
-  width: 30%;
+  width: 70%;
+  margin: auto;
+  margin-top: 20px;
   border-radius: 20px;
-  padding: 30px 90px 0px 90px;
+  padding: 20px 50px 20px 50px;
   background-color: #FCF5E8;
   }
-  #logo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 30%;
+
+  .grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 2px;
   }
-  .profile-info {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    font-weight: 1;
+
+  .content {
+  display: flex;
+  justify-content: center;
+  align-content: left;
+  flex-direction: column;
   }
+
   button {
-    margin: 10px;
-    margin-top: 10px;
-    background-color: #ffcc00;
-    border: none;
-    color: black;
-    padding: 10px;
-    border-radius: 4px;
-    font-weight: bold;
-  }
-  button:hover {
-    background: #F16308;
-    color: black;
-    cursor: pointer;
-  }
-  button:focus {
-    outline: none;
-  }
+  background-color: #F16308;
+  border: none;
+  margin-right: 10px;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-family: "Nunito Sans", sans-serif;
+}
+button:hover {
+  background: #ffcc00;
+  color: black;
+  cursor: pointer;
+}
+button:focus {
+  outline: none;
+}
+.msg {
+  color: white;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+.container {
+  font-family: var(--font-family-epilogue);
+  text-align: center;
+      background-color: #F16308;
+      width: 25%;
+      height: 100%;
+      border-radius: 20px;
+      padding: 1px 1px 1px 1px;
+      margin: auto;
+}
+
+.username, .email, .survey {
+  font-size: 20px;
+  float: left;
+  font-weight: 700;
+  color: #ffc400;
+}
+.content {
+  float: left;
+}
   </style>
   
