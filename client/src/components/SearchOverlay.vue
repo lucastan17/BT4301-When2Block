@@ -154,7 +154,7 @@ export default {
     async load_db(){ 
         searchService.index().then( res =>{
             this.db_info = res.data
-            console.log(this.db_info)
+            console.log('here', this.db_info)
         }).catch(err => {
             console.log(err)  
         })
@@ -294,6 +294,7 @@ export default {
         // check if hour of search is out of 7am-7pm
         if (off_hours.includes(hour)) {
             this.isSunny = 0
+
         // check if hour of search is not in data base
         } else if (!hours.includes(hour)) {
             const uviResults = await this.runUVI()
@@ -327,7 +328,8 @@ export default {
             }
         } else {
         // call straight from database
-        this.load_db()
+        // this.load_db()
+        // this.db_info
         console.log("Call model and display")
         }
         this.centerUpdated()

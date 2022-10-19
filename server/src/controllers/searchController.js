@@ -1,7 +1,13 @@
 const db = require('../models')
 const sequelize = db.sequelize
-const QueryTypes = require('sequelize')
+const { QueryTypes } = require('sequelize')
 const Results = db.results
+const tf = require('@tensorflow/tfjs')
+const tfn = require('@tensorflow/tfjs-node')
+const fetch = require('node-fetch')
+// const { results } = require('../models')
+const uviUrl = 'https://api.data.gov.sg/v1/environment/uv-index?date='
+const sunnyConditions = ['Cloudy', 'Fair & Warm', 'Fair (Day)', 'Partly Cloudy(Day)', 'Windy']
 
 module.exports = {
   async index (req, res) {
@@ -13,11 +19,60 @@ module.exports = {
       const pred = await sequelize.query('SELECT * FROM when2block.Results WHERE cast(results.time as date) >= cast(Date(Now()) as date) and hour(results.time) > hour(Date(Now()))', { type: QueryTypes.SELECT })
       result.pred = pred
 
-      const tf = require('@tensorflow/tfjs')
-      const tfn = require('@tensorflow/tfjs-node')
-      const handler = tfn.io.fileSystem('./public/uvi-model/UVImodel.json')
-      const UVImodel = await tf.loadLayersModel(handler)
-      console.log('backend loaded', UVImodel)
+      const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/uvi_model_1/model.json')
+      const UVImodel = await tf.loadLayersModel(handler1)
+
+      const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/pred_model_1/model.json')
+      const predModel = await tf.loadLayersModel(handler2)
+
+      // predict from backend
+
+      // predict UVI
+      // load yesterday UVI
+      const today = new Date()
+      const previous = new Date(today.getTime())
+      previous.setDate(today.getDate() - 1)
+      result.prev = previous
+
+      const urlerror = this.formatDate(previous)
+      result.urlerror = urlerror
+
+      const uviDataObj = await fetch(uviUrl + this.formatDate(previous))
+      const uviDataList = uviDataObj.data.items[12].index
+      result.uviurl = uviDataList
+      // transform uvi data into a tensor
+      const uviTensor = this.uviTransform(uviDataList)
+      const uviResult = await UVImodel.predict(uviTensor)
+      const uviResultout = uviResult.dataSync()
+      const uviPred = uviResultout[0]
+
+      // weather pred
+      const weatherDataObj = await fetch('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast')
+      const weatherPred = weatherDataObj.data.items[0].forecasts
+      result.weatherpred = weatherPred
+
+      // transform into numerical input
+      const weatherItems = []
+      for (let i = 0; i < weatherPred.length; i++) {
+        let condition = weatherPred.forecast
+        if (sunnyConditions.includes(condition)) {
+          condition = 1
+        } else {
+          condition = 0
+        }
+        weatherItems.push([condition, uviPred])
+      }
+      result.weatherItems = weatherItems
+
+      // transform weather and uvi data into a tensor
+      const inputTensor = tf.tensor2d(weatherItems)
+      result.inputTensor = inputTensor
+
+      const predResult = await predModel.predict(inputTensor)
+      result.predResult = predResult
+
+      const predResultout = predResult.dataSync()
+      result.predOut = predResultout
 
       res.send(result)
     } catch (err) {
@@ -46,5 +101,20 @@ module.exports = {
         error: err.message || 'An error has ocurred.'
       })
     }
+  },
+  async formatDate (dt) {
+    const day = dt.getDate()
+    const month = dt.getMonth() + 1
+    const year = dt.getFullYear()
+    return `${year}-${month}-${(day > 9 ? '' : '0') + day}`
+  },
+  uviTransform (data) {
+    const input = []
+    for (let i = 0; i < data.length; i++) {
+      const value = [data[i].value]
+      input.push(value)
+    }
+    const inputTensor = tf.tensor3d([input])
+    return inputTensor
   }
 }
