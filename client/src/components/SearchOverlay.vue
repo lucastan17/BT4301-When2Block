@@ -294,6 +294,7 @@ export default {
         // check if hour of search is out of 7am-7pm
         if (off_hours.includes(hour)) {
             this.isSunny = 0
+
         // check if hour of search is not in data base
         } else if (!hours.includes(hour)) {
             const uviResults = await this.runUVI()
@@ -327,7 +328,8 @@ export default {
             }
         } else {
         // call straight from database
-        this.load_db()
+        // this.load_db()
+        // this.db_info
         console.log("Call model and display")
         }
         this.centerUpdated()
