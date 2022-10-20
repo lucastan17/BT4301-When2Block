@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     f1_score: {
       type: DataTypes.FLOAT,
       allowNull: false
+    },
+    auc: {
+      type: DataTypes.FLOAT,
+      allowNull: false
     }
   },
   {

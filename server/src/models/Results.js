@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
     actual: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    predict_proba: {
+      type: DataTypes.FLOAT,
+      allowNull: false
     }
   },
 
