@@ -11,8 +11,8 @@ module.exports = {
           host: process.env.HOST || 'localhost' */
     // }
     host: 'localhost',
-    user: 'root',
-    password: 'password',
+    user: 'when2block',
+    password: 'bt4301grp2',
     database: 'when2block',
     dialect: 'mysql',
     options: {
