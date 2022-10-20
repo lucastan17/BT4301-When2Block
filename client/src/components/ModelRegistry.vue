@@ -17,13 +17,15 @@
             <tbody>
                 <tr v-for="datum in data" :key="datum.model_id">
                     <td>{{datum.modelName}}</td>
-                    <td><span v-if="datum.inProduction == 1">Deployed</span><span v-if="datum.inProduction == 0">Not Deployed</span></td>
+                    <td><span v-if="datum.inProduction == 1">Deployed</span><span v-if="datum.inProduction == 0">Not
+                            Deployed</span></td>
                     <td>{{datum.modelDescription}}</td>
                     <td>{{datum.modelVersion}}</td>
                     <td>{{datum.editedTime}}</td>
                     <td>{{datum.accuracy}}</td>
                     <td>
-                        <o-button class="button" v-if="datum.inProduction != 1" @click="onUse(datum.model_id)">Use</o-button>
+                        <o-button class="button" v-if="datum.inProduction != 1" @click="onUse(datum.model_id)">Use
+                        </o-button>
                         <p v-if="datum.inProduction == 1">In-Use</p>
                     </td>
                 </tr>
@@ -43,7 +45,7 @@ export default {
             //        {'model_id':3 ,'modelName': 'Model 3', 'deploymentStatus': 'Deployed', "modelDescription": "20 Hidden Layers", "modelVersion": "V1.2", "editedTime": "20/09/22", "modelPerformance": "0.89"},
             //        {'model_id':2 ,'modelName': 'Model 2', 'deploymentStatus': 'Decommissioned', "modelDescription": "10 Hidden Layers", "modelVersion": "V0.5", "editedTime": "29/07/22", "modelPerformance": "0.12"},
             //        {'model_id':1 ,'modelName': 'Model 1', 'deploymentStatus': 'Decommissioned', "modelDescription": "5 Hidden Layers", "modelVersion": "V0.2", "editedTime": "04/06/22", "modelPerformance": "0.58"}] 
-        } 
+        }
     },
     props: {
         data: Array
@@ -55,7 +57,7 @@ export default {
             const response = await modelRegistryService.post(id)
             console.log(response.data)
             // auto-refresh page
-            window.location.reload()                    
+            window.location.reload()
         },
         registerNewModel() {
             this.$router.push("/register-model")
@@ -65,7 +67,6 @@ export default {
 </script>
 
 <style scoped>
-
 #outer-cover {
     width: 85%;
     margin: auto;
@@ -87,18 +88,18 @@ h1 {
 }
 
 tbody tr:nth-child(odd) {
-  background-color: #f4aa7b;
+    background-color: #f4aa7b;
 
 }
 
 tbody tr:nth-child(even) {
-  background-color: rgb(249, 205, 118);
+    background-color: rgb(249, 205, 118);
 }
 
 table {
-  background-color: #F16308;
-  width: 100%;
-  margin: auto;
+    background-color: #F16308;
+    width: 100%;
+    margin: auto;
 }
 
 tr {
@@ -112,9 +113,15 @@ table td th {
 .button {
     background-color: #F16308;
     border: 0;
-    color: white;
-    margin-top: 7px;
 }
 
+.button:hover {
+    background: #ffcc00;
+    color: black;
+    cursor: pointer;
+}
 
+.button:focus {
+    outline: none;
+}
 </style>
