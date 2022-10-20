@@ -196,6 +196,16 @@ export default {
     border: 0;
 }
 
+.button:hover {
+    background: #ffcc00;
+    color: black;
+    cursor: pointer;
+}
+
+.button:focus {
+    outline: none;
+}
+
 .error {
     font-size: 12pt;
     color: red;
