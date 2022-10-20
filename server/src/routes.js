@@ -80,12 +80,12 @@ module.exports = (app) => {
   )
 
   // endpoints for model registry
-  app.get('/model-registry',
+  app.get('/modelRegistry',
     // isAuth,
     // isAdmin,
     modelRegistryController.index
   )
-  app.post('/model-registry/:id',
+  app.post('/modelRegistry',
     // isAuth,
     // isAdmin,
     modelRegistryController.post

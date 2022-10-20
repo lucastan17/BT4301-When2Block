@@ -7,8 +7,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE DATABASE `when2block`;
-
 CREATE TABLE `Check_in` (
   `user_id` int NOT NULL,
   `checkin_date` datetime NOT NULL,
@@ -23,6 +21,7 @@ CREATE TABLE `Drift` (
   `precision` float NOT NULL,
   `recall` float NOT NULL,
   `f1_score` float NOT NULL,
+  `auc` float NOT NULL,
   PRIMARY KEY (`model_id`,`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -32,7 +31,6 @@ CREATE TABLE `Model` (
   `modelName` varchar(255) NOT NULL,
   `modelVersion` varchar(255) NOT NULL,
   `modelDescription` varchar(255) NOT NULL,
-  `inProduction` tinyint(1) NOT NULL,
   PRIMARY KEY (`model_id`,`editedTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -42,9 +40,8 @@ CREATE TABLE `Results` (
   `time` datetime NOT NULL,
   `weather` varchar(255) NOT NULL,
   `uv_index` int NOT NULL,
-  `prediction` int NOT NULL,
-  `actual` int NOT NULL,
-  `predict_proba` float NOT NULL,
+  `prediction` varchar(255) NOT NULL,
+  `actual` varchar(255) NOT NULL,
   PRIMARY KEY (`model_id`,`location`,`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -67,7 +64,15 @@ CREATE TABLE `Users` (
   `updatedAt` datetime DEFAULT NULL,
   `admin_user` tinyint(1) NOT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `email_2` (`email`),
+  UNIQUE KEY `email_3` (`email`),
+  UNIQUE KEY `email_4` (`email`),
+  UNIQUE KEY `email_5` (`email`),
+  UNIQUE KEY `email_6` (`email`),
+  UNIQUE KEY `email_7` (`email`),
+  UNIQUE KEY `email_8` (`email`),
+  UNIQUE KEY `email_9` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 
@@ -116,20 +121,14 @@ VALUES (1, SUBDATE(NOW(), 5)),
        (4, NOW()),
        (1, NOW());
        
-INSERT INTO Drift (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`)
-VALUES (1, SUBDATE(NOW(), 5), 0.85, 0.7, 0.8, 0.6),
-	   (2, SUBDATE(NOW(), 2), 0.88, 0.6, 0.8, 0.7),
-     (1, SUBDATE(NOW(), 3), 0.85, 0.7, 0.8, 0.6),
-	   (2, SUBDATE(NOW(), 1), 0.88, 0.6, 0.8, 0.7);
-	   
-INSERT INTO Model (`model_id`, `editedTime`, `modelName`, `modelVersion`, `modelDescription`, `inProduction`)
-VALUES (1, SUBDATE(NOW(), 3), 'Model 1', 'V0.2', '5 hidden layers', false), 
-      (2, SUBDATE(NOW(), 1), 'Model 2', 'V0.5', '10 hidden layers', true);
-
-INSERT INTO Results (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`, `predict_proba`)
-VALUES (1, 'Woodlands', NOW(), 'Sunny', 3, 1, 1, 0.8),
-	   (1, 'Ang Mo Kio', NOW(), 'Cloudy', 2, 0, 0, 0.7),
-       (1, 'Bedok', NOW(), 'Light Rain', 2, 0, 0, 0.77);
+INSERT INTO Drift (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`, `auc`)
+VALUES (1, SUBDATE(NOW(), 3), 0.85, 0.7, 0.8, 0.6, 0.75),
+	   (2, SUBDATE(NOW(), 1), 0.88, 0.6, 0.8, 0.7, 0.8);
+       
+INSERT INTO Results (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`)
+VALUES (1, 'Woodlands', NOW(), 'Sunny', 3, 'Wear', 'Wear'),
+	   (1, 'Ang Mo Kio', NOW(), 'Cloudy', 2, 'Optional', 'Optional'),
+       (1, 'Bedok', NOW(), 'Light Rain', 2, 'Optional', 'Optional');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

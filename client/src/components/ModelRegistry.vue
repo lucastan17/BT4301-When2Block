@@ -17,14 +17,14 @@
             <tbody>
                 <tr v-for="datum in data" :key="datum.model_id">
                     <td>{{datum.modelName}}</td>
-                    <td><span v-if="datum.inProduction == 1">Deployed</span><span v-if="datum.inProduction == 0">Not Deployed</span></td>
+                    <td>{{datum.deploymentStatus}}</td>
                     <td>{{datum.modelDescription}}</td>
                     <td>{{datum.modelVersion}}</td>
                     <td>{{datum.editedTime}}</td>
-                    <td>{{datum.accuracy}}</td>
+                    <td>{{datum.modelPerformance}}</td>
                     <td>
-                        <o-button class="button" v-if="datum.inProduction != 1" @click="onUse(datum.model_id)">Use</o-button>
-                        <p v-if="datum.inProduction == 1">In-Use</p>
+                        <o-button class="button" v-if="datum.deploymentStatus != 'Deployed'" @click="onUse(datum.model_id)">Use</o-button>
+                        <p v-if="datum.deploymentStatus == 'Deployed'">In-Use</p>
                     </td>
                 </tr>
             </tbody>
@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import modelRegistryService from '@/services/modelRegistryService'
 
 export default {
     data() {
@@ -49,13 +48,9 @@ export default {
         data: Array
     },
     methods: {
-        async onUse(id) {
+        onUse(id) {
             console.log(id)
-            // POST request to change the deployment status field of the `model` table in DB to 'deployed' here 
-            const response = await modelRegistryService.post(id)
-            console.log(response.data)
-            // auto-refresh page
-            window.location.reload()                    
+            //Lucas can add the logic for the POST request to change the deployment status field of the `model` table in DB to 'deployed' here
         },
         registerNewModel() {
             this.$router.push("/register-model")
