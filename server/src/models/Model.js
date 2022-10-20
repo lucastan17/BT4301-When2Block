@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    deployed: {
+    inProduction: {
       type: DataTypes.INTEGER,
       allowNull: false
     }
