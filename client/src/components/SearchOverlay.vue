@@ -146,6 +146,7 @@ export default {
     async load_db(){ 
         searchService.index().then( res =>{
             this.db_info = res.data
+
             this.uviJ = res.data.UVmod
             this.modJ = res.data.mod
             // const json = JSON.parse(res.data.mod);
@@ -154,6 +155,7 @@ export default {
             // /return model;
             console.log(res.data.modeld)
             //console.log(res.data.mod)
+
         }).catch(err => {
             console.log(err.message)  
         })
@@ -169,7 +171,8 @@ export default {
         this.map.setView(this.center,this.zoom)
         this.places.name = ''
         this.timing.time =''
-        
+        this.load_db()  
+
     },
     async fetchData(){
         try{    
@@ -298,20 +301,22 @@ export default {
     async search(){
 
         // get hours already in database
+
         const hours = [1,2]
         // for (var j = 0; j<this.db_info.hours[0].length;j++){ 
         //     hours.push(this.db_info.hours[0][j].hr)
         // }
+
         const loc = document.getElementById('select-place').value
         const hour = parseInt(document.getElementById('select-time').value.substring(0,2))
         const c_hour = parseInt(this.timing[0].time.substring(0,2))
         const diff = hour-c_hour
-        const off_hours = []//[0,1,2,3,4,5,6,20,21,22,23]
+        const off_hours = [0,1,2,3,4,5,6,20,21,22,23]
         
         // check if hour of search is out of 7am-7pm
         if (off_hours.includes(hour)) {
             this.isSunny = 0
-
+        
         // check if hour of search is not in data base
         } else if (!hours.includes(hour)) {
             const uviResults = await this.runUVI()
@@ -325,7 +330,7 @@ export default {
             // post into database
             for (var i = 0; i<47;i++){
                 const name = this.infometa[i].name 
-                const ts = new Date(new Date().getTime() + (8 + diff) * (3600 * 1000)) // TO DO: ts should be the searched hour- Solved by getting diff and adding it
+                const ts = new Date(new Date().getTime() + (8 + diff) * (3600 * 1000)) 
                 console.log('storing pred for this place: ', name)
                 const response = await searchService.post({
                     model_id: 0,
@@ -344,10 +349,16 @@ export default {
                 console.log(response.data)
             }
         } else {
-        // call straight from database
-        // this.load_db()
-        // this.db_info
-        console.log("Call model and display")
+        // query from fetched data
+        const dbPred = JSON.parse(JSON.stringify(this.db_info.pred))
+        const locFilter = dbPred.filter(
+            function(data){ return data.location == loc}
+        )
+        const timeFilter = locFilter.filter(
+            function(data){ return data.time.substring(11,13) == hour}
+        )     
+        const predDB = timeFilter[0].prediction
+        this.isSunny = ((predDB < 0.5) ? 0 : 1)
         }
         this.centerUpdated()
     },
@@ -361,8 +372,6 @@ export default {
             this.isSunny = false
         }
         console.log(curr_time)
-        //console.log(UVI)
-
     },
     checkTime(time){
         let now = this.SGCurrDate(8).getHours()

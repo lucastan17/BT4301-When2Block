@@ -26,7 +26,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     inProduction: {
-      type: DataTypes.INTEGER,
+
+      type: DataTypes.BOOLEAN,
+
       allowNull: false
     }
   },

@@ -2,13 +2,11 @@ import api from '@/services/api'
 
 export default {
   index (params) {
-    return api().get('modelRegistry', {
+    return api().get('model-registry', {
       params: params
     })
   },
   post (params) {
-    return api().post('modelRegistry', {
-      params: params
-    })
+    return api().post(`model-registry/${params}`)
   }
 }

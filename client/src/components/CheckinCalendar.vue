@@ -1,10 +1,12 @@
 <template>
     <div class="text-center section">
-      <h2 class="h2">Your Sunblock Journey</h2>
+      <div class="float-child">
+        <div class="container">
+          <h2 class="h2">Your Sunblock Journey</h2>
+        </div>
       <p>
         Check in with us if you use sunblock today!
       </p>
-      <div class="float-child-left">
         <Calendar
           class="custom-calendar max-w-full"
           firstDayOfWeek=2
@@ -31,8 +33,14 @@
         </Calendar>
         <button @click="checkin" expanded class="button" v-bind:disabled="checkedin">CHECK IN</button>
       </div>
-      <div class="float-child-left">
-        <h2 class="h2">Your Sunblock Summary</h2>
+      <div class="float-child">
+        <div class="container">
+          <h2 class="h2">Your Sunblock Summary</h2>
+        </div>
+        <h3 class ="h3"> {{ total }} </h3>
+          <h4 class="h4"> days </h4>
+          <p>total sunblock checks-in</p>
+          <b>Joined since {{ joined }}</b>
       </div>
     </div>
   </template>
@@ -55,6 +63,8 @@ import CheckInService from '@/services/checkInService'
         loaded: false,
         user_id: this.store.user.user_id,
         checkedin: false,
+        total: 0,
+        joined: this.store.user.createdAt.slice(0, 10).replace('T', ' '),
         masks: {
           weekdays: 'WWW',
         },
@@ -103,6 +113,7 @@ import CheckInService from '@/services/checkInService'
               console.log(this.attributes[x].dates)
               console.log(new Date().toISOString().slice(0, 10).replace('T', ' '))
             }
+        this.total = this.attributes.length
         } catch (err) {
           console.log(err)
       }
@@ -124,7 +135,7 @@ import CheckInService from '@/services/checkInService'
   button {
     margin: 10px;
     margin-top: 10px;
-    background-color: #ffcc00;
+    background-color:#F16308;
     border: none;
     color: black;
     padding: 10px;
@@ -132,7 +143,7 @@ import CheckInService from '@/services/checkInService'
     font-weight: bold;
   }
   button:hover {
-    background: #F16308;
+    background: #ffcc00;
     color: black;
     cursor: pointer;
   }
@@ -154,20 +165,16 @@ button:disabled {
     width: 100%;
   
   }
-  .float-child-left {
-    width: 50%;
+  .float-child {
+    width: 43%;
     height: 100%;
-    border-radius: 20px;
+    border-radius: 5px;
+    padding: 10px 50px 20px 50px;
+    margin: auto;
+    margin-top: 20px;
+    margin-left: 60px;
     float: left;
-    padding: 30px 90px 0px 90px;
     background-color: #FCF5E8;
-}
-.float-child-right {
-  width: 50%;
-  height: 100%;
-  border-radius: 20px;
-  float: left;
-  margin: 0px;
 }
 .day-label {
   display: inline-block;
@@ -177,5 +184,34 @@ button:disabled {
   display: inline-block;
   padding: 5px 5px;
   vertical-align: -10px;
+}
+
+.h2 {
+  color: white;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+.h3 {
+  font-size: 80px;
+  font-weight: 700;
+  color: #ffc400;
+  margin: 40px 30px 10px 30px;
+}
+.h4 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #666;
+  margin: 0px 30px 5px 30px;
+}
+.container {
+  font-family: var(--font-family-epilogue);
+  text-align: center;
+      background-color: #F16308;
+      width: 90%;
+      height: 100%;
+      border-radius: 20px;
+      padding: 1px 20px 1px 20px;
+      margin: auto;
 }
   </style>
