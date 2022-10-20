@@ -1,6 +1,6 @@
 const db = require('../models')
 const sequelize = db.sequelize
-const { QueryTypes, Op } = require('sequelize')
+const { QueryTypes } = require('sequelize')
 const Results = db.results
 const Model = db.model
 const tf = require('@tensorflow/tfjs')
@@ -20,31 +20,38 @@ module.exports = {
       const pred = await sequelize.query('SELECT * FROM when2block.Results WHERE cast(Results.time as date) >= cast(Date(Now()) as date) and hour(Results.time) > hour(Date(Now()))', { type: QueryTypes.SELECT })
       result.pred = pred
 
-      // Query Model row for deployed models
-      const UVId = await Model.findOne({
-        where: {
-          deployed: 1,
-          modelDescription: {
-            [Op.startsWith]: 'UVI'
-          }
-        }
-      })
       const modeld = await Model.findOne({
         where: {
-          deployed: 1,
-          modelDescription: {
-            [Op.startsWith]: 'LogPred'
-          }
+          inProduction: 1
         }
       })
-      result.UVId = UVId
-      result.modeld = modeld
 
-      const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/uvi_model_1/model.json')
+      const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/uvi_model_1/UVImodel.json')
       const UVImodel = await tf.loadLayersModel(handler1)
 
-      const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/pred_model_1/model.json')
+      const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/' + modeld.modelName + '/model.json')
       const predModel = await tf.loadLayersModel(handler2)
+
+      // Vinod's code here
+      const result1 = await UVImodel.save(tf.io.withSaveHandler(async modelArtifacts => modelArtifacts))
+      result1.weightData = Buffer.from(result1.weightData).toString('base64')
+      const jsonStr = JSON.stringify(result1)
+      result.UVmod = jsonStr
+
+      const result2 = await predModel.save(tf.io.withSaveHandler(async modelArtifacts => modelArtifacts))
+      result2.weightData = Buffer.from(result2.weightData).toString('base64')
+      const jsonStr2 = JSON.stringify(result2)
+      result.mod = jsonStr2
+      //
+
+      // result.UVId = UVId
+      result.modeld = modeld
+
+      // const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/uvi_model_1/model.json')
+      // const UVImodel = await tf.loadLayersModel(handler1)
+
+      // const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/pred_model_1/model.json')
+      // const predModel = await tf.loadLayersModel(handler2)
 
       // Get model_id of deployed
 

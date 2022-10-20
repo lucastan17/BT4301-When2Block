@@ -86,7 +86,7 @@ import {
   LPopup,
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
-
+import {Buffer} from 'buffer'
 //import 'vue3-timepicker/dist/VueTimepicker.css'
 
 //import Vue from "vue";
@@ -119,7 +119,8 @@ export default {
             infofc:{},
             infoUV:null,
             db_info:{},
-            uviModel:null,
+            uviJ:null,
+            modJ:null,
             places:{'Ang Mo Kio':{name:'Ang Mo Kio',forecast:'1',lat:'',long:''},'Bedok':{name:'Bedok',forecast:'',lat:'',long:''},'Bishan':{name:'Bishan',forecast:'',lat:'',long:''},'Boon Lay':{name:'Boon Lay',forecast:'',lat:'',long:''},'Bukit Batok':{name:'Bukit Batok',forecast:'',lat:'',long:''},
                     'Bukit Merah':{name:'Bukit Merah',forecast:'2',lat:'',long:''},'Bukit Panjang':{name:'Bukit Panjang',forecast:'',lat:'',long:''},'Bukit Timah':{name:'Bukit Timah',forecast:'',lat:'',long:''},'Central Water Catchment':{name:'Central Water Catchment',forecast:'',lat:'',long:''},'Changi':{name:'Changi',forecast:'',lat:'',long:''},
                     'Choa Chu Kang':{name:'Choa Chu Kang',forecast:'3',lat:'',long:''},'Clementi':{name:'Clementi',forecast:'',lat:'',long:''},'City':{name:'City',forecast:'',lat:'',long:''},'Geylang':{name:'Geylang',forecast:'',lat:'',long:''},'Hougang':{name:'Hougang',forecast:'',lat:'',long:''},
@@ -145,12 +146,18 @@ export default {
     async load_db(){ 
         searchService.index().then( res =>{
             this.db_info = res.data
-            // this.uviModel = res.data.UVImodel
-            console.log(res.data)
-            console.log(res.data)
+
+            this.uviJ = res.data.UVmod
+            this.modJ = res.data.mod
+            // const json = JSON.parse(res.data.mod);
+            // const weightData = new Uint8Array(Buffer.from(json.weightData, "base64")).buffer;
+            // const model = tf.loadLayersModel(tf.io.fromMemory(json.modelTopology, json.weightSpecs, weightData));
+            // /return model;
+            console.log(res.data.modeld)
+            //console.log(res.data.mod)
 
         }).catch(err => {
-            console.log(err)  
+            console.log(err.message)  
         })
     }, 
     async loadMap(){
@@ -218,12 +225,17 @@ export default {
         return inputTensor
     },  
     async runUVI() {
+
         console.log('run UVI triggered')
-        // load model
-        
-        const UVImodel = await tf.loadLayersModel("http://localhost:8080/uvi-model/UVImodel.json")
-        // const handler = tfn.io.fileSystem("./public/uvi-model/UVImodel.json");
-        // const UVImodel = await tf.loadLayersModel(handler);
+
+        // load model taken from backend
+        const json = JSON.parse(this.uviJ);
+        const weightData = new Uint8Array(Buffer.from(json.weightData, "base64")).buffer;
+        const UVImodel = await tf.loadLayersModel(tf.io.fromMemory(json.modelTopology, json.weightSpecs, weightData));
+
+        //const UVImodel = this.uviModel
+        //const UVImodel = await tf.loadLayersModel("http://localhost:8080/uvi-model/UVImodel.json")
+
         console.log('uvi model loaded', UVImodel)
 
 
@@ -234,7 +246,10 @@ export default {
         
         // transform uvi data into a tensor
         const uviTensor = this.uviTransform(uviDataList)
+        console.log(uviTensor)
+    
         const uviResult = await UVImodel.predict(uviTensor)
+        console.log(uviResult)
         const uviResultout = uviResult.dataSync()
 
         console.log('uvi model result:', uviResultout)
@@ -245,8 +260,12 @@ export default {
     },
     async runPred(uviPred, weatherPred) {
         console.log('run prediction triggered')
-        // load model
-        const predModel = await tf.loadLayersModel("http://localhost:8080/tfjs-model/model.json")
+        // load model from back end
+        const json = JSON.parse(this.modJ);
+        const weightData = new Uint8Array(Buffer.from(json.weightData, "base64")).buffer;
+        const predModel = await tf.loadLayersModel(tf.io.fromMemory(json.modelTopology, json.weightSpecs, weightData));
+
+        //const predModel = await tf.loadLayersModel("http://localhost:8080/tfjs-model/model.json")
         console.log('pred model loaded', predModel)
 
         // transform into numerical input
@@ -282,15 +301,12 @@ export default {
     async search(){
 
         // get hours already in database
-        const hours = []
-        const dbHours = JSON.parse(JSON.stringify(this.db_info.hours))
-        console.log(dbHours)
-        console.log(dbHours.length)
-        for (var j = 0; j<dbHours.length;j++){ 
-            console.log('recurse through hours here')
-            hours.push(dbHours[j].hr)
-        }
-        console.log(hours)
+
+        const hours = [1,2]
+        // for (var j = 0; j<this.db_info.hours[0].length;j++){ 
+        //     hours.push(this.db_info.hours[0][j].hr)
+        // }
+
         const loc = document.getElementById('select-place').value
         const hour = parseInt(document.getElementById('select-time').value.substring(0,2))
         const c_hour = parseInt(this.timing[0].time.substring(0,2))
