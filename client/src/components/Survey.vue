@@ -211,5 +211,17 @@ export default {
     color: red;
     margin: 5px;
 }
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
 </style>
     

@@ -179,5 +179,17 @@ export default {
     color: red;
     font-weight: bold;
 }
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
 </style>
     

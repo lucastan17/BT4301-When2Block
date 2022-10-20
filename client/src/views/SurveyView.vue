@@ -54,13 +54,12 @@ export default {
 <style scoped>
 .button {
     margin: 15px;
-    border-radius: 5px;
     position: absolute;
     right: 5px;
     background-color: rgb(241, 99, 9);
     color: white;
-    border-radius: 5px;
     top: 10px;
+    border: 0px;
 }
 
 .button:hover {
