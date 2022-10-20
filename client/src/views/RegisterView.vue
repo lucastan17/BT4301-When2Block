@@ -45,29 +45,38 @@ export default {
 
 <style scoped>
 .button {
-    margin: 15px;
-    border-radius: 5px;
-    position: absolute;
-    right: 5px;
-    background-color: rgb(241, 99, 9);
-    color: white;
-    border-radius: 5px;
-    border-color: rgb(241, 99, 9);
-    top: 10px;
+  margin: 15px;
+  position: absolute;
+  right: 5px;
+  background-color: rgb(241, 99, 9);
+  color: white;
+  top: 10px;
+  border: 0px;
 }
 
+.button:hover {
+  background: #ffcc00;
+  color: black;
+  cursor: pointer;
+}
+
+.button:focus {
+  outline: none;
+}
+
+
 .logo {
-    width: 15%;
-    position: absolute;
-    top: 20px;
-    left: 20px;
+  width: 15%;
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }
 
 #header {
-    color: white;
-    margin: 15px;
-    display: flex;
-    font-size: 40px;
-    padding-top: 50px;
+  color: white;
+  margin: 15px;
+  display: flex;
+  font-size: 40px;
+  padding-top: 50px;
 }
 </style>

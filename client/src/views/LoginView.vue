@@ -3,10 +3,10 @@
         <HeaderBar2>
             <template #logo>
                 <div class="border align-items-">
-                <router-link to="/">
-                    <img class="logo" src="../assets/logo.png" />
-                </router-link>
-            </div>
+                    <router-link to="/">
+                        <img class="logo" src="../assets/logo.png" />
+                    </router-link>
+                </div>
             </template>
             <template #header>
                 <div id="header">
@@ -35,8 +35,8 @@ export default {
     },
     data() {
         return {
-        header: 'Log In',
-        button: 'Register'
+            header: 'Log In',
+            button: 'Register'
         }
     }
 }
@@ -45,14 +45,22 @@ export default {
 <style scoped>
 .button {
     margin: 15px;
-    border-radius: 5px;
     position: absolute;
     right: 5px;
     background-color: rgb(241, 99, 9);
     color: white;
-    border-radius: 5px;
-    border-color: rgb(241, 99, 9);
     top: 10px;
+    border: 0px;
+}
+
+.button:hover {
+    background: #ffcc00;
+    color: black;
+    cursor: pointer;
+}
+
+.button:focus {
+    outline: none;
 }
 
 .logo {
@@ -69,6 +77,5 @@ export default {
     font-size: 40px;
     padding-top: 50px;
 }
-
 </style>
     

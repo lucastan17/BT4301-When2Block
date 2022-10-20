@@ -162,11 +162,34 @@ export default {
     border: 0;
 }
 
+.button:hover {
+    background: #ffcc00;
+    color: black;
+    cursor: pointer;
+}
+
+.button:focus {
+    outline: none;
+}
+
+
 .error {
     margin: 0 auto;
     font-size: 15px;
     color: red;
     font-weight: bold;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 </style>
     
