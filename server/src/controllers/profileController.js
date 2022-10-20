@@ -8,11 +8,10 @@ module.exports = {
       const { email, password } = req.body
       await User.update(
         { password },
-        { where: { email } }
+        { where: { email }, individualHooks: true }
       )
       const user = await User.findOne({
-        where: { email },
-        individualHooks: true
+        where: { email }
       })
       if (!user) {
         return res.status(403).send({

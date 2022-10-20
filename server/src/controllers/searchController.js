@@ -13,10 +13,10 @@ module.exports = {
   async index (req, res) {
     const result = {}
     try {
-      const hours = await sequelize.query('SELECT distinct(hour(time)) as hr FROM when2block.Results WHERE cast(results.time as date) >= cast(Date(Now()) as date) and hour(results.time) > hour(Now())', { type: QueryTypes.SELECT })
+      const hours = await sequelize.query('SELECT distinct(hour(time)) as hr FROM when2block.Results WHERE cast(Results.time as date) >= cast(Date(Now()) as date) and hour(Results.time) > hour(Now())', { type: QueryTypes.SELECT })
       result.hours = hours
 
-      const pred = await sequelize.query('SELECT * FROM when2block.Results WHERE cast(results.time as date) >= cast(Date(Now()) as date) and hour(results.time) > hour(Date(Now()))', { type: QueryTypes.SELECT })
+      const pred = await sequelize.query('SELECT * FROM when2block.Results WHERE cast(Results.time as date) >= cast(Date(Now()) as date) and hour(Results.time) > hour(Date(Now()))', { type: QueryTypes.SELECT })
       result.pred = pred
 
       const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/uvi_model_1/model.json')

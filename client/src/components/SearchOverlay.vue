@@ -254,7 +254,6 @@ export default {
         for ( var i = 0; i < weatherPred.length; i++){
             var condition = weatherPred.forecast
 
-
             if(this.sunnyConditions.includes(condition)){
                 condition = 1
             } else {
@@ -322,7 +321,7 @@ export default {
                     location: name,
                     weather: weatherPred[i].forecast,
                     time: ts,
-                    uv_index: uviPred,
+                    uv_index: Math.ceil(uviPred),
                     prediction: ((predResults[i] < 0.5) ? 0 : 1),
                     actual: (((predResults[i] < 0.5) & (uviPred < 3)) ? 0 : 1), 
                     predict_proba: predResults[i]
