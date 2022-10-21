@@ -1,7 +1,6 @@
 const db = require('../models')
 const sequelize = db.sequelize
 const { QueryTypes } = require('sequelize')
-// const Drift = require('../models/Drift')
 
 module.exports = {
   async index (req, res) {
@@ -66,16 +65,34 @@ module.exports = {
             const pre = val.tp / (val.tp + val.fp)
             const rec = val.tp / (val.tp + val.fn)
             const f1 = 2 * pre * rec / (pre + rec)
+            const chi = (val.fp - val.fn) ** 2 / (val.tp + val.fn) + (val.fn - val.fp) ** 2 / (val.tn + val.fp)
             newValues.push({
-              model_id: modelId, time: date, accuracy: acc, precision: pre, recall: rec, f1_score: f1
+              model_id: modelId, time: date, accuracy: acc, precision: pre, recall: rec, f1_score: f1, chi_square: chi
             })
           }
           await db.drift.bulkCreate(newValues)
         }
         thirtyDaysAgo.setHours(0, 0, 0, 0)
-        result = await sequelize.query("SELECT * FROM Drift WHERE time >= str_to_date('" +
-          thirtyDaysAgo.toISOString().slice(0, 19) + "', '%Y-%m-%dT%H:%i:%s') AND model_id = " + modelId,
-        { type: QueryTypes.SELECT })
+        const rawResult = await sequelize.query('SELECT CAST(time AS DATE) as date, accuracy, `precision`, recall, f1_score, chi_square ' +
+          "FROM Drift WHERE time >= str_to_date('" + thirtyDaysAgo.toISOString().slice(0, 19) + "', '%Y-%m-%dT%H:%i:%s') " +
+          'AND model_id = ' + modelId, { type: QueryTypes.SELECT })
+
+        const dates = []
+        const aot = []
+        const pot = []
+        const rot = []
+        const fot = []
+        const cot = []
+
+        rawResult.forEach((item) => {
+          dates.push(item.date)
+          aot.push(item.accuracy)
+          pot.push(item.precision)
+          rot.push(item.recall)
+          fot.push(item.f1_score)
+          cot.push(item.chi_square)
+        })
+        result = { dates, aot, pot, rot, fot, cot, model_id: modelId }
       }
       res.send(result)
     } catch (err) {

@@ -27,7 +27,8 @@ module.exports = {
       const pre = tp / (tp + fp)
       const rec = tp / (tp + fn)
       const f1 = 2 * pre * rec / (pre + rec)
-      result = { model_id: model[0].model_id, acc, pre, rec, f1 }
+      const chi = (fp - fn) ** 2 / (tp + fn) + (fn - fp) ** 2 / (tn + fp)
+      result = { model_id: model[0].model_id, acc, pre, rec, f1, chi }
       res.send(result)
     } catch (err) {
       result.err = err.error
