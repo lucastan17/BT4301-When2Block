@@ -8,6 +8,7 @@ import LoginView from '../views/LoginView'
 import UserBehaviour from "../views/UserBehaviourView"
 import ProfileView from '../views/ProfileView'
 import TrackView from '../views/TrackView'
+import ModelDashboard from '../views/ModelDashboardView'
 import RegisterModelView from '../views/RegisterModelView'
 import ErrorView from '../views/ErrorView'
 import { userStore } from '../store/store'
@@ -58,6 +59,11 @@ const routes = [
     path: '/track',
     name: 'track',
     component: TrackView
+  },
+  {
+    path: '/model-dashboard',
+    name: 'ModelDashboard',
+    component: ModelDashboard
   },
   {
     path: '/register-model',

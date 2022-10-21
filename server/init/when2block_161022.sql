@@ -23,6 +23,7 @@ CREATE TABLE `Drift` (
   `precision` float NOT NULL,
   `recall` float NOT NULL,
   `f1_score` float NOT NULL,
+  `chi_square` float NOT NULL,
   PRIMARY KEY (`model_id`,`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -44,7 +45,6 @@ CREATE TABLE `Results` (
   `uv_index` int NOT NULL,
   `prediction` int NOT NULL,
   `actual` int NOT NULL,
-  `predict_proba` float NOT NULL,
   PRIMARY KEY (`model_id`,`location`,`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -116,20 +116,23 @@ VALUES (1, SUBDATE(NOW(), 5)),
        (4, NOW()),
        (1, NOW());
        
-INSERT INTO Drift (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`)
-VALUES (1, SUBDATE(NOW(), 5), 0.85, 0.7, 0.8, 0.6),
-	   (2, SUBDATE(NOW(), 2), 0.88, 0.6, 0.8, 0.7),
-     (1, SUBDATE(NOW(), 3), 0.85, 0.7, 0.8, 0.6),
-	   (2, SUBDATE(NOW(), 1), 0.88, 0.6, 0.8, 0.7);
+INSERT INTO Drift (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`, `chi_square`)
+VALUES (1, SUBDATE(NOW(), 5), 0.85, 0.7, 0.8, 0.6, 0.15),
+	   (2, SUBDATE(NOW(), 2), 0.88, 0.6, 0.8, 0.7, 0.17),
+     (1, SUBDATE(NOW(), 3), 0.85, 0.7, 0.8, 0.6, 0.2),
+	   (2, SUBDATE(NOW(), 1), 0.88, 0.6, 0.8, 0.7, 0.1);
+       
+INSERT INTO Results (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`)
+VALUES (1, 'Woodlands', NOW() + INTERVAL 1 DAY, 'Sunny', 3, 1, 1),
+	   (1, 'Ang Mo Kio', NOW() + INTERVAL 1 DAY, 'Cloudy', 2, 0, 0),
+       (1, 'Bedok', NOW() + INTERVAL 1 DAY, 'Light Rain', 2, 0, 0),
+       (1, 'Woodlands', NOW(), 'Sunny', 3, 1, 1),
+	   (1, 'Ang Mo Kio', NOW(), 'Cloudy', 2, 0, 0),
+       (1, 'Bedok', NOW(), 'Light Rain', 2, 0, 0);
 	   
 INSERT INTO Model (`model_id`, `editedTime`, `modelName`, `modelVersion`, `modelDescription`, `inProduction`)
 VALUES (1, SUBDATE(NOW(), 3), 'Model 1', 'V0.2', '5 hidden layers', false), 
       (2, SUBDATE(NOW(), 1), 'Model 2', 'V0.5', '10 hidden layers', true);
-
-INSERT INTO Results (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`, `predict_proba`)
-VALUES (1, 'Woodlands', NOW(), 'Sunny', 3, 1, 1, 0.8),
-	   (1, 'Ang Mo Kio', NOW(), 'Cloudy', 2, 0, 0, 0.7),
-       (1, 'Bedok', NOW(), 'Light Rain', 2, 0, 0, 0.77);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

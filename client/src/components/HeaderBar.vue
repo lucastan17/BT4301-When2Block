@@ -108,7 +108,7 @@ p {
     margin: 0px;
 }
 
-ul {
+#navlinks ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
