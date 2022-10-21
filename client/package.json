@@ -13,7 +13,6 @@
   "dependencies": {
     "@oruga-ui/oruga-next": "^0.5.6",
     "@popperjs/core": "^2.11.6",
-    "@tensorflow/tfjs": "^3.18.0",
     "@tensorflow/tfjs-node": "^4.0.0",
     "@tensorflow/tfjs-vis": "^1.4.1",
     "@vue-leaflet/vue-leaflet": "^0.6.1",
@@ -23,6 +22,8 @@
     "bootstrap-icons": "^1.9.1",
     "bootstrap-vue-3": "^0.3.12",
     "chart.js": "^3.9.1",
+    "@tensorflow/tfjs": "^4.0.0",
+    "buffer": "^6.0.3",
     "core-js": "^3.8.3",
     "dotenv": "^16.0.3",
     "leaflet": "1.8",
@@ -41,7 +42,6 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
-    "@tensorflow/tfjs-node-gpu": "3.18.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",

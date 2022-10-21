@@ -11,7 +11,7 @@ import TrackView from '../views/TrackView'
 import ModelDashboard from '../views/ModelDashboardView'
 import RegisterModelView from '../views/RegisterModelView'
 import ErrorView from '../views/ErrorView'
-// import { userStore } from '../store/store'
+import { userStore } from '../store/store'
 import ModelRegistryView from "../views/ModelRegistryView"
 
 const routes = [
@@ -97,33 +97,33 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach(async (to) => {
-//   const store = userStore()
+router.beforeEach(async (to) => {
+  const store = userStore()
 
-//   // users who are not logged in will be redirected to log in page
-//   if (!store.isUserLoggedIn) {
-//     if (to.name != 'login' && to.name != 'register') {
-//       return '/login'
-//     }
-//   } else {
-//     // non admin users cant access /user-behaviour 
-//     if (!store.user.admin_user) {
-//       if (to.name == 'user-behaviour' || to.name == 'model-performance' || to.name == 'model-registry') {
-//         return '/error'
-//       }
-//       // logged in users will be redirected to landing page, skip log in/ register pages
-//       if (to.name == 'login' || to.name == 'register') {
-//         return '/search'
-//       }
-//     } else {
-//       // logged in users will be redirected to landing page, skip log in/ register pages
-//       if (to.name == 'login' || to.name == 'register') {
-//         return '/model-performance'
-//       }
-//     }
+  // users who are not logged in will be redirected to log in page
+  if (!store.isUserLoggedIn) {
+    if (to.name != 'login' && to.name != 'register') {
+      return '/login'
+    }
+  } else {
+    // non admin users cant access /user-behaviour 
+    if (!store.user.admin_user) {
+      if (to.name == 'user-behaviour' || to.name == 'model-performance' || to.name == 'model-registry') {
+        return '/error'
+      }
+      // logged in users will be redirected to landing page, skip log in/ register pages
+      if (to.name == 'login' || to.name == 'register') {
+        return '/search'
+      }
+    } else {
+      // logged in users will be redirected to landing page, skip log in/ register pages
+      if (to.name == 'login' || to.name == 'register') {
+        return '/model-performance'
+      }
+    }
 
-//   }
+  }
 
-// })
+})
 
 export default router

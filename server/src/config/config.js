@@ -1,18 +1,18 @@
 // const path = require('path')
 
 module.exports = {
-  port: 8081,
+  port: process.env.PORT || 8081,
   db: {
-    /* database: process.env.DB_NAME || 'when2block',
-        user: process.env.DB_USER || 'when2block',
-        password: process.env.DB_PASS || 'bt4301grp2',
-        options: {
-          dialect: process.env.DIALECT || 'mysql',
-          host: process.env.HOST || 'localhost' */
+    // database: process.env.DB_NAME || 'when2block',
+    // user: process.env.DB_USER || 'when2block',
+    // password: process.env.DB_PASS || 'bt4301grp2',
+    // options: {
+    //   dialect: process.env.DIALECT || 'mysql',
+    //   host: process.env.HOST || 'localhost'
     // }
     host: 'localhost',
-    user: 'root',
-    password: 'password',
+    user: 'when2block',
+    password: 'bt4301grp2',
     database: 'when2block',
     dialect: 'mysql',
     options: {

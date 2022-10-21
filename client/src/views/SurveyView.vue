@@ -44,8 +44,8 @@ export default {
     },
     data() {
         return {
-        header: 'Survey',
-        button: 'Log Out'
+            header: 'Survey',
+            button: 'Log Out'
         }
     }
 }
@@ -54,14 +54,22 @@ export default {
 <style scoped>
 .button {
     margin: 15px;
-    border-radius: 5px;
     position: absolute;
     right: 5px;
     background-color: rgb(241, 99, 9);
     color: white;
-    border-radius: 5px;
-    border-color: rgb(241, 99, 9);
     top: 10px;
+    border: 0px;
+}
+
+.button:hover {
+    background: #ffcc00;
+    color: black;
+    cursor: pointer;
+}
+
+.button:focus {
+    outline: none;
 }
 
 .logo {

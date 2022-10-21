@@ -116,8 +116,25 @@ export default {
 }
 
 .button {
+    margin: auto;
+    margin-top: 10px;
     background-color: #F16308;
-    border: 0;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+.button:hover {
+    background: #ffcc00;
+    color: black;
+    cursor: pointer;
+}
+
+.button:focus {
+    outline: none;
 }
 
 .error {
@@ -125,6 +142,18 @@ export default {
     font-size: 15px;
     color: red;
     font-weight: bold;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 </style>
     

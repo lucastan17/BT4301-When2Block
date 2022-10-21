@@ -25,7 +25,7 @@
         <div id="LogOut">
             <p>Hi, <a href="/profile">{{store.user.username}}</a></p>
             <o-button @click="logOut">
-                Log Out
+                LOG OUT
             </o-button>
         </div>
     </div>
@@ -84,10 +84,24 @@ export default {
 }
 
 button {
-    background-color: rgb(241, 99, 9);
-    color: white;
-    border-radius: 5px;
-    height: 25px;
+  margin: auto;
+  background-color: #F16308;
+  border: none;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  margin-top: 2px;
+  height: 10%;
+  font-weight: bold;
+  font-family: "Nunito Sans", sans-serif;
+}
+button:hover {
+  background: #ffcc00;
+  color: black;
+  cursor: pointer;
+}
+button:focus {
+  outline: none;
 }
 
 p {

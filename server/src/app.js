@@ -19,7 +19,6 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: false
 }))
 app.use(fileupload())
-// require('./passport')
 
 require('./routes')(app)
 

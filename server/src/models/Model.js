@@ -24,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
     modelDescription: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    inProduction: {
+
+      type: DataTypes.BOOLEAN,
+
+      allowNull: false
     }
   },
   {
