@@ -6,7 +6,7 @@
                 <div class="msg">
                     <h3 id="small-text">Amost done...</h3>
                     <h1 id="large-text">Tell us your routine!</h1>
-                    <a href="/search">Maybe another time...</a>
+                    <a href="/track">Maybe another time...</a>
                 </div>
                 <img class="pic_2" src="../assets/sunblock.png" />
             </div>

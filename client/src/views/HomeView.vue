@@ -1,25 +1,27 @@
 <template>
   <div class="home">
-      <HeaderBar2>
-        <template #header>
-          <div>
-            <router-link to="/">
-                <img class="logo" alt="When2Block Logo" src="../assets/logo.png" />
-            </router-link>
-          </div>
-        </template>
-        <template #button>  
+    <HeaderBar2>
+      <template #header>
+        <div>
+          <router-link to="/">
+            <img class="logo" alt="When2Block Logo" src="../assets/logo.png" />
+          </router-link>
+        </div>
+      </template>
+      <template #button>
+        <div class="button-div">
           <o-button class="button" @click="register" size="medium">
             {{button1}}
           </o-button>
-          <o-button class="button2" @click="login" size="medium">
+          <o-button class="button" @click="login" size="medium">
             {{button2}}
           </o-button>
-        </template> 
-      </HeaderBar2>
+        </div>
+      </template>
+    </HeaderBar2>
     <Home />
   </div>
-  
+
 </template>
 
 <script>
@@ -34,7 +36,7 @@ export default {
     register() {
       this.$router.push({ name: "register" })
     },
-    login () {
+    login() {
       this.$router.push({ name: "login" })
     }
   },
@@ -49,34 +51,35 @@ export default {
 
 <style scoped>
 .button {
-    margin: 15px;
-    border-radius: 5px;
-    position: absolute;
-    right: 5px;
-    background-color: rgb(241, 99, 9);
-    color: white;
-    border-radius: 5px;
-    border-color: rgb(241, 99, 9);
-    top: 10px;
+  margin: 15px;
+  border-radius: 5px;
+  background-color: rgb(241, 99, 9);
+  color: white;
+  border-color: rgb(241, 99, 9);
+  border: none;
 }
 
-.button2 {
-    margin: 15px;
-    border-radius: 5px;
-    position: absolute;
-    background-color: rgb(241, 99, 9);
-    color: white;
-    border-radius: 5px;
-    border-color: rgb(241, 99, 9);
-    right: 140px;
-    top: 10px;
+.button:hover {
+  background: #ffcc00;
+  color: black;
+  cursor: pointer;
+}
+
+.button:focus {
+  outline: none;
 }
 
 .logo {
-    padding-top: 60px;
-    object-fit: cover;
-    width: 500px;
-    display: flex;
-    justify-content: center;
+  padding-top: 60px;
+  object-fit: cover;
+  width: 500px;
+  display: flex;
+  justify-content: center;
+}
+
+.button-div {
+  position: absolute;
+  right: 5px;
+  top: 10px;
 }
 </style>

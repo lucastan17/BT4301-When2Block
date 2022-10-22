@@ -25,7 +25,7 @@
         <div id="LogOut">
             <p>Hi, <a href="/profile">{{store.user.username}}</a></p>
             <o-button @click="logOut">
-                LOG OUT
+                Log Out
             </o-button>
         </div>
     </div>
@@ -92,7 +92,7 @@ button {
     border-radius: 4px;
     margin-top: 2px;
     height: 10%;
-    font-weight: bold;
+    /* font-weight: bold; */
     font-family: "Nunito Sans", sans-serif;
 }
 
