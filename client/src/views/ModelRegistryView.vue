@@ -1,7 +1,8 @@
 <template>
     <div>
-        <HeaderBar/>
-        <ModelRegistry :data='this.data'/>
+        <HeaderBar />
+        <br />
+        <ModelRegistry :data='this.data' />
     </div>
 </template>
     
@@ -15,7 +16,7 @@ export default {
     data() {
         return {
             // data format: model_id, modelName, inProduction (deployed), modelDescription, modelVersion, editedTime, modelPerformance
-            data: [] 
+            data: []
         }
     },
     methods: {

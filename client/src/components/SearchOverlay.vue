@@ -4,7 +4,7 @@
 
     <!-- Create Label for inputing area-->
 
-    <label id="place-f" for="select-place">Select area to check:</label>
+    <label id="place-f" for="select-place" style="margin:15px">Select area to check:</label>
     <input id="select-place" type="text" v-model="places.name" list="places" placeholder="type here..." />
     <datalist id="places">
         <option v-for="(p,index) in places" :key="index">{{p.name}}</option>
@@ -18,8 +18,9 @@
         <option v-for="(time,index) in timing" :key="index">{{time.time}}</option>
     </datalist>
 
-    <o-button size="small" class="button" style="margin-left:20px" @click="search()">Search</o-button>
-    <o-button size="small" class="button" style="margin-left:20px" @click="reset()"> Clear Search</o-button>
+    <o-button size="small" class="button" style="margin: 15px; font-weight: bold;" @click="search()">Search</o-button>
+    <o-button size="small" class="button" style="margin: 15px 15px 15px 0px; font-weight: bold;" @click="reset()"> Clear
+        Search</o-button>
 
     <!--Show outcome if sunny or not-->
     <div id="outcome" v-show="showResults">

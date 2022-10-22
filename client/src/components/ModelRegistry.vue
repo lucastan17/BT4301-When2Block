@@ -1,7 +1,7 @@
 <template>
     <div id="outer-cover">
         <div id="title-row">
-            <h1>Model Registry</h1>
+            <h3 style="font-weight:bold;">Model Registry</h3>
             <o-button class="button" id="register-button" @click="registerNewModel()">Register A New Model</o-button>
         </div>
         <table id="model_registry_table">
@@ -88,16 +88,16 @@ h1 {
 }
 
 tbody tr:nth-child(odd) {
-    background-color: #f4aa7b;
+    background-color: white;
 
 }
 
 tbody tr:nth-child(even) {
-    background-color: rgb(249, 205, 118);
+    background-color: #eeeeeeff;
 }
 
 table {
-    background-color: #F16308;
+    background-color: #f97726;
     width: 100%;
     margin: auto;
 }
@@ -112,7 +112,8 @@ table td th {
 
 .button {
     background-color: #F16308;
-    border: 0;
+    margin: 0px 0px 10px 0px;
+    border: 0px;
 }
 
 .button:hover {

@@ -7,7 +7,7 @@
                 <img class="pic_2" src="../assets/sunblock.png" />
             </div>
             <div class="float-child-right">
-                <h3>Create your account</h3>
+                <h3 style="font-weight: bold; margin-top: 35px;">Create your account</h3>
 
                 <o-field>
                     <o-input placeholder="Username" autocomplete="off" v-model="username"></o-input>

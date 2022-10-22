@@ -1,27 +1,28 @@
 <template>
     <div>
+        <HeaderBar />
         <div class="container p-5" v-if="error === null">
-            <ModelSummary :status="summary.status" :perf="summary.perf" :drift="summary.drift"/>
-            <ModelPerformance :acc="acc" :pre="pre" :rec="rec" :f1="f1" :chi="chi"/>
+            <ModelSummary :status="summary.status" :perf="summary.perf" :drift="summary.drift" />
+            <ModelPerformance :acc="acc" :pre="pre" :rec="rec" :f1="f1" :chi="chi" />
             <b-card>
-            <b-card-title class="text-start h1 m-3">Model Drift</b-card-title>
-            <b-tabs lazy class="mt-4 mx-4">
-                <b-tab class="p-5" title="Accuracy over time" active>
-                    <DriftGraph :dates="dates" :driftData="aot" title="Accuracy"/>
-                </b-tab>
-                <b-tab class="p-5" title="Precision over time">
-                    <DriftGraph :dates="dates" :driftData="pot" title="Precision"/>
-                </b-tab>
-                <b-tab class="p-5" title="Recall over time">
-                    <DriftGraph :dates="dates" :driftData="rot" title="Recall"/>
-                </b-tab>
-                <b-tab class="p-5" title="F1-Score over time">
-                    <DriftGraph :dates="dates" :driftData="fot" title="F1-Score"/>
-                </b-tab>
-                <b-tab class="p-5" title="Goodness-of-Fit over time">
-                    <DriftGraph :dates="dates" :driftData="cot" title="Goodness-of-Fit"/>
-                </b-tab>
-            </b-tabs>
+                <b-card-title class="text-start h1 m-3">Model Drift</b-card-title>
+                <b-tabs lazy class="mt-4 mx-4">
+                    <b-tab class="p-5" title="Accuracy over time" active>
+                        <DriftGraph :dates="dates" :driftData="aot" title="Accuracy" />
+                    </b-tab>
+                    <b-tab class="p-5" title="Precision over time">
+                        <DriftGraph :dates="dates" :driftData="pot" title="Precision" />
+                    </b-tab>
+                    <b-tab class="p-5" title="Recall over time">
+                        <DriftGraph :dates="dates" :driftData="rot" title="Recall" />
+                    </b-tab>
+                    <b-tab class="p-5" title="F1-Score over time">
+                        <DriftGraph :dates="dates" :driftData="fot" title="F1-Score" />
+                    </b-tab>
+                    <b-tab class="p-5" title="Goodness-of-Fit over time">
+                        <DriftGraph :dates="dates" :driftData="cot" title="Goodness-of-Fit" />
+                    </b-tab>
+                </b-tabs>
             </b-card>
         </div>
         <div v-else>
@@ -37,13 +38,16 @@ import DriftGraph from '@/components/DriftGraph.vue'
 import modelDriftService from '@/services/modelDriftService'
 import modelPerformanceService from '@/services/modelPerformanceService'
 import ModelPerformance from '@/components/ModelPerformance.vue'
+import HeaderBar from '../components/HeaderBar.vue';
+
 
 export default {
     name: "ModelDashboard",
     components: {
         ModelSummary,
         DriftGraph,
-        ModelPerformance
+        ModelPerformance,
+        HeaderBar
     },
     data() {
         return {
@@ -63,7 +67,7 @@ export default {
                     chi: 1
                 },
                 drift: {
-                    stat:1,
+                    stat: 1,
                     aot: 1,
                     pot: 1,
                     rot: 1,
@@ -76,7 +80,7 @@ export default {
             rec: { val: null, t1: 0.95, t2: 0.9, stat: null },
             f1: { val: null, t1: 0.95, t2: 0.9, stat: null },
             chi: { val: null, t1: 2.706, t2: 3.841, stat: null },
-            aot: { data: null, val: null, t1: 0.95, t2: 0.9, stat: null }, 
+            aot: { data: null, val: null, t1: 0.95, t2: 0.9, stat: null },
             pot: { data: null, val: null, t1: 0.95, t2: 0.9, stat: null },
             rot: { data: null, val: null, t1: 0.95, t2: 0.9, stat: null },
             fot: { data: null, val: null, t1: 0.95, t2: 0.9, stat: null },
@@ -86,7 +90,7 @@ export default {
     },
     methods: {
         updatePerf() {
-            function stat(val,t1,t2) {
+            function stat(val, t1, t2) {
                 return val > t1 ? 1 : val > t2 ? 2 : 3
             }
             modelPerformanceService.index().then(res => {
@@ -105,7 +109,7 @@ export default {
             }).then(() => {
                 const sum = this.acc.stat + this.pre.stat + this.rec.stat + this.f1.stat + this.chi.stat
                 const stat = sum < 7 ? 1 : sum < 9 ? 2 : 3
-                this.summary.perf =  {
+                this.summary.perf = {
                     acc: this.acc.stat,
                     pre: this.pre.stat,
                     rec: this.rec.stat,
@@ -125,14 +129,14 @@ export default {
                 this.dates = res.data.dates //arranged from earliest to latest
             }).then(() => {
                 function getDriftObject(data) {
-                    let ave = data.reduce((sum,elem) => {return sum + elem;}, 0) / data.length
-                    ave =  Number(ave.toFixed(3))
+                    let ave = data.reduce((sum, elem) => { return sum + elem; }, 0) / data.length
+                    ave = Number(ave.toFixed(3))
                     let t1 = 0.95 * data[0] //assume data is arranged from earliest to latest 
                     t1 = Number(t1.toFixed(3))
                     let t2 = 0.9 * data[0]
                     t2 = Number(t2.toFixed(3))
                     const stat = ave > t1 ? 1 : ave > t2 && ave < t1 ? 2 : 3
-                    return {data, val: ave, t1, t2, stat}
+                    return { data, val: ave, t1, t2, stat }
                 }
                 this.aot = getDriftObject(this.aot.data)
                 this.pot = getDriftObject(this.pot.data)
@@ -155,7 +159,7 @@ export default {
                     cot: this.cot.stat,
                     stat
                 }
-            }).then(() => { 
+            }).then(() => {
                 const latest = new Date(this.dates[this.dates.length - 1])
                 const tdy = new Date()
                 if (latest.getFullYear() === tdy.getFullYear() && latest.getDate() === tdy.getDate() && latest.getMonth() === tdy.getMonth()) {
