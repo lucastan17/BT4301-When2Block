@@ -108,6 +108,7 @@ import SurveyService from '@/services/surveyService'
   display: grid;
   grid-template-columns: 25% 75%;
   column-gap: 3px;
+  row-gap: 15px;
   }
 
   .content {
@@ -124,8 +125,7 @@ import SurveyService from '@/services/surveyService'
   justify-content: center;
   align-content: left;
   flex-direction: column;
-  text-align: left;
-  margin: 5px 2px; 
+  text-align: left; 
   padding-left: 20px;
   background-color: white;
   border-radius: 10px;
@@ -157,7 +157,10 @@ button:focus {
 }
 .container {
   font-family: var(--font-family-epilogue);
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
       background-color: #F16308;
       width: 50%;
       height: 50%;
