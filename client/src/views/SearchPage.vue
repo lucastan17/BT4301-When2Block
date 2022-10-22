@@ -1,5 +1,6 @@
 <template>
-<HeaderBar></HeaderBar>
+  <HeaderBar></HeaderBar>
+  <br />
   <div class="home">
     <searchoverlay />
   </div>
