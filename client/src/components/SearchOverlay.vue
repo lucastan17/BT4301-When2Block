@@ -154,15 +154,11 @@ export default {
         async load_db() {
             searchService.index().then(res => {
                 this.db_info = res.data
-
                 this.uviJ = res.data.UVmod
                 this.modJ = res.data.mod
                 // const json = JSON.parse(res.data.mod);
                 // const weightData = new Uint8Array(Buffer.from(json.weightData, "base64")).buffer;
                 // const model = tf.loadLayersModel(tf.io.fromMemory(json.modelTopology, json.weightSpecs, weightData));
-                // /return model;
-                console.log(res.data.modeld)
-                //console.log(res.data.mod)
 
             }).catch(err => {
                 console.log(err.message)
@@ -184,8 +180,14 @@ export default {
         },
         async fetchData() {
             try {
-                const response = await axios.get('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast')
-                const response2 = await axios.get('https://api.data.gov.sg/v1/environment/uv-index')
+                const response = await axios.get('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast').catch(err =>{
+                    console.log(err.message)
+                    alert("Error getting data from Real-Time API. Please try again later")
+                })
+                const response2 = await axios.get('https://api.data.gov.sg/v1/environment/uv-index').catch(err =>{
+                    console.log(err.message)
+                    alert("Error getting data from Real-Time API. Please try again later")
+                })
                 this.infometa = response.data.area_metadata
                 this.infofc = response.data.items
                 //Currently infoUV stores the current UVI reading from the realtime API
@@ -307,16 +309,28 @@ export default {
             return weatherList
         },
         async search() {
-
-            // get hours already in database
-
-            const hours = [1, 2]
-            // for (var j = 0; j<this.db_info.hours[0].length;j++){ 
-            //     hours.push(this.db_info.hours[0][j].hr)
-            // }
+            var myInput = document.getElementById("select-place");
+            var myInput2 = document.getElementById("select-time");
+            if (myInput && myInput.value && myInput2 && myInput2.value)  {
+                this.searchBody()
+            } else {
+                alert('please select value for inputs')
+            }
+        },
+        async searchBody() {
 
             const loc = document.getElementById('select-place').value
             const hour = parseInt(document.getElementById('select-time').value.substring(0, 2))
+
+            // get hours already in database
+            const hours = []
+            const dbHours = JSON.parse(JSON.stringify(this.db_info.hours))
+            for (var j = 0; j<dbHours.length;j++){ 
+                console.log('recurse through hours here')
+                hours.push(dbHours[j].hr)
+            }
+
+
             const c_hour = parseInt(this.timing[0].time.substring(0, 2))
             const diff = hour - c_hour
             const off_hours = [0, 1, 2, 3, 4, 5, 6, 20, 21, 22, 23]
