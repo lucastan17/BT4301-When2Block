@@ -40,7 +40,14 @@
         <h3 class ="h3"> {{ total }} </h3>
           <h4 class="h4"> days </h4>
           <p>total sunblock checks-in</p>
-          <b>Joined since {{ joined }}</b>
+      <div>
+        <img alt="Checked in" src="../assets/man.png" style="width:100px;height:100px"/>
+      </div>
+    <div>
+        <b>Joined since {{ joined }}</b>  
+      </div>
+          
+        
       </div>
     </div>
   </template>

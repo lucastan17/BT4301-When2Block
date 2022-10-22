@@ -1,30 +1,40 @@
 <template>
     <div class="profile">
+    <div class="grid">
+      <div>
+        <img alt="Checked in" src="../assets/sunglasses.png" style="width:180px;height:150px;"/>
+      </div>
         <div class="container">
           <h1 class="msg">Your Profile</h1>
         </div>
-      <div class="grid">
+      
         <div class="content">
-          <h2 class="username">Username</h2>
+          <h2 class="type">Username</h2>
         </div>
-        <div class="content">
+        <div class="field">
           <b>{{ username }}</b>
         </div>
         <div class="content">
-          <h2 class="email">Email Address</h2>
+          <h2 class="type">Email Address</h2>
         </div>
-        <div class="content">
+        <div class="field">
           <b>{{ email }}</b>
         </div>
         <div class="content">
-          <h2 class="survey">Latest Survey Response</h2>
+          <h2 class="type"> Sunscreen Frequency </h2>
+        </div>
+        <div class="field">
+          <b v-if="loaded">{{ sunscreen_freq }} </b>
         </div>
         <div class="content">
-          <p> Sunscreen frequency: <b v-if="loaded">{{ sunscreen_freq }} </b></p>
-          <p> Skin type: <b v-if="loaded">{{ skin_type }} </b></p>
+          <h2 class="type"> Skin Type </h2>
+        </div>
+        <div class="field">
+          <b v-if="loaded">{{ skin_type }} </b>
         </div>
 
-        </div>
+    </div>
+    <br />
         <button @click="goToEdit()">EDIT PROFILE</button> 
         <button @click="changePw()">CHANGE PASSWORD</button> 
         <button @click="redoSurvey()">REDO SURVEY</button>
@@ -86,7 +96,7 @@ import SurveyService from '@/services/surveyService'
 
   .profile {
   text-align: center;
-  width: 70%;
+  width: 50%;
   margin: auto;
   margin-top: 20px;
   border-radius: 20px;
@@ -96,8 +106,8 @@ import SurveyService from '@/services/surveyService'
 
   .grid {
   display: grid;
-  grid-template-columns: auto auto;
-  column-gap: 2px;
+  grid-template-columns: 25% 75%;
+  column-gap: 3px;
   }
 
   .content {
@@ -105,6 +115,20 @@ import SurveyService from '@/services/surveyService'
   justify-content: center;
   align-content: left;
   flex-direction: column;
+  text-align: left;
+
+  }
+
+  .field {
+  display: flex;
+  justify-content: center;
+  align-content: left;
+  flex-direction: column;
+  text-align: left;
+  margin: 5px 2px; 
+  padding-left: 20px;
+  background-color: white;
+  border-radius: 10px;
   }
 
   button {
@@ -135,14 +159,14 @@ button:focus {
   font-family: var(--font-family-epilogue);
   text-align: center;
       background-color: #F16308;
-      width: 25%;
-      height: 100%;
+      width: 50%;
+      height: 50%;
       border-radius: 20px;
       padding: 1px 1px 1px 1px;
       margin: auto;
 }
 
-.username, .email, .survey {
+.type {
   font-size: 20px;
   float: left;
   font-weight: 700;
