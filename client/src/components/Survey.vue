@@ -13,7 +13,7 @@
             <div class="float-child-right">
                 <div class="top-form">
                     <form>
-                        <h2 class="qn">How often do you apply sunscreen?</h2>
+                        <h4 class="qn">How often do you apply sunscreen?</h4>
                         <label for="daily">
                             <input type="radio" id="daily" value="daily" name="frequency" v-model="frequency">
                             Daily</label><br />
@@ -34,7 +34,7 @@
 
                 <div class="bottom-form">
                     <form>
-                        <h2 class="qn">Tell us your skin type!</h2>
+                        <h4 class="qn">Tell us your skin type!</h4>
                         <label for="normal">
                             <input type="radio" id="normal" value="normal" name="skin_type" v-model="skinType">
                             Normal Skin</label><br />
@@ -180,6 +180,7 @@ export default {
 
 .top-form {
     text-align: left;
+    margin-top: 20px;
 }
 
 .bottom-form {
@@ -188,7 +189,8 @@ export default {
 }
 
 .qn {
-    margin: 10px;
+    font-weight: bold;
+    /* margin: 10px; */
 }
 
 .button {

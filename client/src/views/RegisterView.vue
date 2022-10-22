@@ -2,7 +2,7 @@
   <div class="home">
     <HeaderBar2>
       <template #logo>
-        <div class="border align-items-">
+        <div class="align-items-">
           <router-link to="/">
             <img class="logo" src="../assets/logo.png" />
           </router-link>
@@ -10,7 +10,7 @@
       </template>
       <template #header>
         <div id="header">
-          <h3>{{header}}</h3>
+          <h1 class="header-content">{{header}}</h1>
         </div>
       </template>
       <template #button>
@@ -76,7 +76,14 @@ export default {
   color: white;
   margin: 15px;
   display: flex;
-  font-size: 40px;
+  font-size: 70px;
   padding-top: 50px;
+}
+
+.header-content {
+  display: inline-block;
+  align-self: flex-end;
+  font-weight: bold;
+  font-size: 40pt;
 }
 </style>
