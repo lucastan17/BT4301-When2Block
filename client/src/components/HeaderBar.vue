@@ -8,7 +8,7 @@
         <div id="navlinks">
             <ul>
                 <li>
-                    <a href="/model-performance" v-if="store.user.admin_user">Model Performance</a>
+                    <a href="/model-dashboard" v-if="store.user.admin_user">Model Dashboard</a>
                     <a href="/track" v-if="!store.user.admin_user">Check-In</a>
                 </li>
                 <li>
@@ -84,24 +84,26 @@ export default {
 }
 
 button {
-  margin: auto;
-  background-color: #F16308;
-  border: none;
-  color: white;
-  padding: 5px;
-  border-radius: 4px;
-  margin-top: 2px;
-  height: 10%;
-  font-weight: bold;
-  font-family: "Nunito Sans", sans-serif;
+    margin: auto;
+    background-color: #F16308;
+    border: none;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    margin-top: 2px;
+    height: 10%;
+    font-weight: bold;
+    font-family: "Nunito Sans", sans-serif;
 }
+
 button:hover {
-  background: #ffcc00;
-  color: black;
-  cursor: pointer;
+    background: #ffcc00;
+    color: black;
+    cursor: pointer;
 }
+
 button:focus {
-  outline: none;
+    outline: none;
 }
 
 p {
