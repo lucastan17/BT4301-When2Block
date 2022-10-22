@@ -77,7 +77,7 @@ export default {
                 await this.store.setUser(response.data.user)
 
                 if (this.store.user.admin_user) {
-                    this.$router.push("/model-performance")
+                    this.$router.push("/model-dashboard")
                 } else {
                     this.$router.push("/survey")
                 }
