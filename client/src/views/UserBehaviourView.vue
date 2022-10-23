@@ -73,7 +73,7 @@ export default {
     methods: {
         getMonths () {
             const today = new Date()
-            const month = today.getMonth()
+            const month = today.getMonth() + 1
             const monthsDict = {
                 0: 'January',
                 1: 'February',
@@ -116,19 +116,6 @@ export default {
                 this.daily.actualNumber = res.data.daily.actualNumber
                 this.daily.percentage = res.data.daily.percentage
             })
-            // await api().get('userDashboard').then(res => {
-            //     this.userBehaviour.userData = res.data.userData
-            //     this.userProportion.series = res.data.userProportion
-            //     this.totalCount = res.data.totalCount
-            //     this.never.actualNumber = res.data.never.actualNumber
-            //     this.never.percentage = res.data.never.percentage
-            //     this.monthly.actualNumber = res.data.monthly.actualNumber
-            //     this.monthly.percentage = res.data.monthly.percentage
-            //     this.weekly.actualNumber = res.data.weekly.actualNumber
-            //     this.weekly.percentage = res.data.weekly.percentage
-            //     this.daily.actualNumber = res.data.daily.actualNumber
-            //     this.daily.percentage = res.data.daily.percentage
-            // })
         }
     },
     mounted() {

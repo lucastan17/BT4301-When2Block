@@ -8,5 +8,9 @@ export default {
   },
   post (params) {
     return api().post(`model-registry/${params}`)
+  },
+  refresh (params) {
+    return api().post(`model-refresh/${params}`,
+    )
   }
 }
