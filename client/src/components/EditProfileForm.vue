@@ -1,7 +1,8 @@
 <template>
   <div class="form">
     <form @submit.prevent="update">
-      <h2 class="msg">Edit Profile!</h2>
+      <h2 class="msg">Edit Profile</h2>
+      <br />
       <o-field>
         <o-input
           id="name"
@@ -45,6 +46,7 @@ export default {
     return {
       name: "",
       email: "",
+      err: "",
     };
   },
   methods: {
@@ -61,6 +63,7 @@ export default {
                 
         } catch (err) {
           console.log(err)
+          this.err = "Email Address has been used."
         }
     },
     goToProfile() {
@@ -78,7 +81,7 @@ export default {
   text-align: center;
   width: 30%;
   border-radius: 20px;
-  padding: 30px 90px 0px 90px;
+  padding: 30px 90px 50px 90px;
   background-color: #FCF5E8;
 }
 .o-input,
@@ -117,5 +120,28 @@ h4:hover {
     font-size: 15px;
     color: red;
     font-weight: bold;
+}
+#back {
+  font-size: 15px;
+}
+button {
+  margin: 10px;
+  margin-top: 10px;
+  background-color: #F16308;
+  border: none;
+  color: black;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #ffcc00;
+  color: black;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
 }
 </style>

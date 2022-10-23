@@ -20,16 +20,16 @@
         <div class="field">
           <b>{{ email }}</b>
         </div>
-        <div class="content">
+        <div class="content" v-if="admin">
           <h2 class="type"> Sunscreen Frequency </h2>
         </div>
-        <div class="field">
+        <div class="field" v-if="admin">
           <b v-if="loaded">{{ sunscreen_freq }} </b>
         </div>
-        <div class="content">
+        <div class="content" v-if="admin">
           <h2 class="type"> Skin Type </h2>
         </div>
-        <div class="field">
+        <div class="field" v-if="admin">
           <b v-if="loaded">{{ skin_type }} </b>
         </div>
 
@@ -37,7 +37,7 @@
     <br />
         <button @click="goToEdit()">EDIT PROFILE</button> 
         <button @click="changePw()">CHANGE PASSWORD</button> 
-        <button @click="redoSurvey()">REDO SURVEY</button>
+        <button v-if="admin" @click="redoSurvey()">REDO SURVEY</button>
       </div>
 </template>
   
@@ -58,6 +58,7 @@ import SurveyService from '@/services/surveyService'
         loaded: false,
         sunscreen_freq:"",
         skin_type: "",
+        admin: !this.store.user.admin_user
       };
     },
     methods: {

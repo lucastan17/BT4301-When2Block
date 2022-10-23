@@ -221,7 +221,7 @@ button:disabled {
 
 .float-child-left {
   width: 58%;
-  height: 100%;
+  height: 105%;
   border-radius: 20px;
   margin: 20px;
   float: left;
@@ -233,7 +233,7 @@ button:disabled {
 
 .float-child-right {
   width: 35%;
-  height: 100%;
+  height: 105%;
   border-radius: 20px;
   margin: 20px;
   float: left;

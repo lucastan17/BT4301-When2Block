@@ -1,7 +1,8 @@
 <template>
   <div class="form">
     <form @submit.prevent="update">
-      <h2 class="msg">Change Password!</h2>
+      <h2 class="msg">Change Password</h2>
+      <br />
       <o-field>
         <o-input
           id="password"
@@ -129,7 +130,7 @@ export default {
   text-align: center;
   width: 30%;
   border-radius: 20px;
-  padding: 30px 90px 0px 90px;
+  padding: 30px 90px 50px 90px;
   background-color: #FCF5E8;
 }
 .o-input,
@@ -142,22 +143,26 @@ export default {
     font-size: 30pt;
     margin: 0px;
 }
+#back {
+  font-size: 15px;
+}
 button {
-  margin: auto;
+  margin: 10px;
   margin-top: 10px;
-  background-color: #ffcc00;
+  background-color: #F16308;
   border: none;
   color: black;
   padding: 10px;
   border-radius: 4px;
   font-weight: bold;
-  font-family: "Nunito Sans", sans-serif;
 }
+
 button:hover {
-  background: #ffc400;
+  background: #ffcc00;
   color: black;
   cursor: pointer;
 }
+
 button:focus {
   outline: none;
 }
