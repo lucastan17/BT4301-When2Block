@@ -188,6 +188,16 @@ h3 {
     margin-top: 20px;
 }
 
+.button:hover {
+    background: #ffcc00;
+    color: black;
+    cursor: pointer;
+}
+
+.button:focus {
+    outline: none;
+}
+
 .error {
     margin: 0 auto;
     font-size: 15px;
