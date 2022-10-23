@@ -29,7 +29,7 @@ module.exports = {
       const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/uvi_model_1/UVImodel.json')
       const UVImodel = await tf.loadLayersModel(handler1)
 
-      const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/' + modeld.modelName + '/model.json')
+      const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/model_' + String(modeld.model_id) + '/model.json')
       const predModel = await tf.loadLayersModel(handler2)
 
       // Vinod's code here

@@ -14,17 +14,21 @@ module.exports = {
         }
       })
 
+      let newId = 0
       const index = await sequelize.query('SELECT MAX(model_id) as id FROM Model', { type: QueryTypes.SELECT })
-      const newId = index[0].id + 1
+      if (index != null) {
+        newId = index[0].id + 1 // would've incremented by one after adding text columns
+      }
 
       await Model.create({
         model_id: newId,
         modelName: req.body.modelName, // req.body.modelName,
         modelDescription: req.body.modelDescription, // req.body.modelDescription,
-        modelVersion: req.body.modelVersion // req.body.modelVersion
+        modelVersion: req.body.modelVersion, // req.body.modelVersion
+        inProduction: 0
       })
     } catch (err) {
-      // res.send('ERROR' + err)
+      res.send('ERROR' + err.message)
       // error handling
     }
   }

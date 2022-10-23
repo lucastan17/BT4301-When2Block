@@ -1,12 +1,15 @@
 <template>
-    <div style="margin-top: 50px;">
-        <h3><span style="color: red">Register </span>
-            <span style="color: orange">Your </span>
-            <span style="color: yellowgreen">Machine </span>
-            <span style="color: green">Learning </span>
-            <span style="color: blue">Model </span>
-            <span style="color: violet">Here</span>
-        </h3>
+    <div>
+        <div class="top">
+            <h3><span style="color: red">Register </span> 
+                <span style="color: orange">Your </span> 
+                <span style="color: yellowgreen">Machine </span>
+                <span style="color: green">Learning </span>
+                <span style="color: blue">Model </span>
+                <span style="color: violet">Here</span>
+            </h3>
+            <o-button @click="goBack" class="button">Go Back</o-button>            
+        </div>
 
         <div class="parent">
             <div class="float-child-left">
@@ -102,7 +105,9 @@ export default defineComponent({
             this.onUploadWeightsFile();
             const formData = new FormData();
             formData.append("file", this.selectedJsonFile);  // appending file
-
+            // for (var pair of formData.entries()) {
+            //    console.log(pair[0]+ ', ' + pair[1]); 
+            // }
             // sending file to the backend
             const response = await jsonFileUploadService.post(formData)
             console.log(response)
@@ -118,13 +123,9 @@ export default defineComponent({
             const response = await weightsFileUploadService.post(formData)
             console.log(response)
         },
-        clearFields() {
-            this.modelName = "";
-            this.modelDescription = "";
-            this.modelVersion = "";
-            this.selectedJsonFile = "";
-            this.selectedWeightsFile = "";
-        },
+        goBack() {
+            this.$router.push("/model-registry")
+        }
     },
 })
 </script>
@@ -135,6 +136,17 @@ h3 {
     font-size: 30px;
     margin-bottom: 7px;
 
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 82%;
+    align-items: center;
+    margin: auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 #small-text {

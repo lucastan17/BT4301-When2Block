@@ -21,12 +21,16 @@
                             Deployed</span></td>
                     <td>{{datum.modelDescription}}</td>
                     <td>{{datum.modelVersion}}</td>
-                    <td>{{datum.editedTime}}</td>
+                    <td>{{convertDate(datum.editedTime)}}</td>
                     <td>{{datum.accuracy}}</td>
                     <td>
                         <o-button class="button" v-if="datum.inProduction != 1" @click="onUse(datum.model_id)">Use
                         </o-button>
                         <p v-if="datum.inProduction == 1">In-Use</p>
+                    </td>
+                    <td>
+                        <o-button class="button" @click="onRefresh(datum.model_id)">Refresh
+                        </o-button>
                     </td>
                 </tr>
             </tbody>
@@ -40,7 +44,7 @@ import modelRegistryService from '@/services/modelRegistryService'
 export default {
     data() {
         return {
-            headers: ["Name of Model", "Deployment Status", "Description", "Version Number", "Updated Date", "Performance Metric (AUC)", "Use?"],
+            headers: ["Name of Model", "Deployment Status", "Description", "Version Number", "Updated Date", "Performance Metric (AUC)", "Use?", "Re-run model"],
             // data: [{'model_id':4 ,'modelName': 'Model 4', 'deploymentStatus': 'Staged', "modelDescription": "40 Hidden Layers", "modelVersion": "V2.5", "editedTime": "29/10/22", "modelPerformance": "0.99"},
             //        {'model_id':3 ,'modelName': 'Model 3', 'deploymentStatus': 'Deployed', "modelDescription": "20 Hidden Layers", "modelVersion": "V1.2", "editedTime": "20/09/22", "modelPerformance": "0.89"},
             //        {'model_id':2 ,'modelName': 'Model 2', 'deploymentStatus': 'Decommissioned', "modelDescription": "10 Hidden Layers", "modelVersion": "V0.5", "editedTime": "29/07/22", "modelPerformance": "0.12"},
@@ -61,6 +65,14 @@ export default {
         },
         registerNewModel() {
             this.$router.push("/register-model")
+        },
+        convertDate(string) {
+            return new Date(Date.parse(string)).toLocaleString();
+        },
+        async onRefresh(id) {
+            const response = await modelRegistryService.refresh(id);
+            console.log(response)
+            // window.location.reload()
         }
     }
 }

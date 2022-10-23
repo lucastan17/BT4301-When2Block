@@ -76,9 +76,11 @@ module.exports = (app) => {
   app.post('/model-registry/:id',
     modelRegistryController.post
   )
+  app.post('/model-refresh/:id',
+    modelRegistryController.refresh
+  )
 
   app.post('/model-register',
-    //   // upload.single('myJsonFile'),
     newModelController.post
   )
 

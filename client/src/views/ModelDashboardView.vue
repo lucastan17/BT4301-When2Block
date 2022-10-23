@@ -166,6 +166,13 @@ export default {
                     this.summary.status.stat = true
                 } else {
                     // run model
+                    try {
+                        // id = 
+                        // modelRegistryService.refresh(id)
+                        this.summary.status.stat = true
+                    } catch(err) {
+                        this.summary.status.stat = false
+                    }
                 }
             }).catch(err => this.error = err)
         }
