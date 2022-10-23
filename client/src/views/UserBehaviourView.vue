@@ -1,21 +1,27 @@
 <template>
     <HeaderBar></HeaderBar>
     <div id="overall-container">
-        <h2>1. Count and Proportion of Users based on Sun-Block usage rates</h2>
-        <div id="flex-boxdisplay-container">
-            <UserProportionChart :seriesValue="this.userProportion.series" :chartLabels="this.userProportion.labels"/>
-            <BoxDisplay title='Never' :actualNumber="this.never.actualNumber" :percentage='this.never.percentage'/>
-            <BoxDisplay title='Monthly' :actualNumber="this.monthly.actualNumber" :percentage='this.monthly.percentage'/>
-            <BoxDisplay title='Weekly' :actualNumber="this.weekly.actualNumber" :percentage='this.weekly.percentage'/>
-            <BoxDisplay title='Daily' :actualNumber="this.daily.actualNumber" :percentage='this.daily.percentage'/>
+        <div id="title-row">
+            <h3 style="font-weight:bold;">User Behaviour</h3>
         </div>
-        <h2>2. Statistics of Users who have begun their sunscreen journey</h2>
+        <h4 style="text-align: left;">1. Count and Proportion of Users based on sunblock usage rates</h4>
+        <div id="flex-boxdisplay-container">
+            <UserProportionChart :seriesValue="this.userProportion.series" :chartLabels="this.userProportion.labels" />
+            <BoxDisplay title='Never' :actualNumber="this.never.actualNumber" :percentage='this.never.percentage' />
+            <BoxDisplay title='Monthly' :actualNumber="this.monthly.actualNumber"
+                :percentage='this.monthly.percentage' />
+            <BoxDisplay title='Weekly' :actualNumber="this.weekly.actualNumber" :percentage='this.weekly.percentage' />
+            <BoxDisplay title='Daily' :actualNumber="this.daily.actualNumber" :percentage='this.daily.percentage' />
+        </div>
+
+        <h4 style="text-align: left;">2. Statistics of Users who have begun their sunscreen journey</h4>
         <div id="flex-chartstats-container">
             <div id="stats-container">
-                <TotalUserCount :totalCount="this.totalCount"/>
+                <TotalUserCount :totalCount="this.totalCount" />
             </div>
             <div id="chart-container">
-                <UserBehaviourChart :userData="this.userBehaviour.userData" :months="this.userBehaviour.months" :key="this.userBehaviour"/>   
+                <UserBehaviourChart :userData="this.userBehaviour.userData" :months="this.userBehaviour.months"
+                    :key="this.userBehaviour" />
             </div>
         </div>
     </div>
@@ -38,7 +44,7 @@ export default {
                 actualNumber: 326,
                 percentage: 62
             },
-            monthly:{
+            monthly: {
                 actualNumber: 18,
                 percentage: 10
             },
@@ -51,7 +57,7 @@ export default {
                 percentage: 12
             },
             totalCount: 79,
-            
+
             userProportion: {
                 series: [], //[326, 18, 51, 36],
                 labels: ['Never', 'Monthly', 'Weekly', 'Daily']
@@ -59,7 +65,7 @@ export default {
 
             userBehaviour: {
                 userData: [], //[10, 21, 32, 56, 63, 79],
-                months: this.getMonths( ),
+                months: this.getMonths(),
             }
         }
     },
@@ -71,7 +77,7 @@ export default {
         UserProportionChart
     },
     methods: {
-        getMonths () {
+        getMonths() {
             const today = new Date()
             const month = today.getMonth()
             const monthsDict = {
@@ -92,7 +98,7 @@ export default {
             for (let i = 0; i < 6; i++) {
                 let curIndex = (month - (6 - i))
                 if (curIndex < 0) {
-                curIndex += 12
+                    curIndex += 12
                 }
                 indexOfMonths.push(curIndex)
             }
@@ -143,7 +149,14 @@ export default {
 #overall-container {
     width: 85%;
     margin: auto;
-    padding-top: 30px;  
+    padding-top: 30px;
+}
+
+#title-row {
+    margin: 10px 0px 10px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 #flex-boxdisplay-container {
@@ -158,7 +171,7 @@ export default {
     display: flex;
     justify-content: space-between;
     padding-top: 50px;
-    
+
 }
 
 #stats-container {
@@ -172,6 +185,4 @@ export default {
 h2 {
     text-align: left;
 }
-
-
 </style>
