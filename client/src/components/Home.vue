@@ -4,12 +4,13 @@
       <div class="group-1">
         <div class="flex-col">
           <div class="container">
-            <div class="header1 epilogue-extra-bold-ebony-clay-40px">
-              Don't know when <br /> to
-              wear <h1 class="header2">Sunscreen</h1>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              ?
-            </div>
+            <p class="header1"
+              style="font-size: 40px; color:ebony-clay; font-weight:800; font-style:normal; text-align: justify; margin:0px;">
+              Don't know when
+              <br />
+              <span>to wear </span>
+              <span style="color: rgba(240, 167, 59, 1)">Sunscreen</span> ?
+            </p>
           </div>
           <div class="content-block">
             Regular daily use of SPF 15 sunscreen can reduce your risk of skin cancer cells by 50%<br />
@@ -74,184 +75,182 @@ export default {
 }
 </script>
   
-<style scoped>
-.epilogue-extra-bold-ebony-clay-40px {
-  font-family: var(--font-family-epilogue);
-  font-weight: 800;
-  color: ebony-clay;
-  font-size: 40px;
-  font-style: normal;
-}
-
-.group-container {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  padding: 69px 113px;
-}
-
-.group-1 {
-  align-items: center;
-  display: flex;
-  gap: 29px;
-  min-width: 1024px;
-}
-
-.flex-col {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  gap: 27px;
-  margin-top: 1px;
-  min-height: 351px;
-  width: 570px;
-}
-
-.container {
-  height: 97px;
-  position: relative;
-  width: 503px;
-}
-
-.header1 {
-  left: 0;
-  letter-spacing: 0;
-  position: absolute;
-  top: 0;
-  line-height: 48px;
-  min-height: 97px;
-  width: 503px;
-  text-align: justify;
-}
-
-.header2 {
-  color: rgba(240, 167, 59, 1);
-  font-family: var(--font-family-epilogue);
-  font-size: 44px;
-  font-weight: 800;
-  left: 156px;
-  letter-spacing: 0;
-  line-height: 48px;
-  position: absolute;
-  top: 17px;
-  white-space: nowrap;
-  width: 307px;
-  text-align: center;
-}
-
-.content-block {
-  color: black;
-  font-family: var(--font-family-epilogue);
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 32px;
-  min-height: 227px;
-  width: 570px;
-  text-align: left;
-}
-
-.sunscreen-img {
-  height: 438px;
-  object-fit: cover;
-  width: 343px;
-}
-
-.group-2 {
-  align-items: flex-start;
-  display: flex;
-  min-width: 1169px;
-  margin-top: 4%;
-}
-
-.overlap-group {
-  height: 700px;
-  position: relative;
-  width: 1165px;
-}
-
-.header3 {
-  letter-spacing: 0;
-  line-height: 48px;
-  position: absolute;
-  top: 0;
-  width: 800px;
-}
-
-.search-img {
-  height: 614px;
-  left: 2%;
-  object-fit: cover;
-  position: absolute;
-  top: 89px;
-  width: 1115px;
-}
-
-.header3-1 {
-  left: 800px;
-  letter-spacing: 0;
-  line-height: 48px;
-  position: absolute;
-  top: 630px;
-  width: 401px;
-}
-
-.group-3 {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  min-height: 878px;
-  width: 1067px;
-  margin-top: 6%;
-}
-
-.flex-row {
-  align-items: center;
-  display: flex;
-  gap: 21px;
-  margin-right: 6px;
-  min-width: 1061px;
-  margin-left: 75px;
-}
-
-.beach-img {
-  height: 374px;
-  object-fit: cover;
-  width: 442px;
-}
-
-.flex-col-2 {
-  display: flex;
-  flex-direction: column;
-  align-items: right;
-}
-
-.header4 {
-  font-family: var(--font-family-epilogue);
-  font-size: 46px;
-  font-weight: 800;
-  letter-spacing: 0;
-  line-height: 48px;
-  margin-top: 56px;
-  min-height: 200px;
-  text-align: right;
-  width: 628px;
-  margin-left: 50px;
-}
-
-.button-div {
-  text-align: right;
-}
-
-.button {
-  background-color: #F16308;
-  margin: 15px;
-  border-radius: 25px;
-  border: none;
-  width: 200px;
-  height: 60px;
-  font-size: 32px;
-}
+  <style scoped>
+  .epilogue-extra-bold-ebony-clay-40px {
+    font-family: var(--font-family-epilogue);
+    font-weight: 800;
+    color: ebony-clay;
+    font-size: 40px;
+    font-style: normal;
+  }
+  
+  .group-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 69px 113px;
+  }
+  
+  .group-1 {
+    align-items: center;
+    display: flex;
+    gap: 29px;
+    min-width: 1024px;
+  }
+  
+  .flex-col {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 27px;
+    margin-top: 1px;
+    min-height: 351px;
+    width: 570px;
+  }
+  
+  .container {
+    height: 97px;
+    position: relative;
+    width: 503px;
+  }
+  
+  .header1 {
+    left: 0;
+    letter-spacing: 0;
+    position: absolute;
+    top: 0;
+    line-height: 48px;
+    min-height: 97px;
+    width: 503px;
+    text-align: justify;
+  }
+  
+  .header2 {
+    color: rgba(240, 167, 59, 1);
+    font-family: var(--font-family-epilogue);
+    font-size: 44px;
+    font-weight: 800;
+    left: 156px;
+    letter-spacing: 0;
+    line-height: 48px;
+    position: absolute;
+    top: 17px;
+      white-space: nowrap;
+    width: 307px;
+    text-align: center;
+  }
+  
+  .content-block {
+    color: black;
+    font-family: var(--font-family-epilogue);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 32px;
+    min-height: 227px;
+    width: 570px;
+    text-align: left;
+  }
+  
+  .sunscreen-img {
+    height: 438px;
+    object-fit: cover;
+    width: 343px;
+  }
+  
+  .group-2 {
+    align-items: flex-start;
+    display: flex;
+    min-width: 1169px;
+    margin-top: 4%;
+  }
+  
+  .overlap-group {
+    height: 700px;
+    position: relative;
+    width: 1165px;
+  }
+  .header3 {
+    letter-spacing: 0;
+    line-height: 48px;
+    position: absolute;
+    top: 0;
+    width: 800px;
+  }
+  
+  .search-img {
+    height: 614px;
+    left: 2%;
+    object-fit: cover;
+    position: absolute;
+    top: 89px;
+    width: 1115px;
+  }
+  
+  .header3-1 {
+    left: 800px;
+    letter-spacing: 0;
+    line-height: 48px;
+    position: absolute;
+    top: 630px;
+    width: 401px;
+  }
+  
+  .group-3 {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 878px;
+    width: 1067px;
+    margin-top: 6%;
+  }
+  
+  .flex-row {
+    align-items: center;
+    display: flex;
+    gap: 21px;
+    margin-right: 6px;
+    min-width: 1061px;
+    margin-left: 75px;
+  }
+  
+  .beach-img {
+    height: 374px;
+    object-fit: cover;
+    width: 442px;
+  }
+  
+  .flex-col-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+  }
+  
+  .header4 {
+    font-family: var(--font-family-epilogue);
+    font-size: 46px;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 48px;
+    margin-top: 56px;
+    min-height: 200px;
+    text-align: right;
+    width: 628px;
+    margin-left: 50px;
+  }
+  
+  .button-div {
+    text-align: right;
+  }
+  
+  .button {
+      background-color: #F16308;
+      margin: 15px;
+      border-radius: 25px;
+      width: 200px;
+      height: 60px;
+      font-size: 32px;
+  }
 
 .button:hover {
   background: #ffcc00;
