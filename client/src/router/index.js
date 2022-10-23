@@ -108,12 +108,12 @@ router.beforeEach(async (to) => {
       }
       // logged in users will be redirected to landing page, skip log in/ register pages
       if (to.name == 'login' || to.name == 'register') {
-        return '/search'
+        return '/track'
       }
     } else {
       // logged in users will be redirected to landing page, skip log in/ register pages
       if (to.name == 'login' || to.name == 'register') {
-        return '/model-performance'
+        return '/model-dashboard'
       }
     }
 
