@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE DATABASE `when2block`;
+USE `when2block`;
 
 CREATE TABLE `Check_in` (
   `user_id` int NOT NULL,
@@ -45,6 +45,7 @@ CREATE TABLE `Results` (
   `uv_index` int NOT NULL,
   `prediction` int NOT NULL,
   `actual` int NOT NULL,
+  `predict_proba` float NOT NULL,
   PRIMARY KEY (`model_id`,`location`,`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -68,10 +69,41 @@ CREATE TABLE `Users` (
   `admin_user` tinyint(1) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+
+INSERT INTO `Check_in` (`user_id`, `checkin_date`) VALUES
+(1, '2022-10-15 16:20:14');
+INSERT INTO `Check_in` (`user_id`, `checkin_date`) VALUES
+(1, '2022-10-20 16:20:14');
+INSERT INTO `Check_in` (`user_id`, `checkin_date`) VALUES
+(2, '2022-10-18 16:20:14');
+INSERT INTO `Check_in` (`user_id`, `checkin_date`) VALUES
+(4, '2022-10-17 16:20:14'),
+(4, '2022-10-18 16:20:14'),
+(4, '2022-10-19 16:20:14'),
+(4, '2022-10-20 16:20:14');
+
+INSERT INTO `Drift` (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`, `chi_square`) VALUES
+(1, '2022-10-15 16:20:14', 0.80, 0.6, 0.76, 0.5, 0.2);
+INSERT INTO `Drift` (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`, `chi_square`) VALUES
+(1, '2022-10-17 16:20:14', 0.85, 0.7, 0.8, 0.6, 0.2);
+INSERT INTO `Drift` (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`, `chi_square`) VALUES
+(2, '2022-10-18 16:20:14', 0.8, 0.7, 0.78, 0.67, 0.2);
+INSERT INTO `Drift` (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`, `chi_square`) VALUES
+(2, '2022-10-19 16:20:14', 0.88, 0.6, 0.8, 0.7, 0.2);
+
+INSERT INTO `Model` (`model_id`, `editedTime`, `modelName`, `modelVersion`, `modelDescription`, `inProduction`) VALUES
+(1, '2022-10-17 16:20:14', 'Model 1', 'V0.2', '5 hidden layers', 0);
+INSERT INTO `Model` (`model_id`, `editedTime`, `modelName`, `modelVersion`, `modelDescription`, `inProduction`) VALUES
+(2, '2022-10-19 16:20:14', 'Model 2', 'V0.5', '10 hidden layers', 1);
 
 
--- INSERT DATA
+INSERT INTO `Results` (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`, `predict_proba`) VALUES
+(1, 'Ang Mo Kio', '2022-10-20 16:20:14', 'Cloudy', 2, 0, 0, 0.7);
+INSERT INTO `Results` (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`, `predict_proba`) VALUES
+(1, 'Bedok', '2022-10-20 16:20:14', 'Light Rain', 2, 0, 0, 0.77);
+INSERT INTO `Results` (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`, `predict_proba`) VALUES
+(1, 'Woodlands', '2022-10-20 16:20:14', 'Sunny', 3, 1, 1, 0.8);
 
 INSERT INTO `Surveys` (`survey_id`, `user_id`, `sunscreen_freq`, `skin_type`, `createdAt`, `updatedAt`) VALUES
 (1, 5, 'monthly', 'dry', '2022-10-09 09:06:55', '2022-10-09 09:06:55');
@@ -105,34 +137,9 @@ INSERT INTO `Users` (`user_id`, `username`, `email`, `password`, `createdAt`, `u
 (17, 'test4', 'test4@gmail.com', '$2b$10$l6MTuT9a5jha7hZQgogYne1fCVfYGdnrZ09w8DfvIFQAgH9KCLK7m', '2022-10-15 15:04:59', '2022-10-15 15:04:59', 0),
 (18, 'test5', 'test5@gmail.com', '$2b$10$1/SQ9wQMV7J1CnTbGyJDW.vZQdctndoSPLM63bUmAi50Y9glHjemS', '2022-10-15 15:56:56', '2022-10-15 15:56:56', 0),
 (19, 'test6', 'test6@gmail.com', '$2b$10$KsaimtkRLIlmBGqt5Gys6eCJd40X6dtgdMWWCfNzjnpuuIVMumtRW', '2022-10-15 16:01:20', '2022-10-15 16:01:20', 0),
-(20, 'test7', 'test7@gmail.com', '$2b$10$K6RDLLwbdmJovrM.qKuHJu/PQeBaUctGfwnKJ.g9yAkpxYdkBlLzq', '2022-10-15 16:17:47', '2022-10-15 16:17:47', 0);
+(20, 'test7', 'test7@gmail.com', '$2b$10$K6RDLLwbdmJovrM.qKuHJu/PQeBaUctGfwnKJ.g9yAkpxYdkBlLzq', '2022-10-15 16:17:47', '2022-10-15 16:17:47', 0),
+(21, 'admin1', 'admin123@gmail.com', '$2b$10$uvF4ccv643XP2wg29Z8OEeMJZvk28jR8VzciL90x2Ty6mOK4soIsW', '2022-10-20 16:37:37', '2022-10-20 16:37:37', 1);
 
-INSERT INTO Check_in (`user_id`, `checkin_date`)
-VALUES (1, SUBDATE(NOW(), 5)),
-	   (4, SUBDATE(NOW(), 3)),
-	   (4, SUBDATE(NOW(), 2)),
-       (2, SUBDATE(NOW(), 2)),
-	   (4, SUBDATE(NOW(), 1)),
-       (4, NOW()),
-       (1, NOW());
-       
-INSERT INTO Drift (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`, `chi_square`)
-VALUES (1, SUBDATE(NOW(), 5), 0.85, 0.7, 0.8, 0.6, 0.15),
-	   (2, SUBDATE(NOW(), 2), 0.88, 0.6, 0.8, 0.7, 0.17),
-     (1, SUBDATE(NOW(), 3), 0.85, 0.7, 0.8, 0.6, 0.2),
-	   (2, SUBDATE(NOW(), 1), 0.88, 0.6, 0.8, 0.7, 0.1);
-       
-INSERT INTO Results (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`)
-VALUES (1, 'Woodlands', NOW() + INTERVAL 1 DAY, 'Sunny', 3, 1, 1),
-	   (1, 'Ang Mo Kio', NOW() + INTERVAL 1 DAY, 'Cloudy', 2, 0, 0),
-       (1, 'Bedok', NOW() + INTERVAL 1 DAY, 'Light Rain', 2, 0, 0),
-       (1, 'Woodlands', NOW(), 'Sunny', 3, 1, 1),
-	   (1, 'Ang Mo Kio', NOW(), 'Cloudy', 2, 0, 0),
-       (1, 'Bedok', NOW(), 'Light Rain', 2, 0, 0);
-	   
-INSERT INTO Model (`model_id`, `editedTime`, `modelName`, `modelVersion`, `modelDescription`, `inProduction`)
-VALUES (1, SUBDATE(NOW(), 3), 'Model 1', 'V0.2', '5 hidden layers', false), 
-      (2, SUBDATE(NOW(), 1), 'Model 2', 'V0.5', '10 hidden layers', true);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
