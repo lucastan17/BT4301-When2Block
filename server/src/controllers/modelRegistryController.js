@@ -1,6 +1,7 @@
 const { QueryTypes } = require('sequelize')
 const db = require('../models')
 const sequelize = db.sequelize
+const tf = require('@tensorflow/tfjs')
 const tfn = require('@tensorflow/tfjs-node')
 const fetch = require('node-fetch')
 const uviUrl = 'https://api.data.gov.sg/v1/environment/uv-index?date='
@@ -99,8 +100,6 @@ module.exports = {
       const previous = new Date(today.getTime())
       previous.setDate(today.getDate() - 1)
 
-      const urlerror = this.formatDate(previous)
-
       const uviDataObj = await fetch(uviUrl + this.formatDate(previous))
       const uviDataList = uviDataObj.data.items[12].index
 
@@ -140,7 +139,7 @@ module.exports = {
         } else {
           condition = 0
         }
-        if (condition == 1 && uviPred < 3) {
+        if (condition === 1 && uviPred < 3) {
           actualData.push(1)
         } else {
           actualData.push(0)
@@ -155,11 +154,12 @@ module.exports = {
         'Western Water Catchment', 'Woodlands', 'Yishun']
 
       // Create results in DB
-      const item_pairs = []
+      const itemPairs = []
 
       for (let i = 0; i < 47; i++) {
         const name = locations[i]
-        const ts = new Date(new Date().getTime() + (8 + diff) * (3600 * 1000))
+
+        const ts = new Date(new Date().getTime() + (8 + 0) * (3600 * 1000))
         await Results.create({
           model_id: id,
           location: name,
@@ -170,12 +170,12 @@ module.exports = {
           actual: actualData[i],
           predict_proba: predResult[i]
         })
-        item_pairs.push({ prediction: ((predResult[i] < 0.5) ? 0 : 1), actual: actualData[i] })
+        itemPairs.push({ prediction: ((predResult[i] < 0.5) ? 0 : 1), actual: actualData[i] })
       }
 
       // Calculate results in Drift table
       let tp = 0; let tn = 0; let fn = 0; let fp = 0
-      item_pairs.forEach(confusion)
+      itemPairs.forEach(confusion)
       function confusion (item) {
         if (item.prediction === item.actual && item.actual) {
           tp += 1
@@ -192,7 +192,8 @@ module.exports = {
       const rec = tp / (tp + fn)
       const f1 = 2 * pre * rec / (pre + rec)
       const chi = (fp - fn) ** 2 / (tp + fn) + (fn - fp) ** 2 / (tn + fp)
-      result = { model_id: model[0].model_id, acc, pre, rec, f1, chi }
+
+      const ts = new Date(new Date().getTime() + (8 + 0) * (3600 * 1000))
 
       await Drift.create({
         model_id: id,
