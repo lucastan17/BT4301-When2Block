@@ -5,12 +5,13 @@
       <div class="group-1">
         <div class="flex-col">
           <div class="container">
-            <div class="header1 epilogue-extra-bold-ebony-clay-40px">
-              Don't know when <br /> to
-              wear&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              ?
-            </div>
-            <h1 class="header2">Sunscreen</h1>
+            <p class="header1"
+              style="font-size: 40px; color:ebony-clay; font-weight:800; font-style:normal; text-align: justify; margin:0px;">
+              Don't know when
+              <br />
+              <span>to wear </span>
+              <span style="color: rgba(240, 167, 59, 1)">Sunscreen</span> ?
+            </p>
           </div>
           <div class="content-block">
             Regular daily use of SPF 15 sunscreen can reduce your risk of skin cancer cells by 50%<br />

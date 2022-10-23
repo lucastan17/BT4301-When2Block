@@ -3,7 +3,7 @@
         <HeaderBar2>
             <template #logo>
                 <div class="align-items-">
-                    <router-link to="/">
+                    <router-link to="/about">
                         <img class="logo" src="../assets/logo.png" />
                     </router-link>
                 </div>
