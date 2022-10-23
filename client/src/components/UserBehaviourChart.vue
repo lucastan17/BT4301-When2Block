@@ -66,7 +66,6 @@ export default {
 <style scoped>
 .button {
   background-color: #F16308;
-  margin: 15px;
   border-radius: 5px;
   color: white;
   border: 0;
