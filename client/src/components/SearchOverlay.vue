@@ -251,7 +251,8 @@ export default {
 
             // load yesterday UVI
             const uviDataObj = await axios.get(uviUrl + this.formatDate(previous))
-            const uviDataList = uviDataObj.data.items[12].index
+            const lastIndex = uviDataObj.data.items.length-1
+            const uviDataList = uviDataObj.data.items[lastIndex].index
             console.log('uvi data loaded', uviDataList)
 
             // transform uvi data into a tensor
@@ -281,8 +282,8 @@ export default {
             // transform into numerical input
             const weatherItems = [];
             for (var i = 0; i < weatherPred.length; i++) {
-                var condition = weatherPred.forecast
-
+                var condition = weatherPred[i].forecast 
+                console.log('check here', condition)
                 if (this.sunnyConditions.includes(condition)) {
                     condition = 1
                 } else {
@@ -361,7 +362,7 @@ export default {
                         time: ts,
                         uv_index: Math.ceil(uviPred),
                         prediction: ((predResults[i] < 0.5) ? 0 : 1),
-                        actual: (((predResults[i] < 0.5) & (uviPred < 3)) ? 0 : 1),
+                        actual: (((this.sunnyConditions.includes(weatherPred[i].forecast)) & (uviPred < 3)) ? 0 : 1), 
                         predict_proba: predResults[i]
                     })
                     if (name == loc) {
