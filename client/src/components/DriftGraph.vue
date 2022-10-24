@@ -4,8 +4,7 @@
     <div class="card" style="width:50%">
     <div class="card-body">
         <h4 class="card-title mb-4">{{title}} over Past 30 Days</h4>
-        <h5 class="card-subtitle mb-3">Average: {{driftData.val}} </h5>
-        <h5 class="card-subtitle mb-3">Total Drift (earliest - latest): {{drift}}</h5>
+        <h5 class="card-subtitle mb-3">Total Drift (earliest - latest): {{driftData.drift}}</h5>
         <p class="card-text text-muted"> Threshold: {{driftData.t2}}</p>
     </div>
     </div>
@@ -58,8 +57,7 @@ export default {
                 scales: {
                     x: { offset: true }
                 }
-            },
-            drift: (this.driftData.data[0] - this.driftData.data[this.driftData.data.length-1]).toFixed(3),
+            }
         }
     },
 }

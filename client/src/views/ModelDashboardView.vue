@@ -80,11 +80,11 @@ export default {
             rec: { val: null, t1: 0.95, t2: 0.9, stat: null },
             f1: { val: null, t1: 0.95, t2: 0.9, stat: null },
             chi: { val: null, t1: 2.706, t2: 3.841, stat: null },
-            aot: { data: null, val: null, t1: 0.95, t2: 0.9, stat: null },
-            pot: { data: null, val: null, t1: 0.95, t2: 0.9, stat: null },
-            rot: { data: null, val: null, t1: 0.95, t2: 0.9, stat: null },
-            fot: { data: null, val: null, t1: 0.95, t2: 0.9, stat: null },
-            cot: { data: null, val: null, t1: 0.95, t2: 0.9, stat: null },
+            aot: { data: null, drift: null, t1: 0.95, t2: 0.9, stat: null },
+            pot: { data: null, drift: null, t1: 0.95, t2: 0.9, stat: null },
+            rot: { data: null, drift: null, t1: 0.95, t2: 0.9, stat: null },
+            fot: { data: null, drift: null, t1: 0.95, t2: 0.9, stat: null },
+            cot: { data: null, drift: null, t1: 0.95, t2: 0.9, stat: null },
             dates: []
         }
     },
@@ -129,25 +129,20 @@ export default {
                 this.dates = res.data.dates //arranged from earliest to latest
             }).then(() => {
                 function getDriftObject(data) {
-                    let ave = data.reduce((sum, elem) => { return sum + elem; }, 0) / data.length
-                    ave = Number(ave.toFixed(3))
-                    let t1 = 0.95 * data[0] //assume data is arranged from earliest to latest 
-                    t1 = Number(t1.toFixed(3))
-                    let t2 = 0.9 * data[0]
-                    t2 = Number(t2.toFixed(3))
-                    const stat = ave > t1 ? 1 : ave > t2 && ave < t1 ? 2 : 3
-                    return { data, val: ave, t1, t2, stat }
+                    let t1 = 3
+                    let t2 = 5
+                    let drift = data[0] - data[data.length-1]
+                    const stat = drift < t1 ? 1 : drift < t2 ? 2 : 3
+                    return { data, drift, t1, t2, stat }
                 }
                 this.aot = getDriftObject(this.aot.data)
                 this.pot = getDriftObject(this.pot.data)
                 this.rot = getDriftObject(this.rot.data)
                 this.fot = getDriftObject(this.fot.data)
                 this.cot = getDriftObject(this.cot.data)
-                let t1 = this.cot.val * 1.05
-                let t2 = this.cot.val * 1.1
-                this.cot.t1 = Number(t1.toFixed(3))
-                this.cot.t2 = Number(t2.toFixed(3))
-                this.cot.stat = this.cot.val < this.cot.t1 ? 1 : this.cot.val < this.cot.t2 ? 2 : 3
+                this.cot.t1 = 0.3
+                this.cot.t2 = 0.5
+                this.cot.stat = this.cot.drift < this.cot.t1 ? 1 : this.cot.drift < this.cot.t2 ? 2 : 3
             }).then(() => {
                 const sum = this.aot.stat + this.pot.stat + this.rot.stat + this.fot.stat + this.cot.stat
                 const stat = sum < 7 ? 1 : sum < 9 ? 2 : 3
