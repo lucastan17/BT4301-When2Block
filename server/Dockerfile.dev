@@ -1,7 +1,7 @@
 FROM node:18.9.1
-WORKDIR '/client'
+WORKDIR '/server'
 COPY package*.json .
 RUN npm install
 COPY . .
-EXPOSE 8080
-CMD [ "npm", "run", "serve"]
+EXPOSE 8081
+CMD [ "npm", "run", "start"]
