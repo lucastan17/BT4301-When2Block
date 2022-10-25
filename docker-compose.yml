@@ -1,7 +1,11 @@
 version: "3.8"
 
+networks:
+  app-tier:
+    driver: bridge
+
 services:
-  client: 
+  client:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
@@ -11,26 +15,11 @@ services:
       - ./client:/client
     ports:
       - 8080:8080
-    depends_on: 
-      - server
-
-  server: 
-    build: 
-      context: ./server
-      dockerfile: Dockerfile.dev
-    container_name: server
-    volumes:
-      - /server/node_modules
-      - ./server:/server
-    ports:
-      - 8081:8081
-    depends_on:
-      - database
 
   database:
     image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
     container_name: mysql-db
-    restart: always
     environment:
       MYSQL_DATABASE: 'when2block'
       MYSQL_USER: 'when2block'
@@ -41,6 +30,29 @@ services:
       - ./server/when2block-db:/var/lib/mysql
     ports:
       - 3306:3306
+    networks:
+      - app-tier
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    container_name: server
+    volumes:
+      - /server/node_modules
+      - ./server:/server
+    ports:
+      - 8081:8081
+    depends_on:
+      - database
+    networks:
+      - app-tier
+    environment:
+      DB_HOST: 'database'
+      DB_DIALECT: 'mysql'
+      DB_PASS: 'bt4301grp2'
+      DB_USER: 'when2block'
+      DB_NAME: 'when2block'
 
 volumes:
   when2block-db:
