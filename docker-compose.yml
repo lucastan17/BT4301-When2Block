@@ -38,6 +38,7 @@ services:
       context: ./server
       dockerfile: Dockerfile.dev
     container_name: server
+    restart: always
     volumes:
       - /server/node_modules
       - ./server:/server
