@@ -114,8 +114,13 @@ module.exports = {
   async post (req, res) {
     try {
       // send search details to db
+      let newId = 0
+      const index = await sequelize.query('SELECT MAX(model_id) as id FROM Model;', { type: QueryTypes.SELECT })
+      if (index != null) {
+        newId = index[0].id
+      }
       const posRes = await Results.create({
-        model_id: req.body.model_id,
+        model_id: newId,
         location: req.body.location,
         time: req.body.time,
         weather: req.body.weather,
