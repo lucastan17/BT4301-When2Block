@@ -1,7 +1,7 @@
 const { QueryTypes } = require('sequelize')
 const db = require('../models')
 const sequelize = db.sequelize
-const tf = require('@tensorflow/tfjs')
+//const tf = require('@tensorflow/tfjs')
 const tfn = require('@tensorflow/tfjs-node')
 const fetch = require('node-fetch')
 const uviUrl = 'https://api.data.gov.sg/v1/environment/uv-index?date='
@@ -96,10 +96,10 @@ module.exports = {
 
       // load correct model
       const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/uvi_model_1/UVImodel.json')
-      const UVImodel = await tf.loadLayersModel(handler1)
+      const UVImodel = await tfn.loadLayersModel(handler1)
 
       const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/model_' + String(id) + '/model.json')
-      const predModel = await tf.loadLayersModel(handler2)
+      const predModel = await tfn.loadLayersModel(handler2)
 
       // load yesterday UVI
       const today = new Date()
@@ -130,7 +130,7 @@ module.exports = {
         const value = [uviDataList[i].value]
         input.push(value)
       }
-      const uviTensor = tf.tensor3d([input])
+      const uviTensor = tfn.tensor3d([input])
       test.uviTensor = uviTensor
 
       const uviResult = await UVImodel.predict(uviTensor)
@@ -158,7 +158,7 @@ module.exports = {
       test.weatherItems = weatherItems
 
       // // transform weather and uvi data into a tensor
-      const inputTensor = tf.tensor2d(weatherItems)
+      const inputTensor = tfn.tensor2d(weatherItems)
       test.inputTensor = inputTensor
 
       let predResult = await predModel.predict(inputTensor)

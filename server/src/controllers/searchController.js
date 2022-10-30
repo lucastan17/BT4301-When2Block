@@ -3,7 +3,7 @@ const sequelize = db.sequelize
 const { QueryTypes } = require('sequelize')
 const Results = db.results
 const Model = db.model
-const tf = require('@tensorflow/tfjs')
+//const tf = require('@tensorflow/tfjs')
 const tfn = require('@tensorflow/tfjs-node')
 const fetch = require('node-fetch')
 // const { results } = require('../models')
@@ -27,18 +27,18 @@ module.exports = {
       })
 
       const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/uvi_model_1/UVImodel.json')
-      const UVImodel = await tf.loadLayersModel(handler1)
+      const UVImodel = await tfn.loadLayersModel(handler1)
 
       const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/model_' + String(modeld.model_id) + '/model.json')
-      const predModel = await tf.loadLayersModel(handler2)
+      const predModel = await tfn.loadLayersModel(handler2)
 
       // Vinod's code here
-      const result1 = await UVImodel.save(tf.io.withSaveHandler(async modelArtifacts => modelArtifacts))
+      const result1 = await UVImodel.save(tfn.io.withSaveHandler(async modelArtifacts => modelArtifacts))
       result1.weightData = Buffer.from(result1.weightData).toString('base64')
       const jsonStr = JSON.stringify(result1)
       result.UVmod = jsonStr
 
-      const result2 = await predModel.save(tf.io.withSaveHandler(async modelArtifacts => modelArtifacts))
+      const result2 = await predModel.save(tfn.io.withSaveHandler(async modelArtifacts => modelArtifacts))
       result2.weightData = Buffer.from(result2.weightData).toString('base64')
       const jsonStr2 = JSON.stringify(result2)
       result.mod = jsonStr2
@@ -95,7 +95,7 @@ module.exports = {
       result.weatherItems = weatherItems
 
       // transform weather and uvi data into a tensor
-      const inputTensor = tf.tensor2d(weatherItems)
+      const inputTensor = tfn.tensor2d(weatherItems)
       result.inputTensor = inputTensor
 
       const predResult = await predModel.predict(inputTensor)
@@ -149,7 +149,7 @@ module.exports = {
       const value = [data[i].value]
       input.push(value)
     }
-    const inputTensor = tf.tensor3d([input])
+    const inputTensor = tfn.tensor3d([input])
     return inputTensor
   }
 }
