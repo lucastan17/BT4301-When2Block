@@ -62,11 +62,6 @@
             </l-marker>
         </l-map>
     </div>
-    <div id="listcoordinates">
-        <li v-for="(item, index) in this.infometa" :key="index">
-            {{item.name}} forecast is {{this.infofc[0].forecasts[index].forecast}}
-        </li>
-    </div>
 
 </template>
 
