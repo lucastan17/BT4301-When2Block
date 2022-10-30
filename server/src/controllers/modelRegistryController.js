@@ -1,7 +1,7 @@
 const { QueryTypes } = require('sequelize')
 const db = require('../models')
 const sequelize = db.sequelize
-const tf = require('@tensorflow/tfjs')
+//const tf = require('@tensorflow/tfjs')
 const tfn = require('@tensorflow/tfjs-node')
 const fetch = require('node-fetch')
 const uviUrl = 'https://api.data.gov.sg/v1/environment/uv-index?date='
@@ -90,18 +90,42 @@ module.exports = {
 
       // load correct model
       const handler1 = tfn.io.fileSystem(process.cwd() + '/src/production_models/uvi_model_1/UVImodel.json')
-      const UVImodel = await tf.loadLayersModel(handler1)
+      const UVImodel = await tfn.loadLayersModel(handler1)
 
       const handler2 = tfn.io.fileSystem(process.cwd() + '/src/production_models/model_' + String(id) + '/model.json')
-      const predModel = await tf.loadLayersModel(handler2)
+      const predModel = await tfn.loadLayersModel(handler2)
 
       // load yesterday UVI
       const today = new Date()
       const previous = new Date(today.getTime())
       previous.setDate(today.getDate() - 1)
 
-      const uviDataObj = await fetch(uviUrl + this.formatDate(previous))
-      const uviDataList = uviDataObj.data.items[12].index
+      const day = previous.getDate()
+      const month = previous.getMonth() + 1
+      const year = previous.getFullYear()
+      const val = `${year}-${month}-${(day > 9 ? '' : '0') + day}`
+      test.daterval = val
+
+      const url = uviUrl + val
+
+      const uviDataObj = await fetch(url)
+
+      const d = await uviDataObj.json()
+      test.d = d
+      const lastIndex = d.items.length - 1
+      test.lastIndex = lastIndex
+
+      const uviDataList = d.items[lastIndex].index
+      test.uviDataList = uviDataList
+
+      // tesnfrom uvidata to 3d tensor
+      const input = []
+      for (let i = 0; i < uviDataList.length; i++) {
+        const value = [uviDataList[i].value]
+        input.push(value)
+      }
+      const uviTensor = tfn.tensor3d([input])
+      test.uviTensor = uviTensor
 
       // transform uvi data into a tensor
       const uviTensor = this.uviTransform(uviDataList)
@@ -125,8 +149,10 @@ module.exports = {
         weatherItems.push([condition, uviPred])
       }
 
-      // transform weather and uvi data into a tensor
-      const inputTensor = tf.tensor2d(weatherItems)
+      // // transform weather and uvi data into a tensor
+      const inputTensor = tfn.tensor2d(weatherItems)
+      test.inputTensor = inputTensor
+
       let predResult = await predModel.predict(inputTensor)
       predResult = predResult.dataSync()
 
