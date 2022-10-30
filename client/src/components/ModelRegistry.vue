@@ -72,8 +72,7 @@ export default {
         async onRefresh(id) {
             const response = await modelRegistryService.refresh(id);
             console.log(response)
-            // refresh page to see the changes made
-            window.location.reload()
+            // window.location.reload()
         }
     }
 }

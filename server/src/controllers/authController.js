@@ -2,8 +2,6 @@ const db = require('../models')
 const User = db.users
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
-const { sequelize } = require('../models')
-const { QueryTypes } = require('sequelize')
 
 function jwtSignUser (user) {
   const ONE_WEEK = 60 * 60 * 24 * 7
@@ -15,16 +13,8 @@ function jwtSignUser (user) {
 module.exports = {
   async register (req, res) {
     try {
-      // get id by adding 1 to current max id
-      let newId = 0
-      const maxId = await sequelize.query('SELECT MAX(user_id) AS id FROM Users', { type: QueryTypes.SELECT })
-      if (maxId != null) {
-        newId = maxId[0].id + 1
-      }
-
       // logic to send to db
       const user = await User.create({
-        user_id: newId,
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,

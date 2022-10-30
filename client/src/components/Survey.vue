@@ -59,7 +59,7 @@
                 </div>
 
                 <o-button @click="submitSurvey" class="button">SUBMIT</o-button>
-                <h5 v-if="error" class="error">{{ error }}</h5>
+                <h5 v-if="error" class="error">{{error}}</h5>
 
 
             </div>
@@ -99,7 +99,7 @@ export default {
                 })
                 console.log(response.data)
                 alert(`Survey submitted!`)
-                this.$router.push("/track")
+                this.$router.push({ name: "search" })
             }
         }
 

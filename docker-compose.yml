@@ -1,30 +1,66 @@
-version: '3'
+version: "3.8"
+
+networks:
+  app-tier:
+    driver: bridge
+
 services:
   client:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
+    container_name: client
     volumes:
-      - /app/node_modules
-      - ./client:/app
+      - /client/node_modules
+      - ./client:/client
     ports:
-      - '8080:8080'
-    container_name: frontend
-  db:
+      - 8080:8080
+
+  database:
     image: mysql:latest
-    restart: always
+    command: --default-authentication-plugin=mysql_native_password
     container_name: mysql-db
     environment:
       MYSQL_DATABASE: 'when2block'
       MYSQL_USER: 'when2block'
       MYSQL_PASSWORD: 'bt4301grp2'
       MYSQL_ROOT_PASSWORD: 'bt4301grp2'
-    ports:
-      - 3306:3306
     volumes:
       - ./server/init:/docker-entrypoint-initdb.d
       - ./server/when2block-db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - app-tier
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 1m30s
+      timeout: 20s
+      retries: 5
+      start_period: 30s
 
-# Names our volume
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    container_name: server
+    restart: on-failure
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - /server/node_modules
+      - ./server:/server
+    ports:
+      - 8081:8081
+    networks:
+      - app-tier
+    environment:
+      DB_HOST: 'database'
+      DB_DIALECT: 'mysql'
+      DB_PASS: 'bt4301grp2'
+      DB_USER: 'when2block'
+      DB_NAME: 'when2block'
+
 volumes:
   when2block-db:
