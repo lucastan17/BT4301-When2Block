@@ -14,7 +14,7 @@ module.exports = {
     try {
       // logic to retrive model details from db
       // need model id and time
-      const models = await sequelize.query(`SELECT m.model_id, modelName, inProduction, modelDescription, modelVersion, time as editedTime, accuracy
+      const models = await sequelize.query(`SELECT m.model_id, modelName, inProduction, modelDescription, modelVersion, editedTime, accuracy
                                         FROM Model m JOIN Drift d ON m.model_id=d.model_id 
                                         WHERE time IN (SELECT MAX(time) FROM Drift 
                                         WHERE model_id IN (SELECT model_id FROM Model) 
@@ -84,13 +84,7 @@ module.exports = {
   },
   async refresh (req, res) {
     try {
-      var { id } = req.params
-      
-      if (id === -1) {
-        const index = await sequelize.query('SELECT model_id as cid FROM Model where inProduction = 1', { type: QueryTypes.SELECT })
-        id = index[0].cid
-      }
-
+      const { id } = req.params
       const test = {}
       test.id = id
 
@@ -106,43 +100,18 @@ module.exports = {
       const previous = new Date(today.getTime())
       previous.setDate(today.getDate() - 1)
 
-      const day = previous.getDate()
-      const month = previous.getMonth() + 1
-      const year = previous.getFullYear()
-      const val = `${year}-${month}-${(day > 9 ? '' : '0') + day}`
-      test.daterval = val
+      const uviDataObj = await fetch(uviUrl + this.formatDate(previous))
+      const uviDataList = uviDataObj.data.items[12].index
 
-      const url = uviUrl + val
-
-      const uviDataObj = await fetch(url)
-
-      const d = await uviDataObj.json()
-      test.d = d
-      const lastIndex = d.items.length - 1
-      test.lastIndex = lastIndex
-
-      const uviDataList = d.items[lastIndex].index
-      test.uviDataList = uviDataList
-
-      // tesnfrom uvidata to 3d tensor
-      const input = []
-      for (let i = 0; i < uviDataList.length; i++) {
-        const value = [uviDataList[i].value]
-        input.push(value)
-      }
-      const uviTensor = tf.tensor3d([input])
-      test.uviTensor = uviTensor
-
+      // transform uvi data into a tensor
+      const uviTensor = this.uviTransform(uviDataList)
       const uviResult = await UVImodel.predict(uviTensor)
       const uviResultout = uviResult.dataSync()
       const uviPred = uviResultout[0]
-      test.uviPred = uviPred
 
-      // // weather pred
+      // weather pred
       const weatherDataObj = await fetch('https://api.data.gov.sg/v1/environment/2-hour-weather-forecast')
-      const forecasts = await weatherDataObj.json()
-      const weatherPred = forecasts.items[0].forecasts
-      test.weatherPred = weatherPred
+      const weatherPred = weatherDataObj.data.items[0].forecasts
 
       // transform into numerical input
       const weatherItems = []
@@ -155,15 +124,11 @@ module.exports = {
         }
         weatherItems.push([condition, uviPred])
       }
-      test.weatherItems = weatherItems
 
-      // // transform weather and uvi data into a tensor
+      // transform weather and uvi data into a tensor
       const inputTensor = tf.tensor2d(weatherItems)
-      test.inputTensor = inputTensor
-
       let predResult = await predModel.predict(inputTensor)
       predResult = predResult.dataSync()
-      test.predResult = predResult
 
       // actual results
       const actualData = []
@@ -222,29 +187,11 @@ module.exports = {
           fp += 1
         }
       }
-
-      let acc = (tp + tn) / (tp + tn + fp + fn)
-      let pre = tp / (tp + fp)
-      let rec = tp / (tp + fn)
-      let f1 = 2 * pre * rec / (pre + rec)
-      let chi = (fp - fn) ** 2 / (tp + fn) + (fn - fp) ** 2 / (tn + fp)
-
-      // prevent_ null
-      if (acc === null) {
-        acc = 0 
-      }
-      if (pre === null) {
-        pre = 0
-      } 
-      if (rec === null) {
-        rec = 0 
-      }
-      if (f1 === null) {
-        f1 = 0
-      } 
-      if (chi === null) {
-        chi = 0 
-      }
+      const acc = (tp + tn) / (tp + tn + fp + fn)
+      const pre = tp / (tp + fp)
+      const rec = tp / (tp + fn)
+      const f1 = 2 * pre * rec / (pre + rec)
+      const chi = (fp - fn) ** 2 / (tp + fn) + (fn - fp) ** 2 / (tn + fp)
 
       const ts = new Date(new Date().getTime() + (8 + 0) * (3600 * 1000))
 
@@ -261,5 +208,20 @@ module.exports = {
     } catch (err) {
       res.status(400).send(err.message)
     }
+  },
+  async formatDate (dt) {
+    const day = dt.getDate()
+    const month = dt.getMonth() + 1
+    const year = dt.getFullYear()
+    return `${year}-${month}-${(day > 9 ? '' : '0') + day}`
+  },
+  uviTransform (data) {
+    const input = []
+    for (let i = 0; i < data.length; i++) {
+      const value = [data[i].value]
+      input.push(value)
+    }
+    const inputTensor = tf.tensor3d([input])
+    return inputTensor
   }
 }

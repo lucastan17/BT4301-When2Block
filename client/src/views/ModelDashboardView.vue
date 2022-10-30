@@ -39,7 +39,6 @@ import modelDriftService from '@/services/modelDriftService'
 import modelPerformanceService from '@/services/modelPerformanceService'
 import ModelPerformance from '@/components/ModelPerformance.vue'
 import HeaderBar from '../components/HeaderBar.vue';
-import modelRegistryService from '@/services/modelRegistryService'
 
 
 export default {
@@ -163,7 +162,8 @@ export default {
                 } else {
                     // run model
                     try {
-                        modelRegistryService.refresh(-1)
+                        // id = 
+                        // modelRegistryService.refresh(id)
                         this.summary.status.stat = true
                     } catch(err) {
                         this.summary.status.stat = false
