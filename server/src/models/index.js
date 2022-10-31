@@ -11,7 +11,7 @@ const sequelize = new Sequelize(
   // config.db.options,
   {
     host: config.db.host,
-    dialect: "mysql"
+    dialect: 'mysql'
   }
 )
 
