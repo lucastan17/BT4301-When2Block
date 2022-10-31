@@ -9,8 +9,13 @@ export default {
   post (params) {
     return api().post(`model-registry/${params}`)
   },
-  refresh (params) {
-    return api().post(`model-refresh/${params}`,
-    )
+  async refresh (params) {
+    try {
+      let res = await api().post(`model-refresh/${params}`)
+      return res
+    } catch (err) {
+      console.log(err)
+      return false
+    }
   }
 }

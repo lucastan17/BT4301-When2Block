@@ -3,11 +3,22 @@
 module.exports = {
   port: process.env.PORT || 8081,
   db: {
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
+    // database: process.env.DB_NAME || 'when2block',
+    // user: process.env.DB_USER || 'when2block',
+    // password: process.env.DB_PASS || 'bt4301grp2',
+    // options: {
+    //   dialect: process.env.DIALECT || 'mysql',
+    //   host: process.env.HOST || 'localhost'
+    // }
+    host: 'localhost',
+    user: 'when2block',
+    password: 'bt4301grp2',
+    database: 'when2block',
     dialect: 'mysql',
-    host: process.env.DB_HOST
+    options: {
+      dialect: 'mysql',
+      host: 'localhost'
+    }
   },
   authentication: {
     jwtSecret: process.env.JWT_SECRET || 'secret'

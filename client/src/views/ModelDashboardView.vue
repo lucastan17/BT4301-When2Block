@@ -33,12 +33,14 @@
                     </b-tab>
                     <b-tab class="p-5" title="F1-Score over time">
                         <div v-if="fot.data === null">
+                            <h4>No predictions have been made by this model.</h4>
                         </div>
                         <div v-else></div>
                         <DriftGraph :dates="dates" :driftData="fot" title="F1-Score"/>
                     </b-tab>
                     <b-tab class="p-5" title="Goodness-of-Fit over time">
                         <div v-if="cot.data === null">
+                            <h4>No predictions have been made by this model.</h4>
                         </div>
                         <div v-else>
                             <DriftGraph :dates="dates" :driftData="cot" title="Goodness-of-Fit"/>
@@ -89,7 +91,8 @@ export default {
                     pre: null,
                     rec: null,
                     f1: null,
-                    chi: null
+                    chi: null,
+                    date: null
                 },
                 drift: {
                     empty: true,
@@ -127,13 +130,13 @@ export default {
                 if (res.data.acc !== null) {
                     this.summary.perf.empty = false
                     this.summary.drift.empty = false
+                    this.summary.perf.date = res.data.date
                     this.acc.val = res.data.acc
                     this.pre.val = res.data.pre
                     this.rec.val = res.data.rec
                     this.f1.val = res.data.f1
                     this.chi.val = res.data.chi
                 }
-                
             }).then(() => {
                 if (this.acc.val !== null) {
                     this.acc.stat = stat(this.acc.val, 0.95, 0.9)
@@ -153,7 +156,8 @@ export default {
                         rec: this.rec.stat,
                         f1: this.f1.stat,
                         chi: this.chi.stat,
-                        stat
+                        stat,
+                        date: this.summary.perf.date
                     }
                 }
             }).catch(err => this.error = err)
@@ -161,51 +165,55 @@ export default {
 
         updateDrift() {
             modelDriftService.index().then(res => {
-                this.aot.data = res.data.aot
-                this.pot.data = res.data.pot
-                this.rot.data = res.data.rot
-                this.fot.data = res.data.fot
-                this.cot.data = res.data.cot
-                this.dates = res.data.dates //arranged from earliest to latest
-            }).then(() => {
-                function getDriftObject(data) {
-                    let t1 = 3
-                    let t2 = 5
-                    let drift = data[0] - data[data.length-1]
-                    const stat = drift < t1 ? 1 : drift < t2 ? 2 : 3
-                    return { data, drift, t1, t2, stat }
-                }
-                this.aot = getDriftObject(this.aot.data)
-                this.pot = getDriftObject(this.pot.data)
-                this.rot = getDriftObject(this.rot.data)
-                this.fot = getDriftObject(this.fot.data)
-                this.cot = getDriftObject(this.cot.data)
-                this.cot.t1 = 0.3
-                this.cot.t2 = 0.5
-                this.cot.stat = this.cot.drift < this.cot.t1 ? 1 : this.cot.drift < this.cot.t2 ? 2 : 3
-            }).then(() => {
-                const sum = this.aot.stat + this.pot.stat + this.rot.stat + this.fot.stat + this.cot.stat
-                const stat = sum < 7 ? 1 : sum < 9 ? 2 : 3
-                this.summary.drift = {
-                    aot: this.aot.stat,
-                    pot: this.pot.stat,
-                    rot: this.rot.stat,
-                    fot: this.fot.stat,
-                    cot: this.cot.stat,
-                    stat
+                if (res.data.model_id !== null && res.data.dates !== null) {
+                    this.aot.data = res.data.aot
+                    this.pot.data = res.data.pot
+                    this.rot.data = res.data.rot
+                    this.fot.data = res.data.fot
+                    this.cot.data = res.data.cot
+                    this.dates = res.data.dates //arranged from earliest to latest
                 }
             }).then(() => {
-                const latest = new Date(this.dates[this.dates.length - 1])
-                const tdy = new Date()
-                if (latest.getFullYear() === tdy.getFullYear() && latest.getDate() === tdy.getDate() && latest.getMonth() === tdy.getMonth()) {
-                    this.summary.status.stat = true
-                } else {
-                    // run model
-                    try {
-                        modelRegistryService.refresh(-1)
+                if (!this.summary.status.empty && this.dates !== null) {
+                    // eslint-disable-next-line
+                    function getDriftObject(data) {
+                        let t1 = 3
+                        let t2 = 5
+                        let drift = data[0] - data[data.length-1]
+                        const stat = drift < t1 ? 1 : drift < t2 ? 2 : 3
+                        return { data, drift, t1, t2, stat }
+                    }
+                    this.aot = getDriftObject(this.aot.data)
+                    this.pot = getDriftObject(this.pot.data)
+                    this.rot = getDriftObject(this.rot.data)
+                    this.fot = getDriftObject(this.fot.data)
+                    this.cot = getDriftObject(this.cot.data)
+                    this.cot.t1 = 0.3
+                    this.cot.t2 = 0.5
+                    this.cot.stat = this.cot.drift < this.cot.t1 ? 1 : this.cot.drift < this.cot.t2 ? 2 : 3
+                }
+            }).then(() => {
+                if (!this.summary.status.empty && this.dates !== null) {
+                    const sum = this.aot.stat + this.pot.stat + this.rot.stat + this.fot.stat + this.cot.stat
+                    const stat = sum < 7 ? 1 : sum < 9 ? 2 : 3
+                    this.summary.drift = {
+                        empty: false,
+                        aot: this.aot.stat,
+                        pot: this.pot.stat,
+                        rot: this.rot.stat,
+                        fot: this.fot.stat,
+                        cot: this.cot.stat,
+                        stat
+                    }
+                }
+            }).then(async() => {
+                if (!this.summary.status.empty && this.dates !== null) {
+                    const latest = new Date(this.dates[this.dates.length - 1])
+                    const tdy = new Date()
+                    if (latest.getFullYear() === tdy.getFullYear() && latest.getDate() === tdy.getDate() && latest.getMonth() === tdy.getMonth()) {
                         this.summary.status.stat = true
-                    } catch(err) {
-                        this.summary.status.stat = false
+                    } else {
+                        this.summary.status.stat = await modelRegistryService.refresh(-1) === false ? false : true
                     }
                 }
             }).catch(err => this.error = err)

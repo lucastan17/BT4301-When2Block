@@ -1,7 +1,7 @@
 const { QueryTypes } = require('sequelize')
 const db = require('../models')
 const sequelize = db.sequelize
-//const tf = require('@tensorflow/tfjs')
+// const tf = require('@tensorflow/tfjs')
 const tfn = require('@tensorflow/tfjs-node')
 const fetch = require('node-fetch')
 const uviUrl = 'https://api.data.gov.sg/v1/environment/uv-index?date='
@@ -41,7 +41,9 @@ module.exports = {
       res.send(modelDetails)
     } catch (err) {
       // error handling
-      // res.send('ERROR' + err)
+      res.status(400).send({
+        error: err.message || 'An error has ocurred.'
+      })
     }
   },
   async post (req, res) {
@@ -84,8 +86,8 @@ module.exports = {
   },
   async refresh (req, res) {
     try {
-      var { id } = req.params
-      
+      let { id } = req.params
+
       if (id === -1) {
         const index = await sequelize.query('SELECT model_id as cid FROM Model where inProduction = 1', { type: QueryTypes.SELECT })
         id = index[0].cid
@@ -102,7 +104,7 @@ module.exports = {
       const predModel = await tfn.loadLayersModel(handler2)
 
       // load yesterday UVI
-      const today = new Date()
+      let today = new Date()
       const previous = new Date(today.getTime())
       previous.setDate(today.getDate() - 1)
 
@@ -208,9 +210,18 @@ module.exports = {
         itemPairs.push({ prediction: ((predResult[i] < 0.5) ? 0 : 1), actual: actualData[i] })
       }
 
-      // Calculate results in Drift table
+      today = new Date().toISOString().slice(0, 10)
+      await sequelize.query('DELETE FROM Drift WHERE model_id = ' + id + " AND time >= str_to_date('" +
+        today + "', '%Y-%m-%d')", { type: QueryTypes.DELETE })
+
+      let lastPred = await sequelize.query('SELECT time FROM Results WHERE model_id = ' + id +
+        ' AND time = (SELECT MAX(time) FROM Results) LIMIT 1;', { type: QueryTypes.SELECT })
+      lastPred = lastPred[0].time.toISOString().slice(0, 10)
+      const records = await sequelize.query('SELECT prediction, actual, time FROM Results WHERE model_id = ' + id +
+        " AND time >= str_to_date('" + lastPred + "', '%Y-%m-%d')", { type: QueryTypes.SELECT })
+
       let tp = 0; let tn = 0; let fn = 0; let fp = 0
-      itemPairs.forEach(confusion)
+      records.forEach(confusion)
       function confusion (item) {
         if (item.prediction === item.actual && item.actual) {
           tp += 1
@@ -222,44 +233,33 @@ module.exports = {
           fp += 1
         }
       }
-
-      let acc = (tp + tn) / (tp + tn + fp + fn)
-      let pre = tp / (tp + fp)
-      let rec = tp / (tp + fn)
-      let f1 = 2 * pre * rec / (pre + rec)
-      let chi = (fp - fn) ** 2 / (tp + fn) + (fn - fp) ** 2 / (tn + fp)
-
-      // prevent_ null
-      if (acc === null) {
-        acc = 0 
+      if ((tp + fn) < (tn + fp)) {
+        const temptp = tp
+        tp = tn
+        tn = temptp
+        const tempfp = fp
+        fp = fn
+        fn = tempfp
       }
-      if (pre === null) {
-        pre = 0
-      } 
-      if (rec === null) {
-        rec = 0 
-      }
-      if (f1 === null) {
-        f1 = 0
-      } 
-      if (chi === null) {
-        chi = 0 
-      }
+      const acc = (tp + tn) / (tp + tn + fp + fn)
+      const pre = (tp + fp) === 0 ? 0 : tp / (tp + fp)
+      const rec = (tp + fn) === 0 ? 0 : tp / (tp + fn)
+      const f1 = (pre + rec) === 0 ? 0 : 2 * pre * rec / (pre + rec)
+      const chi = (tp + fn) === 0 || (tn + fp) === 0 ? 0 : (fp - fn) ** 2 / (tp + fn) + (fn - fp) ** 2 / (tn + fp)
 
-      const ts = new Date(new Date().getTime() + (8 + 0) * (3600 * 1000))
-
-      await Drift.create({
+      Drift.create({
         model_id: id,
-        time: ts,
+        time: today,
         accuracy: acc,
         precision: pre,
         recall: rec,
         f1_score: f1,
         chi_square: chi
       })
+
       res.send(test)
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(400).send(err.message)//
     }
   }
 }

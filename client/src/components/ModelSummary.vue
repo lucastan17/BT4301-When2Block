@@ -20,7 +20,7 @@
                                 <i class="bi bi-x-circle h4"/>
                                 <span class="h4 mx-2">Not Operational</span>
                             </div>
-                            <h5>Model ID (In Production): {{status.model_id}}</h5>
+                            <h5>Model ID (In Prod): {{status.model_id}}</h5>
                             </div>
                         </div>
                     </div>
@@ -55,6 +55,9 @@
                                     <i class="bi" :class="iconStat(perf.f1)"/><span class="h6 mx-2">F1-Score</span><br/>
                                     <i class="bi" :class="iconStat(perf.chi)"/><span class="h6 mx-2">Goodness-of-Fit</span>
                                 </div>
+                            </div>
+                            <div class="card-body pt-1">
+                                <p class="card-text mt-4" style="font-size:15px; color:grey">Last Updated: {{perf.date}}</p>
                             </div>
                             </div>
                         </div>
@@ -91,6 +94,9 @@
                                     <i class="bi" :class="iconStat(drift.fot)"/><span class="h6 mx-2">F1-Score</span><br/>
                                     <i class="bi" :class="iconStat(drift.cot)"/><span class="h6 mx-2">Goodness-of-Fit</span>
                                 </div>
+                            </div>
+                            <div class="card-body pt-1">
+                                <p class="card-text mt-4" style="font-size:15px; color:grey">Last Updated: {{perf.date}}</p>
                             </div>
                             </div>
                         </div>
