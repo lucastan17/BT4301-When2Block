@@ -8,11 +8,12 @@ const sequelize = new Sequelize(
   config.db.database,
   config.db.user,
   config.db.password,
-  config.db.options,
+  // config.db.options,
   {
-    dialect: 'mysql',
-    host: 'localhost'
-  })
+    host: config.db.host,
+    dialect: 'mysql'
+  }
+)
 
 sequelize.authenticate().then(() => {
   console.log('Connection has been established successfully.')
