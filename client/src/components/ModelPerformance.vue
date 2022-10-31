@@ -52,7 +52,7 @@
                         <h4 class="card-title" style="display: inline;">F1-Score</h4>
                         <i v-if="f1.stat === 1" class="bi bi-check-circle h5 mx-2 text-success"/>
                         <i v-else-if="f1.stat === 2" class="bi bi-exclamation-circle h5 mx-2 text-warning"/>
-                        <i v-else class="bi bi-x-circle h5 ml-2 text-danger"/>
+                        <i v-else class="bi bi-x-circle h5 mx-2 text-danger"/>
                     </div>
                     <div class="card-body pt-1">
                         <h5 class="card-subtitle">{{f1.val}}</h5>

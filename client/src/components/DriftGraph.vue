@@ -1,5 +1,5 @@
 <template>
-    <div v-if="error === null && driftData !== null">
+    <div v-if="error === null">
     <div class="row justify-content-center mb-4">
     <div class="card" style="width:50%">
     <div class="card-body">
@@ -12,7 +12,6 @@
     <Line 
         :chart-options="chartOptions" 
         :chart-data="{labels: dates, datasets:[{data:driftData.data, borderColor: `#F16308`}]}"
-        ref="chart"
     />
     </div> 
     <p v-else>Sorry, something went wrong. Please try again later!</p>

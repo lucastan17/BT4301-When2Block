@@ -8,15 +8,20 @@
                     <div class="card border-0 p-4">
                         <div class="card-body">
                             <h3 class="card-title">Model Status</h3>
+                            <div v-if="status.empty" class="card-text my-4">
+                                <span class="h4 mx-2">No models in production.</span>
+                            </div>
+                            <div v-else>
                             <div v-if="status.stat" class="card-text text-success my-4">
-                            <i class="bi bi-check-circle h4"/>
-                            <span class="h4 mx-2">Operational</span>
+                                <i class="bi bi-check-circle h4"/>
+                                <span class="h4 mx-2">Operational</span>
                             </div>
                             <div v-else class="card-text text-danger my-4">
-                            <i class="bi bi-x-circle h4"/>
-                            <span class="h4 mx-2">Not Operational</span>
+                                <i class="bi bi-x-circle h4"/>
+                                <span class="h4 mx-2">Not Operational</span>
                             </div>
-                            <h5>Current Model ID: {{status.model_id}}</h5>
+                            <h5>Model ID (In Production): {{status.model_id}}</h5>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -24,17 +29,21 @@
                     <div class="card border-top-0 border-bottom-0 p-4 rounded-0">
                         <div class="card-body">
                             <h3 class="card-title">Model Performance</h3>
+                            <div v-if="perf.empty" class="card-text my-4">
+                                <span class="h4 mx-2">No predictions have been made by current model.</span>
+                            </div>
+                            <div v-else>
                             <div v-if="perf.stat === 1" class="card-text my-4 text-success">
-                            <i class="bi bi-check-circle h4"/>
-                            <span class="h4 mx-2">Healthy</span>
+                                <i class="bi bi-check-circle h4"/>
+                                <span class="h4 mx-2">Healthy</span>
                             </div>
                             <div v-else-if="perf.stat === 2" class="card-text my-4 text-warning">
-                            <i class="bi bi-dash-circle h4"/>
-                            <span class="h4 mx-2">Acceptable</span>
+                                <i class="bi bi-dash-circle h4"/>
+                                <span class="h4 mx-2">Acceptable</span>
                             </div>
                             <div v-else class="card-text my-4 text-danger">
-                            <i class="bi bi-exclamation-circle h4"/>
-                            <span class="h4 mx-2">Poor</span>
+                                <i class="bi bi-exclamation-circle h4"/>
+                                <span class="h4 mx-2">Poor</span>
                             </div>
                             <div class="row g-0">
                                 <div class="col text-start">
@@ -47,6 +56,7 @@
                                     <i class="bi" :class="iconStat(perf.chi)"/><span class="h6 mx-2">Goodness-of-Fit</span>
                                 </div>
                             </div>
+                            </div>
                         </div>
                     </div>
                     <div class="divider m-0 d-md-none d-sm-block"></div>
@@ -55,17 +65,21 @@
                     <div class="card border-0 p-4">
                         <div class="card-body">
                             <h3 class="card-title">Model Drift</h3>
+                            <div v-if="drift.empty" class="card-text my-4">
+                                <span class="h4 mx-2">No predictions have been made by current model.</span>
+                            </div>
+                            <div v-else>
                             <div v-if="drift.stat === 1" class="card-text text-success my-4">
-                            <i class="bi bi-check-circle h4"/>
-                            <span class="h4 mx-2">Minimal</span>
+                                <i class="bi bi-check-circle h4"/>
+                                <span class="h4 mx-2">Minimal</span>
                             </div>
                             <div v-else-if="drift.stat === 2" class="card-text text-warning my-4">
-                            <i class="bi bi-dash-circle h4"/>
-                            <span class="h4 mx-2">Acceptable</span>
+                                <i class="bi bi-dash-circle h4"/>
+                                <span class="h4 mx-2">Acceptable</span>
                             </div>
                             <div v-else class="card-text text-danger my-4">
-                            <i class="bi bi-exclamation-circle h4"/>
-                            <span class="h4 mx-2">Severe</span>
+                                <i class="bi bi-exclamation-circle h4"/>
+                                <span class="h4 mx-2">Severe</span>
                             </div>
                             <div class="row g-0">
                                 <div class="col text-start">
@@ -77,6 +91,7 @@
                                     <i class="bi" :class="iconStat(drift.fot)"/><span class="h6 mx-2">F1-Score</span><br/>
                                     <i class="bi" :class="iconStat(drift.cot)"/><span class="h6 mx-2">Goodness-of-Fit</span>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
