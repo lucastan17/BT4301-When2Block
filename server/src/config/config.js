@@ -10,14 +10,14 @@ module.exports = {
     //   dialect: process.env.DIALECT || 'mysql',
     //   host: process.env.HOST || 'localhost'
     // }
-    host: 'localhost',
+    host: 'database',
     user: 'when2block',
     password: 'bt4301grp2',
     database: 'when2block',
     dialect: 'mysql',
     options: {
       dialect: 'mysql',
-      host: 'localhost'
+      host: 'database'
     }
   },
   authentication: {
