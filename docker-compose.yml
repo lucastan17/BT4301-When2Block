@@ -29,7 +29,7 @@ services:
       - ./server/init:/docker-entrypoint-initdb.d
       - ./server/when2block-db:/var/lib/mysql
     ports:
-      - 3306:3306
+      - 3307:3306
     networks:
       - app-tier
     healthcheck:

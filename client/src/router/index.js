@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView'
+import imdaPageView from '../views/imdaPageView'
 import RegisterView from '../views/RegisterView'
 import Search from '../views/SearchPage'
 import SurveyView from '../views/SurveyView'
@@ -24,6 +25,11 @@ const routes = [
     path: '/about',
     name: 'about',
     component: AboutView
+  },
+  {
+    path: '/imda-page',
+    name: 'imda-page',
+    component: imdaPageView
   },
   {
     path: '/register',
@@ -97,7 +103,7 @@ router.beforeEach(async (to) => {
 
   // users who are not logged in will be redirected to log in page
   if (!store.isUserLoggedIn) {
-    if (to.name != 'login' && to.name != 'register' && to.name != 'home') {
+    if (to.name != 'login' && to.name != 'register' && to.name != 'home' && to.name != 'imda-page') {
       return '/login'
     }
   } else {

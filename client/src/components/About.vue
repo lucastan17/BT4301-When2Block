@@ -1,12 +1,21 @@
 <template>
   <div class="home">
-    <HeaderBar title="About Us" />
+    <HeaderBar />
     <div class="group-container">
       <div class="group-1">
         <div class="flex-col">
           <div class="container">
-            <p class="header1"
-              style="font-size: 40px; color:ebony-clay; font-weight:800; font-style:normal; text-align: justify; margin:0px;">
+            <p
+              class="header1"
+              style="
+                font-size: 40px;
+                color: ebony-clay;
+                font-weight: 800;
+                font-style: normal;
+                text-align: justify;
+                margin: 0px;
+              "
+            >
               Don't know when
               <br />
               <span>to wear </span>
@@ -14,63 +23,100 @@
             </p>
           </div>
           <div class="content-block">
-            Regular daily use of SPF 15 sunscreen can reduce your risk of skin cancer cells by 50%<br />
-            <br />but... only 23.9% of people use a sunscreen on a regular basis <br /><br />
+            Regular daily use of SPF 15 sunscreen can reduce your risk of skin
+            cancer cells by 50%<br />
+            <br />but... only 23.9% of people use a sunscreen on a regular basis
+            <br /><br />
             Learn when is the best time to apply sunscreen!
           </div>
         </div>
-        <img class="sunscreen-img" src="../assets/spf50_sunscreen.png" alt="spf50 sunscreen icon" />
+        <img
+          class="sunscreen-img"
+          src="../assets/spf50_sunscreen.png"
+          alt="spf50 sunscreen icon"
+        />
       </div>
 
       <div class="group-2">
         <div class="overlap-group">
-          <h1 class="header3 epilogue-extra-bold-ebony-clay-40px">Search up to 2 hours in advance...</h1>
-          <img class="search-img" src="../assets/search_map.png" alt="search map" />
-          <div class="header3-1 epilogue-extra-bold-ebony-clay-40px">... for any location</div>
+          <h1 class="header3 epilogue-extra-bold-ebony-clay-40px">
+            Search up to 2 hours in advance...
+          </h1>
+          <img
+            class="search-img"
+            src="../assets/search_map.png"
+            alt="search map"
+          />
+          <div class="header3-1 epilogue-extra-bold-ebony-clay-40px">
+            ... for any location
+          </div>
         </div>
       </div>
 
       <div class="group-3">
         <div class="flex-row">
-          <img class="beach-img" src="../assets/beach_img.png" alt="beach icon" />
+          <img
+            class="beach-img"
+            src="../assets/beach_img.png"
+            alt="beach icon"
+          />
           <div class="flex-col-2">
             <h1 class="header4">
-              <span style="color:rgba(240, 167, 59, 1)">Check-in <br /></span>
-              <span class="epilogue-extra-bold-ebony-clay-40px">everytime you wear sunscreen to track your skin care
-                journey &amp; win prizes</span>
+              <span style="color: rgba(240, 167, 59, 1)">Check-in <br /></span>
+              <span class="epilogue-extra-bold-ebony-clay-40px"
+                >everytime you wear sunscreen to track your skin care journey
+                &amp; win prizes</span
+              >
             </h1>
             <div class="button-div">
-              <o-button class="button" @click="checkin">Check In Today!</o-button>
+              <o-button class="button" @click="checkin"
+                >Check In Today!</o-button
+              >
             </div>
           </div>
         </div>
-        <div class="header5 epilogue-extra-bold-ebony-clay-40px">How do we decide whether to apply sunblock?</div>
-        <div class="content-block-2">
-          Using the Ultra-Violet Index (UVI) and Weather Forecase data from National Environment Agency (NEA), we employ
-          the use of machine learning models to predict the UVI over the next 2 hours. A forecasted UVI value of over 5
-          would indicate strong UV rays and combined with little cloud cover, creates a pressing need for sunscreen.
+        <div class="header5 epilogue-extra-bold-ebony-clay-40px">
+          How do we decide whether to apply sunblock?
+        </div>
+        <div class="content-block-2" style="font-size: 32px">
+          Using the Ultra-Violet Index (UVI) and Weather Forecase data from
+          National Environment Agency (NEA), we employ the use of machine
+          learning models to predict the UVI over the next 2 hours. A forecasted
+          UVI value of over 5 would indicate strong UV rays and combined with
+          little cloud cover, creates a pressing need for sunscreen.
+        </div>
+        <div class="header5 epilogue-extra-bold-ebony-clay-40px">
+          How our Solution is compliant with IMDA AI Governance framework
+        </div>
+        <div class="content-block-2" style="font-size: 26px">
+          The IMDA AI Governance Framework was created to ...
+          <div class="button-div-2">
+            <o-button class="button" @click="imdaPage">Learn More</o-button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
 </template>
   
 <script>
 // @ is an alias to /src
-import HeaderBar from '@/components/HeaderBar.vue';
+import HeaderBar from "@/components/HeaderBar.vue";
 
 export default {
-  name: 'AboutPage',
+  name: "AboutPage",
   components: {
-    HeaderBar
+    HeaderBar,
   },
   methods: {
     checkin() {
-      this.$router.push({ name: "track" })
-    }
-  }
-}
+      this.$router.push({ name: "track" });
+    },
+    imdaPage() {
+      this.$router.push({ name: "imda-page" });
+    },
+  },
+};
 </script>
   
 <style scoped>
@@ -235,9 +281,10 @@ export default {
 .header5 {
   letter-spacing: 0;
   line-height: 48px;
-  margin-top: 164px;
+  margin-top: 64px;
   min-height: 64px;
   width: 1092px;
+  text-align: justify;
 }
 
 .content-block-2 {
@@ -247,26 +294,30 @@ export default {
   font-weight: 400;
   letter-spacing: 0;
   line-height: 32px;
-  min-height: 218px;
+  min-height: 148px;
   margin-top: 18px;
   width: 1092px;
   text-align: justify;
-  margin-left: 75px;
+  margin-left: 7px;
 }
 
 .button-div {
   text-align: right;
 }
 
+.button-div-2 {
+  text-align: center;
+}
+
 .button {
-  background-color: #F16308;
+  background-color: #f16308;
   margin: 15px;
   right: 5px;
   border-radius: 25px;
-  width: 330px;
+  width: 300px;
   height: 72px;
   font-size: 32px;
-  border: none
+  border: none;
 }
 
 .button:hover {
@@ -283,5 +334,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: right;
+  margin-bottom: 132px;
 }
 </style>
