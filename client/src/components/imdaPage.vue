@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <HeaderBar />
     <div class="group-container">
       <div class="button-div-4">
         <o-button class="back-button" onclick="javascript:history.back();"
@@ -180,17 +179,9 @@
 </template>
 
 <script>
-import HeaderBar from "@/components/HeaderBar.vue";
-//import HeaderBar2 from "@/components/HeaderBar2.vue";
-//import { userStore } from "../store/store";
-
 export default {
   name: "IMDAPage",
-  components: {
-    HeaderBar,
-    //HeaderBar2,
-    //userStore
-  },
+  components: {},
   data() {
     return {
       headers: ["S/N", "Main Point", "Sub-points", "Our Solution", "Page"],
@@ -830,7 +821,9 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: column;
-  padding: 69px 113px;
+  width: 85%;
+  padding: 69px;
+  margin: auto;
 }
 
 .epilogue-extra-bold-ebony-clay-40px {
@@ -845,24 +838,24 @@ export default {
   letter-spacing: 0;
   line-height: 48px;
   min-height: 64px;
-  width: 1240px;
-  text-align: justify;
+  text-align: left;
 }
 
 .back-button {
-  background-color: #f16308;
+  background-color: #fbefd7;
+  color: black;
   margin: 5px;
   right: 5px;
   border-radius: 25px;
   width: 120px;
   height: 60px;
   font-size: 26px;
+  font-weight: 500;
   border: none;
 }
 
 .back-button:hover {
-  background: #ffcc00;
-  color: black;
+  color: white;
   cursor: pointer;
 }
 
@@ -877,7 +870,7 @@ export default {
 .button-div-4 {
   position: absolute;
   left: 1%;
-  top: 8%;
+  top: 0.2%;
 }
 
 #outer-cover {
@@ -922,7 +915,6 @@ table td th {
   line-height: 32px;
   margin-top: 25px;
   margin-bottom: 20px;
-  width: 1400px;
   text-align: justify;
   margin-left: 5px;
 }
@@ -934,7 +926,6 @@ table td th {
   line-height: 32px;
   margin-top: 20px;
   margin-bottom: 60px;
-  width: 1400px;
   text-align: center;
   margin-left: 5px;
 }

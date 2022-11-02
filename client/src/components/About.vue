@@ -63,22 +63,24 @@
           <div class="flex-col-2">
             <h1 class="header4">
               <span style="color: rgba(240, 167, 59, 1)">Check-in <br /></span>
-              <span class="epilogue-extra-bold-ebony-clay-40px"
-                >everytime you wear sunscreen to track your skin care journey
-                &amp; win prizes</span
-              >
+              <span class="epilogue-extra-bold-ebony-clay-40px">everytime you wear sunscreen to track your skin care journey
+                &amp; win prizes</span>
             </h1>
             <div class="button-div">
-              <o-button class="button" @click="checkin"
-                >Check In Today!</o-button
-              >
+              <o-button
+                class="button"
+                @click="checkin"
+              >Check In Today!</o-button>
             </div>
           </div>
         </div>
         <div class="header5 epilogue-extra-bold-ebony-clay-40px">
           How do we decide whether to apply sunblock?
         </div>
-        <div class="content-block-2" style="font-size: 32px">
+        <div
+          class="content-block-2"
+          style="font-size: 30px"
+        >
           Using the Ultra-Violet Index (UVI) and Weather Forecase data from
           National Environment Agency (NEA), we employ the use of machine
           learning models to predict the UVI over the next 2 hours. A forecasted
@@ -88,10 +90,16 @@
         <div class="header5 epilogue-extra-bold-ebony-clay-40px">
           How our Solution is compliant with IMDA AI Governance framework
         </div>
-        <div class="content-block-2" style="font-size: 26px">
+        <div
+          class="content-block-2"
+          style="font-size: 30px"
+        >
           The IMDA AI Governance Framework was created to ...
           <div class="button-div-2">
-            <o-button class="button" @click="imdaPage">Learn More</o-button>
+            <o-button
+              class="button"
+              @click="imdaPage(), scrollToTop()"
+            >Learn More</o-button>
           </div>
         </div>
       </div>
@@ -115,6 +123,10 @@ export default {
     imdaPage() {
       this.$router.push({ name: "imda-page" });
     },
+    scrollToTop() {
+      window.focus();
+      window.scrollTo(0, 0);
+    },
   },
 };
 </script>
@@ -133,13 +145,14 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 69px 113px;
+  width: 70%;
+  margin: auto;
 }
 
 .group-1 {
   align-items: center;
   display: flex;
   gap: 29px;
-  min-width: 1024px;
 }
 
 .flex-col {
@@ -149,7 +162,7 @@ export default {
   gap: 27px;
   margin-top: 1px;
   min-height: 351px;
-  width: 570px;
+  width: 55%;
 }
 
 .container {
@@ -205,7 +218,6 @@ export default {
 .group-2 {
   align-items: flex-start;
   display: flex;
-  min-width: 1169px;
   margin-top: 4%;
 }
 
@@ -217,7 +229,7 @@ export default {
 
 .header3 {
   letter-spacing: 0;
-  line-height: 48px;
+  line-height: 78px;
   position: absolute;
   top: 0;
   width: 800px;
@@ -233,7 +245,7 @@ export default {
 }
 
 .header3-1 {
-  left: 800px;
+  left: 65%;
   letter-spacing: 0;
   line-height: 48px;
   position: absolute;
@@ -246,7 +258,7 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 878px;
-  width: 1067px;
+  width: 70%;
   margin-top: 6%;
 }
 
@@ -256,13 +268,19 @@ export default {
   gap: 21px;
   margin-right: 6px;
   min-width: 1061px;
-  margin-left: 75px;
+  margin-left: 0.2%;
 }
 
 .beach-img {
   height: 374px;
   object-fit: cover;
   width: 442px;
+}
+
+.flex-col-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: right;
 }
 
 .header4 {
@@ -275,14 +293,14 @@ export default {
   min-height: 200px;
   text-align: right;
   width: 628px;
-  margin-left: 50px;
+  margin-left: 1.5%;
 }
 
 .header5 {
   letter-spacing: 0;
   line-height: 48px;
-  margin-top: 64px;
-  min-height: 64px;
+  margin-top: 32px;
+  min-height: 48px;
   width: 1092px;
   text-align: justify;
 }
