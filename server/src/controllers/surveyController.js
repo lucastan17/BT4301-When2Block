@@ -1,4 +1,6 @@
 const db = require('../models')
+const sequelize = db.sequelize
+const { QueryTypes } = require('sequelize')
 const Survey = db.survey
 
 module.exports = {
@@ -6,7 +8,17 @@ module.exports = {
     try {
       // send survey details to db
       // need user id and survey details
+
+      let id = req.body.user_id 
+      let myquery = "SELECT MAX(survey_id) as id FROM `Surveys` WHERE user_id = " + String(id) + ";"
+      let survey_id_db = await sequelize.query(myquery, { type: QueryTypes.SELECT })
+      let final_id = 1;
+      if (survey_id_db != null) {
+        final_id = survey_id_db[0].id
+      }
+
       const survey = await Survey.create({
+        survey_id: final_id,
         user_id: req.body.user_id,
         sunscreen_freq: req.body.sunscreen_freq,
         skin_type: req.body.skin_type
