@@ -11,14 +11,14 @@ module.exports = {
 
       let id = req.body.user_id 
       let myquery = "SELECT MAX(survey_id) as id FROM `Surveys` WHERE user_id = " + String(id) + ";"
-      let survey_id_db = await sequelize.query(myquery, { type: QueryTypes.SELECT })
-      let final_id = 1;
-      if (survey_id_db != null) {
-        final_id = survey_id_db[0].id + 1
+      let surveyIdDb = await sequelize.query(myquery, { type: QueryTypes.SELECT })
+      let finalId = 1;
+      if (surveyIdDb != null) {
+        finalId = surveyIdDb[0].id + 1
       }
 
       const survey = await Survey.create({
-        survey_id: final_id,
+        survey_id: finalId,
         user_id: req.body.user_id,
         sunscreen_freq: req.body.sunscreen_freq,
         skin_type: req.body.skin_type
