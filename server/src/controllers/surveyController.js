@@ -14,7 +14,7 @@ module.exports = {
       let survey_id_db = await sequelize.query(myquery, { type: QueryTypes.SELECT })
       let final_id = 1;
       if (survey_id_db != null) {
-        final_id = survey_id_db[0].id
+        final_id = survey_id_db[0].id + 1
       }
 
       const survey = await Survey.create({

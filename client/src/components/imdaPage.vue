@@ -45,7 +45,7 @@
           >
           <br />
           <p style="font-size: 22px; text-align: justify; margin-top: 10px">
-            <b>(pg 29) Benefits of AI for our context:</b> <br />
+            <b>Benefits of AI for our context:</b> <br />
             AI lies in the heart of our business operations. With AI, we will be
             able to forecast the UVI data for the next few hours. Combined with
             the weather forecast data we are retrieving directly from the
@@ -86,7 +86,7 @@
           </p>
           <br />
           <p style="font-size: 22px">
-            <b>(pg 30) Overall Decision on level of human involvement:</b>
+            <b>Overall Decision on level of human involvement:</b>
             <br />
             Overall, after reviewing the benefits and risks, we have decided
             that a Human-out-of-loop process would be suitable for our context
@@ -136,7 +136,7 @@
           </tbody>
         </table>
         <div class="content-block-4" style="font-size: 26px; font-weight: 600">
-          Percentage Compliance = <u>..%</u>
+          Percentage Compliance = <u>67.6%</u>
         </div>
         <div class="content-block-3" style="font-size: 26px">
           <b><i>Stakeholder interaction and communication</i></b> <br />
@@ -166,7 +166,10 @@
           </tbody>
         </table>
         <div class="content-block-4" style="font-size: 26px; font-weight: 600">
-          Percentage Compliance = <u>..%</u>
+          Percentage Compliance = <u>92.8%</u>
+        </div>
+        <div class="content-block-4" style="font-size: 26px; font-weight: 600">
+          Overall Percentage Compliance = <u>86.3%</u>
         </div>
         <div class="button-div-3">
           <o-button class="back-button" onclick="javascript:history.back();"
@@ -319,7 +322,7 @@ export default {
           sub_point:
             "The framework follows a generalised AI model development and deployment process, showing a continuous process of learning.",
           solution:
-            "The model we deployed follows clearly to the Framework, and the development and deployment of the model involves the team’s learning and deeper understanding of the model and how it applies to the web-app’s functions.",
+            "The model we deployed follows the framework closely from the cleaning of raw data to choosing a machine learning model, and the development and deployment of the model involves the team’s learning and deeper understanding of the model and how it applies to the web-app’s functions.",
           page: 35,
         },
         {
@@ -328,7 +331,7 @@ export default {
           sub_point:
             "Raw data is formatted and cleansed so conclusions can be drawn accurately.",
           solution:
-            "Raw data from the APIs are cleaned and extracted to make meaningful conclusion for our model",
+            "Raw data from the APIs are already clean by the service provider and hence, allowing meaningful conclusion for our model to be drawn quickly and accurately.",
           page: 35,
         },
         {
@@ -337,7 +340,7 @@ export default {
           sub_point:
             "During deployment, algorithms (linear regression, decision trees, or neural networks) are applied for analysis on training sets.",
           solution:
-            "Linear regression is the chosen algorithm for our model due to its suitability.",
+            "A single layered deep learning model to emulate a logistic regression is our algorithm of choice.",
           page: 36,
         },
         {
@@ -346,7 +349,7 @@ export default {
           sub_point:
             "The resulting algorithmic models are examined, and algorithms are iterated until a model that produces the most appropriate results for the use case emerges.",
           solution:
-            "NOT FULFILLED. Only one algorithmic model is used and chosen in our application.",
+            "NOT FULFILLED. Only one algorithmic model was considered for our web application.",
           page: 36,
         },
         {
@@ -355,7 +358,7 @@ export default {
           sub_point:
             "This model and its results are then incorporated into applications to offer predictions, make decisions, solve problems, and trigger actions.",
           solution:
-            "The model built is deployed into the project to help make decision on recommendation of daily sunscreen usage.",
+            "The model built is deployed as part of the web application and it predicts the need for sunscreen which is translated into recommendations for wearing sunscreen for the users of the application.",
           page: 36,
         },
         {
@@ -364,7 +367,7 @@ export default {
           sub_point:
             "Datasets used for building models may come from  multiple sources and could include both personal and non-personal data. The quality and selection of data from each of these sources should be verified.",
           solution:
-            "The models used data called from APIs from data.gov, which ensure the quality of data.",
+            "The models use data through APIs from a single source: data.gov, and hence a baseline quality of data is ensured. ",
           page: 36,
         },
         {
@@ -373,7 +376,7 @@ export default {
           sub_point:
             "The models deployed in an intelligent system have an internal departmental owner, who will be the one making decisions on which models to deploy.",
           solution:
-            "One member of our team is assigned to build and deploy the AI model.",
+            "Our machine learning engineer doubles up as the product owner of the machine learning systems developed and is assigned to build and deploy the AI model.",
           page: 36,
         },
         {
@@ -383,7 +386,7 @@ export default {
           sub_point:
             "Understanding the lineage of data: knowing where the data originally came from, how it was collected, curated and moved within the organisation, and how its accuracy is maintained over time.",
           solution:
-            "The models used data called from APIs from data.gov, which ensure the quality of data.",
+            "NOT FULFILLED. The models used data called from APIs from data.gov, which ensure the quality of data. However, no other information is available on how the data was obtained.",
           page: 36,
         },
         {
@@ -393,7 +396,7 @@ export default {
           sub_point:
             "Data lineage can be represented visually to trace how the data moves from its source to its destination, how the data gets transformed along the way, where it interacts with other data, and how the representations change.",
           solution:
-            "The models used data called from APIs from data.gov, which ensure the quality of data.",
+            "NOT FULFILLED.",
           page: 36,
         },
         {
@@ -403,7 +406,7 @@ export default {
           sub_point:
             "Keeping a data provenance record allows an organisation to ascertain the quality of the data based on its origin and subsequent transformation, trace potential sources of errors, update data, and attribute data to their sources.",
           solution:
-            "The models used data called from APIs from data.gov, which ensure the quality of data.",
+            "NOT FULFILLED.",
           page: 37,
         },
         {
@@ -413,15 +416,14 @@ export default {
           sub_point:
             "Understanding and addressing factors that may affect the quality of data, such as: i. The accuracy of the dataset, ii. The completeness of the dataset, iii. The veracity of the dataset, iv. How recently the dataset was compiled or updated, v. The relevance of the dataset and the context for data collection, vi. The integrity of the dataset that has been joined from multiple datasets, vii. The usability of the dataset, viii. Human interventions (e.g. if any human has filtered, applied labels, or edited the data).",
           solution:
-            "The source of data (data.gov) confirms the quality of data",
+            "The source of data (data.gov) confirms the quality of data. However, we do not have much other information on the dataset.",
           page: 38,
         },
         {
           serial_no: 12,
           main_point: "Data Accountability Practices: Minimising inherent bias",
-          sub_point:
-            "Mitigate omission bias and  stereotype bias (the omission of certain characteristics from the dataset).",
-          solution: "Covered by the quality of data called from APIs.",
+          sub_point: "Mitigate omission bias and  stereotype bias (the omission of certain characteristics from the dataset).",
+          solution: "Covered by the quality of data called from APIs. Also, legitimate data source ensure unbiased data.",
           page: 39,
         },
         {
@@ -429,7 +431,7 @@ export default {
           main_point: "Data Accountability Practices: Minimising inherent bias",
           sub_point:
             "Mitigate selection bias (data used to produce the model are not fully representative of the actual data or environment that the model may receive or function in).",
-          solution: "Covered by the quality of data called from APIs.",
+          solution: "Covered by the quality of data called from APIs. All data retrieved from API is used mitigating the risk of selection bias.",
           page: 39,
         },
         {
@@ -437,7 +439,7 @@ export default {
           main_point: "Data Accountability Practices: Minimising inherent bias",
           sub_point:
             "Mitigate measurement bias (data collection device causes the data to be systematically skewed in a particular direction).",
-          solution: "Covered by the quality of data called from APIs.",
+          solution: "NOT FULFILLED. We are unable to monitor the quality of the measurement devices used.",
           page: 39,
         },
         {
@@ -462,10 +464,8 @@ export default {
         {
           serial_no: 17,
           main_point: "Algorithm and Model",
-          sub_point:
-            "Risk-based approach: identify the subset of features or functionalities that have the greatest impact on stakeholders for which the below-mentioned measures are relevant. Identify which measures will be most effective in building trust with their stakeholders.",
-          solution:
-            "The team identified these measures: … making the greatest impact on the stakeholders - the users of the project.",
+          sub_point: "Risk-based approach: identify the subset of features or functionalities that have the greatest impact on stakeholders for which the below-mentioned measures are relevant. Identify which measures will be most effective in building trust with their stakeholders.",
+          solution: "NOT FULFILLED.",
           page: 43,
         },
         {
@@ -509,7 +509,7 @@ export default {
           main_point: "Repeatability",
           sub_point:
             "The model has the ability to consistently perform an action or make a decision, given the same scenario.",
-          solution: "",
+          solution: "Given the same inputs, the model will typically give the same outputs with an acceptable margin of error.",
           page: 46,
         },
         {
@@ -517,7 +517,7 @@ export default {
           main_point: "Repeatability",
           sub_point:
             "Conducting repeatability assessments for commercial deployments in live environments to ensure that deployments are repeatable.",
-          solution: "",
+          solution: "NOT FULFILLED.",
           page: 46,
         },
         {
@@ -525,7 +525,7 @@ export default {
           main_point: "Repeatability",
           sub_point:
             "Performing counterfactual fairness testing to ensure that a model’s decisions are the same in both the real world and in a counterfactual world where attributes deemed sensitive are altered.",
-          solution: "",
+          solution: "NOT FULFILLED.",
           page: 46,
         },
         {
@@ -533,7 +533,7 @@ export default {
           main_point: "Repeatability",
           sub_point:
             "Assessing how exceptions can be identified and handled when decisions are not repeatable.",
-          solution: "",
+          solution: "Given the predefined range of possible data inputs, exceptions are not possible for our dataset.",
           page: 46,
         },
         {
@@ -541,7 +541,7 @@ export default {
           main_point: "Repeatability",
           sub_point:
             "Ensuring exception handling is in line with organisations’ policies.",
-          solution: "",
+          solution: "NOT APPLICABLE.",
           page: 46,
         },
         {
@@ -549,7 +549,7 @@ export default {
           main_point: "Repeatability",
           sub_point:
             "Identifying and accounting for changes over time to ensure that models trained on time-sensitive data remain relevant.",
-          solution: "",
+          solution: "Changes to the performance of a model overtime is tracked in the model dashboard page.",
           page: 46,
         },
         {
@@ -585,15 +585,15 @@ export default {
           sub_point:
             "Active monitoring, review and tuning for the deployed model.",
           solution:
-            "The development team met regularly to discuss new changes and fine-tuning the model during development and upon deployment.",
+            "Our development team met regularly to discuss new changes and fine-tuning the model during development and upon deployment.",
           page: 48,
         },
         {
           serial_no: 32,
           main_point: "Traceability",
           sub_point:
-            "The model’s decisions, and the datasets and processes that yield the AI model’s decision are documented in an easily understandable way.",
-          solutions: "",
+            "The model's decisions, and the datasets and processes that yield the AI model's decision are documented in an easily understandable way.",
+          solution: "NOT FULFILLED.",
           page: 48,
         },
         {
@@ -601,7 +601,7 @@ export default {
           main_point: "Traceability",
           sub_point:
             "Practices: At least one of the following: i. Building an audit trail to document the model training and AI-augmented decision. ii. Implementing a black box recorder that captures all input data streams. iii. Ensuring that data relevant to traceability are stored appropriately to avoid degradation or alteration, and retained for durations relevant to the industry.",
-          solutions: "",
+          solution: "Our input datastreams are captured and stored in a the ‘Results’ table of the our database.",
           page: 48,
         },
         {
@@ -609,7 +609,7 @@ export default {
           main_point: "Reproducibility",
           sub_point:
             "An independent verification team can produce the same results using the same AI method based on the documentation made by the organisation.",
-          solutions: "",
+          solution: "NOT FULFILLED. Given the non deterministic nature of deep learning models, it is not possible to produce the exact same results but similar results within an acceptable margin of error can be produced. ",
           page: 50,
         },
         {
@@ -617,7 +617,7 @@ export default {
           main_point: "Reproducibility",
           sub_point:
             "Practices: Testing whether specific contexts or particular conditions would need to be taken into account to ensure reproducibility.",
-          solutions: "",
+          solution: "NOT FULFILLED.",
           page: 50,
         },
         {
@@ -625,7 +625,7 @@ export default {
           main_point: "Reproducibility",
           sub_point:
             "Practices: Putting in place verification methods to ensure different aspects of the AI model’s reliability and reproducibility.",
-          solutions: "",
+          solution: "NOT FULFILLED.",
           page: 50,
         },
         {
@@ -633,7 +633,7 @@ export default {
           main_point: "Reproducibility",
           sub_point:
             "Practices: Making available replication files to facilitate the process of testing and reproducing behaviours.",
-          solutions: "Our codes are available publicly on Github.",
+          solution: "Our codes are publicly  available on Github for testing if necessary.",
           page: 50,
         },
         {
@@ -641,7 +641,7 @@ export default {
           main_point: "Auditability",
           sub_point:
             "The AI system is ready to undergo an assessment of its algorithms, data and design processes.",
-          solutions:
+          solution:
             "The project is available for auditing and assessment upon submission.",
           page: 51,
         },
@@ -650,7 +650,7 @@ export default {
           main_point: "Auditability",
           sub_point:
             "Keeping a comprehensive record of data provenance, procurement, preprocessing, lineage, storage and security, centralised in a process log",
-          solutions:
+          solution:
             "All are documented carefully along with the codes of the project (on Github) and supporting documents.",
           page: 51,
         },
