@@ -67,7 +67,7 @@ export default {
         "Description",
         "Version Number",
         "Updated Date",
-        "Performance Metric (AUC)",
+        "Performance Metric (Accuracy)",
         "Use?",
         "Re-run model",
       ],
@@ -81,7 +81,9 @@ export default {
       console.log(id);
       // POST request to change the deployment status field of the `model` table in DB to 'deployed' here
       const response = await modelRegistryService.post(id);
+      const response2 = await modelRegistryService.refresh(id);
       console.log(response.data);
+      console.log(response2.data);
       // auto-refresh page
       window.location.reload();
     },
