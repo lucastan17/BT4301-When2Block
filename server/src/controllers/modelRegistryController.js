@@ -176,7 +176,7 @@ module.exports = {
         } else {
           condition = 0
         }
-        if (condition === 1 && uviPred < 3) {
+        if (condition === 1 && uviPred > 3) {
           actualData.push(1)
         } else {
           actualData.push(0)

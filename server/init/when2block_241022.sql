@@ -104,10 +104,8 @@ INSERT INTO `Model` (`model_id`, `editedTime`, `modelName`, `modelVersion`, `mod
 (3, '2022-10-30 06:37:25', 'Model 3', 'v1', 'Model to predict Sunscreen Application', 1);
 
 INSERT INTO `Results` (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`) VALUES
-(1, 'Ang Mo Kio', '2022-10-20 16:20:14', 'Cloudy', 2, 0, 0);
-INSERT INTO `Results` (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`) VALUES
-(1, 'Bedok', '2022-10-20 16:20:14', 'Light Rain', 2, 0, 0);
-INSERT INTO `Results` (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`) VALUES
+(1, 'Ang Mo Kio', '2022-10-20 16:20:14', 'Cloudy', 2, 0, 0),
+(1, 'Bedok', '2022-10-20 16:20:14', 'Light Rain', 2, 0, 0),
 (1, 'Woodlands', '2022-10-20 16:20:14', 'Sunny', 3, 1, 1);
 INSERT INTO `Results` (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`) VALUES
 (3, 'Ang Mo Kio', '2022-10-30 14:55:20', 'Partly Cloudy (Day)', 1, 0, 0),
@@ -507,28 +505,12 @@ INSERT INTO Surveys (survey_id, user_id, sunscreen_freq, skin_type, createdAt, u
 (1, 5, 'never', 'dry', '2022-10-18 06:17:48', '2022-10-18 06:17:48');
 
 INSERT INTO `Users` (`user_id`, `username`, `email`, `password`, `createdAt`, `updatedAt`, `admin_user`) VALUES
-(1, 'test', 'test@gmail.com', '123', '2022-10-08 16:13:25', '2022-10-08 16:13:25', 0);
-INSERT INTO `Users` (`user_id`, `username`, `email`, `password`, `createdAt`, `updatedAt`, `admin_user`) VALUES
-(2, 'test2', 'test2@gmail.com', '123', '2022-10-08 16:38:36', '2022-10-08 16:38:36', 0);
-INSERT INTO `Users` (`user_id`, `username`, `email`, `password`, `createdAt`, `updatedAt`, `admin_user`) VALUES
-(3, 'alex', 'alex@gmail.com', 'alex123', '2022-10-08 16:39:16', '2022-10-08 16:39:16', 0);
-INSERT INTO `Users` (`user_id`, `username`, `email`, `password`, `createdAt`, `updatedAt`, `admin_user`) VALUES
-(4, 'ben', 'ben@gmail.com', 'ben10', '2022-10-08 16:49:36', '2022-10-08 16:49:36', 0),
-(5, 'celine', 'celine@hotmail.com', 'celine123', '2022-10-08 17:02:52', '2022-10-08 17:02:52', 0),
-(6, 'damian', 'damian@hotmail.com', 'damian123', '2022-10-08 17:05:23', '2022-10-08 17:05:23', 0),
-(7, 'ernie', 'ernie@gmail.com', 'ernie123', '2022-10-09 09:06:47', '2022-10-09 09:06:47', 0),
-(8, 'faith', 'faith@hotmail.com', 'faith123', '2022-10-09 09:10:50', '2022-10-09 09:10:50', 0),
-(9, 'george', 'george@hotmail.com', '123', '2022-10-09 09:17:16', '2022-10-09 09:17:16', 0),
-(10, 'hana', 'hana@hotmail.com', 'hana123', '2022-10-10 01:52:33', '2022-10-10 01:52:33', 0),
-(11, 'test3', 'test3@gmail.com', 'test1234', '2022-10-11 13:05:57', '2022-10-11 13:05:57', 0),
-(12, 'test4', 'test4@gmail.com', '$2b$10$l6MTuT9a5jha7hZQgogYne1fCVfYGdnrZ09w8DfvIFQAgH9KCLK7m', '2022-10-15 15:04:59', '2022-10-15 15:04:59', 0),
-(13, 'test5', 'test5@gmail.com', '$2b$10$1/SQ9wQMV7J1CnTbGyJDW.vZQdctndoSPLM63bUmAi50Y9glHjemS', '2022-10-15 15:56:56', '2022-10-15 15:56:56', 0),
-(14, 'test6', 'test6@gmail.com', '$2b$10$KsaimtkRLIlmBGqt5Gys6eCJd40X6dtgdMWWCfNzjnpuuIVMumtRW', '2022-10-15 16:01:20', '2022-10-15 16:01:20', 0),
-(15, 'test7', 'test7@gmail.com', '$2b$10$K6RDLLwbdmJovrM.qKuHJu/PQeBaUctGfwnKJ.g9yAkpxYdkBlLzq', '2022-10-15 16:17:47', '2022-10-15 16:17:47', 0),
-(16, 'admin1', 'admin123@gmail.com', '$2b$10$uvF4ccv643XP2wg29Z8OEeMJZvk28jR8VzciL90x2Ty6mOK4soIsW', '2022-10-20 16:37:37', '2022-10-20 16:37:37', 1),
-(17, 'test8', 'test8@gmail.com', '$2b$10$7rw6qe6GkVn3jfOQ.s9my.onZ2R5JWrcAGgF/ebxDZ48bQMNFiQvS', '2022-10-24 09:47:58', '2022-10-24 09:47:58', 0),
-(18, 'test9', 'test9@gmail.com', '$2b$10$yjTHp1yI1mxGbCp9Aj2PVuwWirOU4dhalERHs5QaYQjcvF.F4D0Tq', '2022-10-30 06:15:02', '2022-10-30 06:15:02', 0),
-(19, 'test10', 'test10@gmail.com', '$2b$10$JfOuXaVzoV.Jf2zpv/KjAeuUMWe/z/489AOISdR9lIPilViNWAZhe', '2022-10-30 10:28:56', '2022-10-30 10:28:56', 0);
+(1, 'test', 'test@gmail.com', 'test1234', '2022-10-08 16:13:25', '2022-10-08 16:13:25', 0),
+(2, 'test2', 'test2@gmail.com', 'test1234', '2022-10-08 16:38:36', '2022-10-08 16:38:36', 0);
+(3, 'test4', 'test4@gmail.com', '$2b$10$l6MTuT9a5jha7hZQgogYne1fCVfYGdnrZ09w8DfvIFQAgH9KCLK7m', '2022-10-15 15:04:59', '2022-10-15 15:04:59', 0),
+(4, 'test5', 'test5@gmail.com', '$2b$10$1/SQ9wQMV7J1CnTbGyJDW.vZQdctndoSPLM63bUmAi50Y9glHjemS', '2022-10-15 15:56:56', '2022-10-15 15:56:56', 0),
+(5, 'test6', 'test6@gmail.com', '$2b$10$KsaimtkRLIlmBGqt5Gys6eCJd40X6dtgdMWWCfNzjnpuuIVMumtRW', '2022-10-15 16:01:20', '2022-10-15 16:01:20', 0),
+(6, 'admin1', 'admin123@gmail.com', '$2b$10$uvF4ccv643XP2wg29Z8OEeMJZvk28jR8VzciL90x2Ty6mOK4soIsW', '2022-10-20 16:37:37', '2022-10-20 16:37:37', 1);
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
