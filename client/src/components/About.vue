@@ -94,7 +94,8 @@
           class="content-block-2"
           style="font-size: 30px"
         >
-          The IMDA AI Governance Framework was created to ...
+          Our application complies with the IMDA AI Governance Framework in order to ensure responsible and ethical
+          use of AI in our application.
           <div class="button-div-2">
             <o-button
               class="button"

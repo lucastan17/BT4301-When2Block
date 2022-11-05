@@ -92,7 +92,7 @@ module.exports = {
               const pre = (tp + fp) === 0 ? 0 : tp / (tp + fp)
               const rec = (tp + fn) === 0 ? 0 : tp / (tp + fn)
               const f1 = (pre + rec) === 0 ? 0 : 2 * pre * rec / (pre + rec)
-              const chi = (tp + fn) === 0 || (tn + fp) === 0 ? 0 : (fp - fn) ** 2 / (tp + fn) + (fn - fp) ** 2 / (tn + fp)
+              const chi = (tp + fn) === 0 || (tn + fp) === 0 ? 0 : (((fp - fn) ** 2) / (tp + fn)) + (((fn - fp) ** 2) / (tn + fp))
 
               newValues.push({
                 model_id: modelId, time: date, accuracy: acc, precision: pre, recall: rec, f1_score: f1, chi_square: chi
