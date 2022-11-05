@@ -14,12 +14,11 @@ module.exports = {
     try {
       // logic to retrive model details from db
       // need model id and time
-      const models = await sequelize.query(`SELECT m.model_id, modelName, inProduction, modelDescription, modelVersion, time as editedTime, accuracy
-                                        FROM Model m JOIN Drift d ON m.model_id=d.model_id 
-                                        WHERE time IN (SELECT MAX(time) FROM Drift 
-                                        WHERE model_id IN (SELECT model_id FROM Model) 
-                                        GROUP BY model_id)
-                                        ORDER BY m.model_id;`, { type: QueryTypes.SELECT })
+      const models = await sequelize.query(`SELECT DISTINCT m.model_id, modelName, inProduction, modelDescription, modelVersion, accuracy, r.editedTime
+                                            FROM Model m JOIN (SELECT model_id, accuracy FROM ( SELECT *, row_number() OVER 
+                                            (PARTITION BY model_id ORDER BY time DESC) rn
+                                            FROM Drift) d WHERE rn = 1) p ON m.model_id = p.model_id JOIN (SELECT model_id, MAX(time) as editedTime FROM Results
+                                            WHERE model_id IN (SELECT model_id FROM Model) GROUP BY model_id) r ON r.model_id = m.model_id;`, { type: QueryTypes.SELECT })
       const modelDetails = {}
 
       const additionalModels = await sequelize.query('SELECT model_id, modelName, inProduction, modelDescription, modelVersion, editedTime, "not tested" as accuracy FROM Model;', { type: QueryTypes.SELECT })
