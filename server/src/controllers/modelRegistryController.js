@@ -249,11 +249,11 @@ module.exports = {
       await Drift.create({
         model_id: id,
         time: today,
-        accuracy: acc,
-        precision: pre,
-        recall: rec,
-        f1_score: f1,
-        chi_square: chi
+        accuracy: acc.toFixed(3),
+        precision: pre.toFixed(3),
+        recall: rec.toFixed(3),
+        f1_score: f1.toFixed(3),
+        chi_square: chi.toFixed(3)
       })
 
       res.send(test)

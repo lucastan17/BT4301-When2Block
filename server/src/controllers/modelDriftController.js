@@ -95,7 +95,7 @@ module.exports = {
               const chi = (tp + fn) === 0 || (tn + fp) === 0 ? 0 : (((fp - fn) ** 2) / (tp + fn)) + (((fn - fp) ** 2) / (tn + fp))
 
               newValues.push({
-                model_id: modelId, time: date, accuracy: acc, precision: pre, recall: rec, f1_score: f1, chi_square: chi
+                model_id: modelId, time: date, accuracy: acc.toFixed(3), precision: pre.toFixed(3), recall: rec.toFixed(3), f1_score: f1.toFixed(3), chi_square: chi.toFixed(3)
               })
             }
             await db.drift.bulkCreate(newValues)
@@ -116,11 +116,11 @@ module.exports = {
 
           rawResult.forEach((item) => {
             dates.push(item.date)
-            aot.push(item.accuracy)
-            pot.push(item.precision)
-            rot.push(item.recall)
-            fot.push(item.f1_score)
-            cot.push(item.chi_square)
+            aot.push(item.accuracy.toFixed(3))
+            pot.push(item.precision.toFixed(3))
+            rot.push(item.recall.toFixed(3))
+            fot.push(item.f1_score.toFixed(3))
+            cot.push(item.chi_square.toFixed(3))
           })
           result = { dates, aot, pot, rot, fot, cot, model_id: modelId }
         }
