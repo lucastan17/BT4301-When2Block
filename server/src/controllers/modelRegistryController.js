@@ -247,11 +247,9 @@ module.exports = {
       const f1 = (pre + rec) === 0 ? 0 : 2 * pre * rec / (pre + rec)
       const chi = (tp + fn) === 0 || (tn + fp) === 0 ? 0 : (fp - fn) ** 2 / (tp + fn) + (fn - fp) ** 2 / (tn + fp)
 
-      const todayDate = new Date(new Date().getTime() + (8 + 0) * (3600 * 1000))
-
       await Drift.create({
         model_id: id,
-        time: todayDate,
+        time: today,
         accuracy: acc,
         precision: pre,
         recall: rec,

@@ -10,7 +10,7 @@ module.exports = {
       // need user id and survey details
 
       const id = req.body.user_id
-      const myquery = 'SELECT MAX(survey_id) as id FROM Surveys WHERE user_id = ' + String(id) + ';'
+      const myquery = 'SELECT MAX(survey_id) as id FROM Surveys WHERE user_id = ' + String(id)
       const surveyIdDb = await sequelize.query(myquery, { type: QueryTypes.SELECT })
       let finalId = 1
       if (surveyIdDb != null) {

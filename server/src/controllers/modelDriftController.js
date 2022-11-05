@@ -18,13 +18,14 @@ module.exports = {
           result = { dates: null, model_id: modelId }
         } else {
           let records = []
-          let lastPred = await sequelize.query('SELECT CAST(time AS date) as time FROM Results WHERE model_id = ' + modelId +
-            ' AND time = (SELECT MAX(time) FROM Results) LIMIT 1;', { type: QueryTypes.SELECT })
-          lastPred = lastPred[0].time
 
           const today = new Date().toISOString().slice(0, 10)
           await sequelize.query('DELETE FROM Drift WHERE model_id = ' + modelId + " AND time >= str_to_date('" +
             today + "', '%Y-%m-%d')", { type: QueryTypes.DELETE })
+
+          let lastPred = await sequelize.query('SELECT CAST(time AS date) as time FROM Results WHERE model_id = ' + modelId +
+            ' AND time = (SELECT MAX(time) FROM Results) LIMIT 1;', { type: QueryTypes.SELECT })
+          lastPred = lastPred[0].time
 
           let maxDate = await sequelize.query('SELECT CAST(MAX(time) AS date) as time FROM Drift WHERE model_id = ' + modelId,
             { type: QueryTypes.SELECT })
@@ -42,6 +43,7 @@ module.exports = {
             const maxDateStr = maxDate.toISOString().slice(0, 10)
             const lastPredStr = lastPred.toISOString().slice(0, 10)
             if (maxDateStr !== lastPredStr) {
+              maxDate.setDate(maxDate.getDate() + 1)
               const lastDate = new Date(Math.max(maxDate, thirtyDaysAgo)).toISOString().slice(0, 10)
               const query = 'SELECT CAST(time AS DATE) as date, prediction, actual FROM Results WHERE ' +
                 "time >= str_to_date('" + lastDate + "', '%Y-%m-%d') AND model_id = " + modelId
@@ -99,8 +101,10 @@ module.exports = {
             await db.drift.bulkCreate(newValues)
           }
 
+          console.log(thirtyDaysAgo.toISOString().slice(0, 10))
+
           const rawResult = await sequelize.query('SELECT CAST(time AS DATE) as date, accuracy, `precision`, recall, f1_score, chi_square ' +
-            "FROM Drift WHERE time >= str_to_date('" + thirtyDaysAgo.toISOString().slice(0, 10) + "', '%Y-%m-%d')" +
+            "FROM Drift WHERE time >= str_to_date('" + thirtyDaysAgo.toISOString().slice(0, 10) + "', '%Y-%m-%d') " +
             'AND model_id = ' + modelId, { type: QueryTypes.SELECT })
 
           const dates = []
