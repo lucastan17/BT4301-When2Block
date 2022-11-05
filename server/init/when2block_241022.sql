@@ -70,20 +70,20 @@ CREATE TABLE `Users` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `Check_in` (`user_id`, `checkin_date`) VALUES
+INSERT INTO Check_in (user_id, checkin_date) VALUES
 (1, '2022-10-15 16:20:14');
-INSERT INTO `Check_in` (`user_id`, `checkin_date`) VALUES
+INSERT INTO Check_in (user_id, checkin_date) VALUES
 (1, '2022-10-20 16:20:14');
-INSERT INTO `Check_in` (`user_id`, `checkin_date`) VALUES
+INSERT INTO Check_in (user_id, checkin_date) VALUES
 (2, '2022-10-18 16:20:14');
-INSERT INTO `Check_in` (`user_id`, `checkin_date`) VALUES
+INSERT INTO Check_in (user_id, checkin_date) VALUES
 (4, '2022-10-17 16:20:14'),
 (4, '2022-10-18 16:20:14'),
 (4, '2022-10-19 16:20:14'),
 (4, '2022-10-20 16:20:14'),
-(17, '2022-10-24 00:00:00'),
-(18, '2022-10-30 00:00:00'),
-(19, '2022-10-30 00:00:00');
+(5, '2022-10-24 00:00:00'),
+(5, '2022-10-25 00:00:00'),
+(5, '2022-10-30 00:00:00');
 
 INSERT INTO `Drift` (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_score`, `chi_square`) VALUES
 (1, '2022-10-15 16:20:14', 0.8, 0.6, 0.76, 0.5, 0.2);
@@ -97,11 +97,11 @@ INSERT INTO `Drift` (`model_id`, `time`, `accuracy`, `precision`, `recall`, `f1_
 (3, '2022-10-30 16:53:38', 0.980392, 0.666667, 1, 0.8, 0.520408);
 
 INSERT INTO `Model` (`model_id`, `editedTime`, `modelName`, `modelVersion`, `modelDescription`, `inProduction`) VALUES
-(1, '2022-10-17 16:20:14', 'Model 1', 'V0.2', '5 hidden layers', 0);
+(1, '2022-10-17 16:20:14', 'Model 1', 'V1', 'Model to predict Sunscreen Application', 0);
 INSERT INTO `Model` (`model_id`, `editedTime`, `modelName`, `modelVersion`, `modelDescription`, `inProduction`) VALUES
-(2, '2022-10-19 16:20:14', 'Model 2', 'V0.5', '10 hidden layers', 0);
+(2, '2022-10-19 16:20:14', 'Model 2', 'V1', 'Model to predict Sunscreen Application', 0);
 INSERT INTO `Model` (`model_id`, `editedTime`, `modelName`, `modelVersion`, `modelDescription`, `inProduction`) VALUES
-(3, '2022-10-30 06:37:25', 'Sunscreen Model', 'v1', 'Model to predict Sunscreen Application', 1);
+(3, '2022-10-30 06:37:25', 'Model 3', 'v1', 'Model to predict Sunscreen Application', 1);
 
 INSERT INTO `Results` (`model_id`, `location`, `time`, `weather`, `uv_index`, `prediction`, `actual`) VALUES
 (1, 'Ang Mo Kio', '2022-10-20 16:20:14', 'Cloudy', 2, 0, 0);
@@ -488,22 +488,23 @@ INSERT INTO `Results` (`model_id`, `location`, `time`, `weather`, `uv_index`, `p
 (3, 'Yishun', '2022-10-30 16:53:37', 'Partly Cloudy (Day)', 1, 0, 0),
 (3, 'Yishun', '2022-10-30 19:11:53', 'Cloudy', 1, 0, 0);
 
-INSERT INTO `Surveys` (`survey_id`, `user_id`, `sunscreen_freq`, `skin_type`, `createdAt`, `updatedAt`) VALUES
-(1, 5, 'monthly', 'dry', '2022-10-09 09:06:55', '2022-10-09 09:06:55');
-INSERT INTO `Surveys` (`survey_id`, `user_id`, `sunscreen_freq`, `skin_type`, `createdAt`, `updatedAt`) VALUES
-(2, 5, 'weekly', 'normal', '2022-10-09 09:10:57', '2022-10-09 09:10:57');
-INSERT INTO `Surveys` (`survey_id`, `user_id`, `sunscreen_freq`, `skin_type`, `createdAt`, `updatedAt`) VALUES
-(3, 5, 'monthly', 'oily', '2022-10-09 09:17:21', '2022-10-09 09:17:21');
-INSERT INTO `Surveys` (`survey_id`, `user_id`, `sunscreen_freq`, `skin_type`, `createdAt`, `updatedAt`) VALUES
-(4, 5, 'weekly', 'combination', '2022-10-10 01:52:54', '2022-10-10 01:52:54'),
-(5, 5, 'monthly', 'combination', '2022-10-11 13:06:01', '2022-10-11 13:06:01'),
-(6, 12, 'monthly', 'dry', '2022-10-15 15:05:07', '2022-10-15 15:05:07'),
-(7, 14, 'weekly', 'normal', '2022-10-15 15:57:02', '2022-10-15 15:57:02'),
-(8, 15, 'weekly', 'oily', '2022-10-15 16:01:26', '2022-10-15 16:01:26'),
-(9, 16, 'daily', 'combination', '2022-10-15 16:17:56', '2022-10-15 16:17:56'),
-(10, 17, 'weekly', 'combination', '2022-10-24 09:48:04', '2022-10-24 09:48:04'),
-(11, 18, 'daily', 'dry', '2022-10-30 06:17:48', '2022-10-30 06:17:48'),
-(12, 19, 'monthly', 'oily', '2022-10-30 10:29:04', '2022-10-30 10:29:04');
+INSERT INTO Surveys (survey_id, user_id, sunscreen_freq, skin_type, createdAt, updatedAt) VALUES
+(1, 1, 'never', 'dry', '2022-09-09 09:06:55', '2022-09-09 09:06:55');
+INSERT INTO Surveys (survey_id, user_id, sunscreen_freq, skin_type, createdAt, updatedAt) VALUES
+(2, 1, 'weekly', 'normal', '2022-10-11 09:10:57', '2022-10-11 09:10:57');
+INSERT INTO Surveys (survey_id, user_id, sunscreen_freq, skin_type, createdAt, updatedAt) VALUES
+(3, 1, 'monthly', 'oily', '2022-10-15 09:17:21', '2022-10-15 09:17:21');
+INSERT INTO Surveys (survey_id, user_id, sunscreen_freq, skin_type, createdAt, updatedAt) VALUES
+(4, 1, 'weekly', 'combination', '2022-10-18 01:52:54', '2022-10-18 01:52:54'),
+(5, 1, 'daily', 'combination', '2022-10-22 13:06:01', '2022-10-22 13:06:01'),
+(1, 2, 'never', 'dry', '2022-10-15 15:05:07', '2022-10-15 15:05:07'),
+(2, 2, 'weekly', 'normal', '2022-10-18 15:57:02', '2022-10-18 15:57:02'),
+(1, 3, 'never', 'oily', '2022-10-15 16:01:26', '2022-10-15 16:01:26'),
+(2, 3, 'daily', 'combination', '2022-10-18 16:17:56', '2022-10-18 16:17:56'),
+(3, 3, 'weekly', 'combination', '2022-10-24 09:48:04', '2022-10-24 09:48:04'),
+(1, 4, 'never', 'dry', '2022-10-30 06:17:48', '2022-10-30 06:17:48'),
+(2, 4, 'daily', 'oily', '2022-10-30 10:29:04', '2022-10-30 10:29:04'),
+(1, 5, 'never', 'dry', '2022-10-18 06:17:48', '2022-10-18 06:17:48');
 
 INSERT INTO `Users` (`user_id`, `username`, `email`, `password`, `createdAt`, `updatedAt`, `admin_user`) VALUES
 (1, 'test', 'test@gmail.com', '123', '2022-10-08 16:13:25', '2022-10-08 16:13:25', 0);

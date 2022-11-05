@@ -4,16 +4,13 @@ const Sequelize = require('sequelize')
 const config = require('../config/config')
 const db = {}
 
-const sequelize = new Sequelize(
-  config.db.database,
-  config.db.user,
-  config.db.password,
-  // config.db.options,
-  {
-    host: config.db.host,
-    dialect: 'mysql'
-  }
-)
+const sequelize = new Sequelize({
+  database: config.db.database,
+  username: config.db.user,
+  password: config.db.password,
+  host: config.db.host,
+  dialect: config.db.dialect
+})
 
 sequelize.authenticate().then(() => {
   console.log('Connection has been established successfully.')

@@ -29,7 +29,7 @@ services:
       - ./server/init:/docker-entrypoint-initdb.d
       - ./server/when2block-db:/var/lib/mysql
     ports:
-      - 3307:3306
+      - 3306:3306
     networks:
       - app-tier
     healthcheck:
@@ -39,28 +39,28 @@ services:
       retries: 5
       start_period: 30s
 
-  backend:
-    build:
-      context: ./server
-      dockerfile: Dockerfile.dev
-    container_name: server
-    restart: on-failure
-    depends_on:
-      database:
-        condition: service_healthy
-    volumes:
-      - /server/node_modules
-      - ./server:/server
-    ports:
-      - 8081:8081
-    networks:
-      - app-tier
-    environment:
-      DB_HOST: 'database'
-      DB_DIALECT: 'mysql'
-      DB_PASS: 'bt4301grp2'
-      DB_USER: 'when2block'
-      DB_NAME: 'when2block'
+  # backend:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile.dev
+  #   container_name: server
+  #   restart: on-failure
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+  #   volumes:
+  #     - /server/node_modules
+  #     - ./server:/server
+  #   ports:
+  #     - 8081:8081
+  #   networks:
+  #     - app-tier
+  #   environment:
+  #     DB_HOST: 'database'
+  #     DB_DIALECT: 'mysql'
+  #     DB_PASS: 'bt4301grp2'
+  #     DB_USER: 'when2block'
+  #     DB_NAME: 'when2block'
 
 volumes:
   when2block-db:
