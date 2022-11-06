@@ -113,7 +113,7 @@ export default {
             pot: { data: null, drift: null, t1: 0.95, t2: 0.9, stat: null },
             rot: { data: null, drift: null, t1: 0.95, t2: 0.9, stat: null },
             fot: { data: null, drift: null, t1: 0.95, t2: 0.9, stat: null },
-            cot: { data: null, drift: null, t1: 0.95, t2: 0.9, stat: null },
+            cot: { data: null, drift: null, t1: 2.706, t2: 3.841, stat: null },
             dates: null
         }
     },
@@ -179,7 +179,7 @@ export default {
                     function getDriftObject(data) {
                         let t1 = 3
                         let t2 = 5
-                        let drift = data[0] - data[data.length-1]
+                        let drift = (data[0] - data[data.length-1]).toFixed(3)
                         const stat = drift < t1 ? 1 : drift < t2 ? 2 : 3
                         return { data, drift, t1, t2, stat }
                     }
@@ -188,9 +188,9 @@ export default {
                     this.rot = getDriftObject(this.rot.data)
                     this.fot = getDriftObject(this.fot.data)
                     this.cot = getDriftObject(this.cot.data)
-                    this.cot.t1 = 0.3
-                    this.cot.t2 = 0.5
-                    this.cot.stat = this.cot.drift < this.cot.t1 ? 1 : this.cot.drift < this.cot.t2 ? 2 : 3
+                    this.cot.t1 = -0.3
+                    this.cot.t2 = -0.5
+                    this.cot.stat = this.cot.drift > this.cot.t1 ? 1 : this.cot.drift > this.cot.t2 ? 2 : 3
                 }
             }).then(() => {
                 if (!this.summary.status.empty && this.dates !== null) {
