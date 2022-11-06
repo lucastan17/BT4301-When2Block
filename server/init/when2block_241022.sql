@@ -506,7 +506,7 @@ INSERT INTO Surveys (survey_id, user_id, sunscreen_freq, skin_type, createdAt, u
 
 INSERT INTO `Users` (`user_id`, `username`, `email`, `password`, `createdAt`, `updatedAt`, `admin_user`) VALUES
 (1, 'test', 'test@gmail.com', 'test1234', '2022-10-08 16:13:25', '2022-10-08 16:13:25', 0),
-(2, 'test2', 'test2@gmail.com', 'test1234', '2022-10-08 16:38:36', '2022-10-08 16:38:36', 0);
+(2, 'test2', 'test2@gmail.com', 'test1234', '2022-10-08 16:38:36', '2022-10-08 16:38:36', 0),
 (3, 'test4', 'test4@gmail.com', '$2b$10$l6MTuT9a5jha7hZQgogYne1fCVfYGdnrZ09w8DfvIFQAgH9KCLK7m', '2022-10-15 15:04:59', '2022-10-15 15:04:59', 0),
 (4, 'test5', 'test5@gmail.com', '$2b$10$1/SQ9wQMV7J1CnTbGyJDW.vZQdctndoSPLM63bUmAi50Y9glHjemS', '2022-10-15 15:56:56', '2022-10-15 15:56:56', 0),
 (5, 'test6', 'test6@gmail.com', '$2b$10$KsaimtkRLIlmBGqt5Gys6eCJd40X6dtgdMWWCfNzjnpuuIVMumtRW', '2022-10-15 16:01:20', '2022-10-15 16:01:20', 0),
